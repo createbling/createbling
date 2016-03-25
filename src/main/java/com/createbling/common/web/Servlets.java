@@ -22,11 +22,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.google.common.net.HttpHeaders;
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.utils.Encodes;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import com.createbling.common.config.Global;
+import com.createbling.common.utils.Encodes;
+import com.createbling.common.utils.StringUtils;
+import com.createbling.modules.sys.security.SystemAuthorizingRealm.Principal;
+import com.createbling.modules.sys.utils.UserUtils;
 
 /**
  * Http与Servlet工具类.

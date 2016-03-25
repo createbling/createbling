@@ -18,7 +18,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * @author WangZhen
  * @version 2013-11-04
  */
-@XStreamAlias("TreeList")//别名注解
+@XStreamAlias("TreeList")
 public class TreeList extends Common {
 
 	/**

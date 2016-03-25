@@ -25,7 +25,7 @@ import com.createbling.common.config.Global;
  * @date 2013-5-29 下午1:25:40
  */
 @Service
-@Lazy(false)//该属性决定是否要预初始化该Bean
+@Lazy(false)
 public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
 
 	private static ApplicationContext applicationContext = null;

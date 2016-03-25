@@ -46,7 +46,7 @@ public class CacheUtils {
 	}
 	
 	/**
-	 * 获取缓存中的element
+	 * 获取缓存
 	 * @param cacheName
 	 * @param key
 	 * @return
@@ -57,7 +57,7 @@ public class CacheUtils {
 	}
 
 	/**
-	 * 将一个element写入缓存
+	 * 写入缓存
 	 * @param cacheName
 	 * @param key
 	 * @param value

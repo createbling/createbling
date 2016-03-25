@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.createbling.common.beanvalidator.BeanValidators;
-import com.createbling.common.common.mapper.JsonMapper;
-import com.createbling.common.common.utils.DateUtils;
+import com.createbling.common.mapper.JsonMapper;
+import com.createbling.common.utils.DateUtils;
 
 /**
  * 控制器支持类
@@ -43,25 +43,29 @@ public abstract class BaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
-	 * 管理基础路径
+	 * 管理基础路径 
+	 * adminPath=/a
 	 */
 	@Value("${adminPath}")
 	protected String adminPath;
 	
 	/**
 	 * 前端基础路径
+	 * frontPath=/f
 	 */
 	@Value("${frontPath}")
 	protected String frontPath;
 	
 	/**
 	 * 前端URL后缀
+	 * urlSuffix=.html
 	 */
 	@Value("${urlSuffix}")
 	protected String urlSuffix;
 	
 	/**
 	 * 验证Bean实例对象
+	 * spring管理生成对象
 	 */
 	@Autowired
 	protected Validator validator;
@@ -126,6 +130,7 @@ public abstract class BaseController {
 	
 	/**
 	 * 添加Flash消息
+	 * 为了重定向能传递参数
 	 * @param message
 	 */
 	protected void addMessage(RedirectAttributes redirectAttributes, String... messages) {
@@ -133,6 +138,8 @@ public abstract class BaseController {
 		for (String message : messages){
 			sb.append(message).append(messages.length>1?"<br/>":"");
 		}
+		//使重定向后仍能传递参数
+		//原理是使用session传递，在传递之后删除session
 		redirectAttributes.addFlashAttribute("message", sb.toString());
 	}
 	
@@ -154,6 +161,7 @@ public abstract class BaseController {
 	 */
 	protected String renderString(HttpServletResponse response, String string, String type) {
 		try {
+			//清空buffer,设置页面不缓存
 			response.reset();
 	        response.setContentType(type);
 	        response.setCharacterEncoding("utf-8");
@@ -188,14 +196,17 @@ public abstract class BaseController {
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		// String类型转换，将所有传递进来的String进行HTML编码，防止XSS攻击
+		//用于将表单中传入的非基本类型进行html转换
 		binder.registerCustomEditor(String.class, new PropertyEditorSupport() {
 			@Override
 			public void setAsText(String text) {
+				//StringEscapeUtils为apache下common下自带的方法
 				setValue(text == null ? null : StringEscapeUtils.escapeHtml4(text.trim()));
 			}
 			@Override
 			public String getAsText() {
 				Object value = getValue();
+				//如果为null，返回空字符串
 				return value != null ? value.toString() : "";
 			}
 		});
@@ -205,6 +216,7 @@ public abstract class BaseController {
 			public void setAsText(String text) {
 				setValue(DateUtils.parseDate(text));
 			}
+			//使用默认的返回，返回为object
 //			@Override
 //			public String getAsText() {
 //				Object value = getValue();

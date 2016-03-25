@@ -3,8 +3,8 @@
  */
 package com.createbling.common.supcan.treelist.cols;
 
-import com.createbling.supcan.annotation.treelist.cols.SupCol;
-import com.createbling.utils.ObjectUtils;
+import com.createbling.common.supcan.annotation.treelist.cols.SupCol;
+import com.createbling.common.utils.ObjectUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;

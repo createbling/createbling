@@ -10,8 +10,8 @@ package com.createbling.common.utils;
 //import com.baidu.yun.channel.model.PushUnicastMessageRequest;
 //import com.baidu.yun.core.log.YunLogEvent;
 //import com.baidu.yun.core.log.YunLogHandler;
-//import com.thinkgem.jeesite.modules.sys.entity.User;
-//import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+//import com.createbling.modules.sys.entity.User;
+//import com.createbling.modules.sys.utils.UserUtils;
 
 public class MobileSendMessage {
 	

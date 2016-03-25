@@ -9,10 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.utils.FileUtils;
-import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import com.createbling.common.config.Global;
+import com.createbling.common.utils.FileUtils;
+import com.createbling.modules.sys.security.SystemAuthorizingRealm.Principal;
+import com.createbling.modules.sys.utils.UserUtils;
 
 import com.ckfinder.connector.ConnectorServlet;
 
