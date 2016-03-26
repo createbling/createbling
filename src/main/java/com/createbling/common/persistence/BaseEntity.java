@@ -21,8 +21,8 @@ import com.createbling.modules.sys.utils.UserUtils;
 
 /**
  * Entity支持类
- * @author ThinkGem
- * @version 2014-05-16
+ * @author MingSun
+ * @version 2016-03-25
  */
 @SupTreeList
 public abstract class BaseEntity<T> implements Serializable {
@@ -177,10 +177,10 @@ public abstract class BaseEntity<T> implements Serializable {
     }
     
 	/**
-	 * 删除标记（0：正常；1：删除；2：审核；）
+	 * 删除标记（-1：不可见；0：可见非专家配置；1：可见且专家配）
 	 */
-	public static final String DEL_FLAG_NORMAL = "0";
-	public static final String DEL_FLAG_DELETE = "1";
-	public static final String DEL_FLAG_AUDIT = "2";
+	public static final String DEL_FLAG_NORMAL = "-1";
+	public static final String DEL_FLAG_DELETE = "0";
+	public static final String DEL_FLAG_AUDIT = "1";
 	
 }

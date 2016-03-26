@@ -16,23 +16,23 @@ import com.createbling.modules.sys.utils.UserUtils;
 
 /**
  * 数据Entity类
- * @author ThinkGem
- * @version 2014-05-16
+* @author MingSun
+ * @version 2016-03-25
  */
 public abstract class DataEntity<T> extends BaseEntity<T> {
 
 	private static final long serialVersionUID = 1L;
 	
-	protected String remarks;	// 备注
+	protected String description;	// 备注描述
 	protected User createBy;	// 创建者
 	protected Date createDate;	// 创建日期
 	protected User updateBy;	// 更新者
 	protected Date updateDate;	// 更新日期
-	protected String delFlag; 	// 删除标记（0：正常；1：删除；2：审核）
+	protected String flag; 	// 删除标记（-1：不可见；0：可见非专家配置；1：可见且专家配）
 	
 	public DataEntity() {
 		super();
-		this.delFlag = DEL_FLAG_NORMAL;
+		this.flag = DEL_FLAG_NORMAL;
 	}
 	
 	public DataEntity(String id) {
@@ -71,11 +71,11 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 	
 	@Length(min=0, max=255)
 	public String getRemarks() {
-		return remarks;
+		return description;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setRemarks(String v) {
+		this.description = description;
 	}
 	
 	@JsonIgnore
@@ -116,12 +116,12 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 
 	@JsonIgnore
 	@Length(min=1, max=1)
-	public String getDelFlag() {
-		return delFlag;
+	public String getFlag() {
+		return flag;
 	}
 
-	public void setDelFlag(String delFlag) {
-		this.delFlag = delFlag;
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 
 }

@@ -13,8 +13,8 @@ import com.createbling.common.utils.StringUtils;
 
 /**
  * 数据Entity类
- * @author ThinkGem
- * @version 2014-05-16
+ * @author MingSun
+ * @version 2016-03-25
  */
 public abstract class TreeEntity<T> extends DataEntity<T> {
 
@@ -22,6 +22,7 @@ public abstract class TreeEntity<T> extends DataEntity<T> {
 
 	protected T parent;	// 父级编号
 	protected String parentIds; // 所有父级编号
+	protected String childrenIds;//所有直系孩子的编号
 	protected String name; 	// 机构名称
 	protected Integer sort;		// 排序
 	
