@@ -173,8 +173,8 @@ public class User extends DataEntity<User>{
 	}
 
 	@ExcelField(title="备注", align=1, sort=900)
-	public String getRemarks() {
-		return remarks;
+	public String getDescription() {
+		return description;
 	}
 	
 	@Length(min=0, max=100, message="用户类型长度必须介于 1 和 100 之间")

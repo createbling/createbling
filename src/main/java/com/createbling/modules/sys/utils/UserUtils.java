@@ -13,12 +13,12 @@ import com.createbling.common.utils.CacheUtils;
 import com.createbling.common.utils.SpringContextHolder;
 import com.createbling.modules.sys.dao.AreaDao;
 import com.createbling.modules.sys.dao.MenuDao;
-import com.createbling.modules.sys.dao.OfficeDao;
+import com.createbling.modules.sys.dao.AreaDao;
 import com.createbling.modules.sys.dao.RoleDao;
 import com.createbling.modules.sys.dao.UserDao;
 import com.createbling.modules.sys.entity.Area;
 import com.createbling.modules.sys.entity.Menu;
-import com.createbling.modules.sys.entity.Office;
+import com.createbling.modules.sys.entity.Area;
 import com.createbling.modules.sys.entity.Role;
 import com.createbling.modules.sys.entity.User;
 import com.createbling.modules.sys.security.SystemAuthorizingRealm.Principal;
@@ -35,18 +35,17 @@ public class UserUtils {
 	private static RoleDao roleDao = SpringContextHolder.getBean(RoleDao.class);
 	private static MenuDao menuDao = SpringContextHolder.getBean(MenuDao.class);
 	private static AreaDao areaDao = SpringContextHolder.getBean(AreaDao.class);
-	private static OfficeDao officeDao = SpringContextHolder.getBean(OfficeDao.class);
 
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
 	public static final String USER_CACHE_LOGIN_NAME_ = "ln";
-	public static final String USER_CACHE_LIST_BY_OFFICE_ID_ = "oid_";
+	public static final String USER_CACHE_LIST_BY_Area_ID_ = "oid_";
 
 	public static final String CACHE_ROLE_LIST = "roleList";
 	public static final String CACHE_MENU_LIST = "menuList";
 	public static final String CACHE_AREA_LIST = "areaList";
-	public static final String CACHE_OFFICE_LIST = "officeList";
-	public static final String CACHE_OFFICE_ALL_LIST = "officeAllList";
+	public static final String CACHE_Area_LIST = "AreaList";
+	public static final String CACHE_Area_ALL_LIST = "AreaAllList";
 	
 	/**
 	 * 根据ID获取用户
@@ -93,8 +92,8 @@ public class UserUtils {
 		removeCache(CACHE_ROLE_LIST);
 		removeCache(CACHE_MENU_LIST);
 		removeCache(CACHE_AREA_LIST);
-		removeCache(CACHE_OFFICE_LIST);
-		removeCache(CACHE_OFFICE_ALL_LIST);
+		removeCache(CACHE_Area_LIST);
+		removeCache(CACHE_Area_ALL_LIST);
 		UserUtils.clearCache(getUser());
 	}
 	
@@ -106,8 +105,8 @@ public class UserUtils {
 		CacheUtils.remove(USER_CACHE, USER_CACHE_ID_ + user.getId());
 		CacheUtils.remove(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginName());
 		CacheUtils.remove(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getOldLoginName());
-		if (user.getOffice() != null && user.getOffice().getId() != null){
-			CacheUtils.remove(USER_CACHE, USER_CACHE_LIST_BY_OFFICE_ID_ + user.getOffice().getId());
+		if (user.getArea() != null && user.getArea().getId() != null){
+			CacheUtils.remove(USER_CACHE, USER_CACHE_LIST_BY_Area_ID_ + user.getArea().getId());
 		}
 	}
 	
@@ -188,34 +187,34 @@ public class UserUtils {
 	 * 获取当前用户有权限访问的部门
 	 * @return
 	 */
-	public static List<Office> getOfficeList(){
+	public static List<Area> getAreaList(){
 		@SuppressWarnings("unchecked")
-		List<Office> officeList = (List<Office>)getCache(CACHE_OFFICE_LIST);
-		if (officeList == null){
+		List<Area> AreaList = (List<Area>)getCache(CACHE_Area_LIST);
+		if (AreaList == null){
 			User user = getUser();
 			if (user.isAdmin()){
-				officeList = officeDao.findAllList(new Office());
+				AreaList = AreaDao.findAllList(new Area());
 			}else{
-				Office office = new Office();
-				office.getSqlMap().put("dsf", BaseService.dataScopeFilter(user, "a", ""));
-				officeList = officeDao.findList(office);
+				Area Area = new Area();
+				Area.getSqlMap().put("dsf", BaseService.dataScopeFilter(user, "a", ""));
+				AreaList = AreaDao.findList(Area);
 			}
-			putCache(CACHE_OFFICE_LIST, officeList);
+			putCache(CACHE_Area_LIST, AreaList);
 		}
-		return officeList;
+		return AreaList;
 	}
 
 	/**
 	 * 获取当前用户有权限访问的部门
 	 * @return
 	 */
-	public static List<Office> getOfficeAllList(){
+	public static List<Area> getAreaAllList(){
 		@SuppressWarnings("unchecked")
-		List<Office> officeList = (List<Office>)getCache(CACHE_OFFICE_ALL_LIST);
-		if (officeList == null){
-			officeList = officeDao.findAllList(new Office());
+		List<Area> AreaList = (List<Area>)getCache(CACHE_Area_ALL_LIST);
+		if (AreaList == null){
+			AreaList = AreaDao.findAllList(new Area());
 		}
-		return officeList;
+		return AreaList;
 	}
 	
 	/**
