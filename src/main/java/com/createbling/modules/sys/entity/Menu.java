@@ -13,7 +13,7 @@ import com.createbling.modules.sys.entity.Menu;
 
 /**
  * 菜单Entity
- * @author thinkgem.jeesite
+ * @author createbling
  * @version 2013-05-15
  */
 public class Menu extends DataEntity<Menu> {

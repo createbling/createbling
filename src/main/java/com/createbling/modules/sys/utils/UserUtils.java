@@ -1,7 +1,6 @@
 package com.createbling.modules.sys.utils;
 
 import java.util.List;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
@@ -39,13 +38,13 @@ public class UserUtils {
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
 	public static final String USER_CACHE_LOGIN_NAME_ = "ln";
-	public static final String USER_CACHE_LIST_BY_Area_ID_ = "oid_";
+	public static final String USER_CACHE_LIST_BY_OFFICE_ID_ = "oid_";
 
 	public static final String CACHE_ROLE_LIST = "roleList";
 	public static final String CACHE_MENU_LIST = "menuList";
 	public static final String CACHE_AREA_LIST = "areaList";
-	public static final String CACHE_Area_LIST = "AreaList";
-	public static final String CACHE_Area_ALL_LIST = "AreaAllList";
+	public static final String CACHE_OFFICE_LIST = "officeList";
+	public static final String CACHE_OFFICE_ALL_LIST = "officeAllList";
 	
 	/**
 	 * 根据ID获取用户
@@ -92,8 +91,8 @@ public class UserUtils {
 		removeCache(CACHE_ROLE_LIST);
 		removeCache(CACHE_MENU_LIST);
 		removeCache(CACHE_AREA_LIST);
-		removeCache(CACHE_Area_LIST);
-		removeCache(CACHE_Area_ALL_LIST);
+		removeCache(CACHE_OFFICE_LIST);
+		removeCache(CACHE_OFFICE_ALL_LIST);
 		UserUtils.clearCache(getUser());
 	}
 	
@@ -106,7 +105,7 @@ public class UserUtils {
 		CacheUtils.remove(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginName());
 		CacheUtils.remove(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getOldLoginName());
 		if (user.getArea() != null && user.getArea().getId() != null){
-			CacheUtils.remove(USER_CACHE, USER_CACHE_LIST_BY_Area_ID_ + user.getArea().getId());
+			CacheUtils.remove(USER_CACHE, USER_CACHE_LIST_BY_OFFICE_ID_ + user.getArea().getId());
 		}
 	}
 	
@@ -173,7 +172,7 @@ public class UserUtils {
 	 * 获取当前用户授权的区域
 	 * @return
 	 */
-	public static List<Area> getAreaList(){
+/*	public static List<Area> getAreaList(){
 		@SuppressWarnings("unchecked")
 		List<Area> areaList = (List<Area>)getCache(CACHE_AREA_LIST);
 		if (areaList == null){
@@ -181,40 +180,68 @@ public class UserUtils {
 			putCache(CACHE_AREA_LIST, areaList);
 		}
 		return areaList;
+	}*/
+	
+	/**
+	 * 获取当前用户有权限访问的AREA
+	 * @return
+	 */
+	public static List<Area> getAreaList(){
+		@SuppressWarnings("unchecked")
+		//首先从缓存中取出area_list,在这里由于不知道还有哪些地方应用了，故先保留CACHE_OFFICE_LIST
+		List<Area> areaList = (List<Area>)getCache(CACHE_OFFICE_LIST);
+		//如果areaList等于空
+		if (areaList == null){
+			//取出当前用户
+			User user = getUser();
+			//如果用户是管理员
+			if (user.isAdmin()){
+				//取出所有areaList，表明对管理员而言没有限制
+				areaList = areaDao.findAllList(new Area());
+			}else{
+				//否则
+				Area office = new Area();
+				office.getSqlMap().put("dsf", BaseService.dataScopeFilter(user, "a", ""));
+				areaList = areaDao.findList(office);
+			}
+			putCache(CACHE_OFFICE_LIST, areaList);
+		}
+		return areaList;
 	}
+	
 	
 	/**
 	 * 获取当前用户有权限访问的部门
 	 * @return
 	 */
-	public static List<Area> getAreaList(){
+	public static List<Office> getOfficeList(){
 		@SuppressWarnings("unchecked")
-		List<Area> AreaList = (List<Area>)getCache(CACHE_Area_LIST);
-		if (AreaList == null){
+		List<Office> officeList = (List<Office>)getCache(CACHE_OFFICE_LIST);
+		if (officeList == null){
 			User user = getUser();
 			if (user.isAdmin()){
-				AreaList = AreaDao.findAllList(new Area());
+				officeList = officeDao.findAllList(new Office());
 			}else{
-				Area Area = new Area();
-				Area.getSqlMap().put("dsf", BaseService.dataScopeFilter(user, "a", ""));
-				AreaList = AreaDao.findList(Area);
+				Office office = new Office();
+				office.getSqlMap().put("dsf", BaseService.dataScopeFilter(user, "a", ""));
+				officeList = officeDao.findList(office);
 			}
-			putCache(CACHE_Area_LIST, AreaList);
+			putCache(CACHE_OFFICE_LIST, officeList);
 		}
-		return AreaList;
+		return officeList;
 	}
 
 	/**
 	 * 获取当前用户有权限访问的部门
 	 * @return
 	 */
-	public static List<Area> getAreaAllList(){
+	public static List<Office> getOfficeAllList(){
 		@SuppressWarnings("unchecked")
-		List<Area> AreaList = (List<Area>)getCache(CACHE_Area_ALL_LIST);
-		if (AreaList == null){
-			AreaList = AreaDao.findAllList(new Area());
+		List<Office> officeList = (List<Office>)getCache(CACHE_OFFICE_ALL_LIST);
+		if (officeList == null){
+			officeList = officeDao.findAllList(new Office());
 		}
-		return AreaList;
+		return officeList;
 	}
 	
 	/**
@@ -291,3 +318,4 @@ public class UserUtils {
 //	}
 	
 }
+

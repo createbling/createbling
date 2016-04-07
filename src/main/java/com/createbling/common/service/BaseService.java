@@ -35,7 +35,7 @@ public abstract class BaseService {
 	 * @param userAlias 用户表别名，多个用“,”逗号隔开，传递空，忽略此参数
 	 * @return 标准连接条件对象
 	 */
-	public static String dataScopeFilter(User user, String officeAlias, String userAlias) {
+	public static String dataScopeFilter(User user, String areaAlias, String userAlias) {
 
 		StringBuilder sqlString = new StringBuilder();
 		
@@ -45,27 +45,34 @@ public abstract class BaseService {
 		// 超级管理员，跳过权限过滤
 		if (!user.isAdmin()){
 			boolean isDataScopeAll = false;
+			//取出用户角色列表
 			for (Role r : user.getRoleList()){
-				for (String oa : StringUtils.split(officeAlias, ",")){
+				//将office（实际就是area）用","分隔开
+				for (String oa : StringUtils.split(areaAlias, ",")){
+					//如果数据范围域不包括角色所包含的数据范围域且area（office）别名不为空
 					if (!dataScope.contains(r.getDataScope()) && StringUtils.isNotBlank(oa)){
+						//1：所有数据
 						if (Role.DATA_SCOPE_ALL.equals(r.getDataScope())){
 							isDataScopeAll = true;
 						}
+						//2：所在公司及以下数据
 						else if (Role.DATA_SCOPE_COMPANY_AND_CHILD.equals(r.getDataScope())){
-							sqlString.append(" OR " + oa + ".id = '" + user.getCompany().getId() + "'");
-							sqlString.append(" OR " + oa + ".parent_ids LIKE '" + user.getCompany().getParentIds() + user.getCompany().getId() + ",%'");
+							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
+							sqlString.append(" OR " + oa + ".parent_ids LIKE '" + user.getArea().getParentIds() + user.getArea().getId() + ",%'");
 						}
+						//3：所在公司数据
 						else if (Role.DATA_SCOPE_COMPANY.equals(r.getDataScope())){
-							sqlString.append(" OR " + oa + ".id = '" + user.getCompany().getId() + "'");
+							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
 							// 包括本公司下的部门 （type=1:公司；type=2：部门）
-							sqlString.append(" OR (" + oa + ".parent_id = '" + user.getCompany().getId() + "' AND " + oa + ".type = '2')");
+							sqlString.append(" OR (" + oa + ".parent_id = '" + user.getArea().getId() + "' AND " + oa + ".type = '2')");
 						}
+						//4：所在部门及以下数据
 						else if (Role.DATA_SCOPE_OFFICE_AND_CHILD.equals(r.getDataScope())){
-							sqlString.append(" OR " + oa + ".id = '" + user.getOffice().getId() + "'");
-							sqlString.append(" OR " + oa + ".parent_ids LIKE '" + user.getOffice().getParentIds() + user.getOffice().getId() + ",%'");
+							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
+							sqlString.append(" OR " + oa + ".parent_ids LIKE '" + user.getArea().getParentIds() + user.getArea().getId() + ",%'");
 						}
 						else if (Role.DATA_SCOPE_OFFICE.equals(r.getDataScope())){
-							sqlString.append(" OR " + oa + ".id = '" + user.getOffice().getId() + "'");
+							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
 						}
 						else if (Role.DATA_SCOPE_CUSTOM.equals(r.getDataScope())){
 //							String officeIds =  StringUtils.join(r.getOfficeIdList(), "','");
@@ -87,7 +94,7 @@ public abstract class BaseService {
 						sqlString.append(" OR " + ua + ".id = '" + user.getId() + "'");
 					}
 				}else {
-					for (String oa : StringUtils.split(officeAlias, ",")){
+					for (String oa : StringUtils.split(areaAlias, ",")){
 						//sqlString.append(" OR " + oa + ".id  = " + user.getOffice().getId());
 						sqlString.append(" OR " + oa + ".id IS NULL");
 					}

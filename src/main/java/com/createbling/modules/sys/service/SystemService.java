@@ -113,11 +113,11 @@ public class SystemService extends BaseService implements InitializingBean {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<User> findUserByTreeId(String treeId) {
-		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + treeId);
+	public List<User> findUserByAreaId(String areaId) {
+		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + areaId);
 		if (list == null){
 			User user = new User();
-			user.setOffice(new Office(treeId));
+			user.setArea(new Area(areaId));
 			list = userDao.findUserByTreeId(user);
 			CacheUtils.put(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + treeId, list);
 		}
@@ -302,8 +302,10 @@ public class SystemService extends BaseService implements InitializingBean {
 	
 	@Transactional(readOnly = false)
 	public Boolean outUserInRole(Role role, User user) {
+		//找出该用户所有角色
 		List<Role> roles = user.getRoleList();
 		for (Role e : roles){
+			//找到需要删除的角色
 			if (e.getId().equals(role.getId())){
 				roles.remove(e);
 				saveUser(user);

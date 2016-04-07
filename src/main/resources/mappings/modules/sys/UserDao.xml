@@ -1,63 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.createbling.modules.sys.dao.UserDao">
-	<!-- <resultMap id="userResult" type="User">
-		<id property="id" column="id" />
-		<result property="company.id" column="company.id" />
-		<result property="office.id" column="office.id" />
-		<result property="loginName" column="login_name" />
-		<result property="password" column="password" />
-		<result property="no" column="no" />
-		<result property="name" column="name" />
-		<result property="email" column="email" />
-		<result property="phone" column="phone" />
-		<result property="mobile" column="mobile" />
-		<result property="userType" column="user_type" />
-		<result property="loginIp" column="login_ip" />
-		<result property="loginDate" column="login_date" />
-		<result property="remarks" column="remarks" />
-		<result property="loginFlag" column="loginFlag" />
-		<result property="photo" column="photo" />
-		<result property="createBy.id" column="createBy.id" />
-		<result property="createDate" column="create_date" />
-		<result property="updateBy.id" column="updateBy.id" />
-		<result property="updateDate" column="update_date" />
-		<result property="company.name" column="company.name" />
-		<result property="company.parentId" column="company.parentId" />
-		<result property="company.parentIds" column="company.parentIds" />
-		<result property="company.area.id" column="company.area.id" />
-		<result property="company.area.name" column="company.area.name" />
-		<result property="company.area.parentId" column="company.area.parentId" />
-		<result property="company.area.parentIds" column="company.area.parentIds" />
-		<result property="company.primaryPerson.id" column="company.primaryPerson.id" />
-		<result property="company.primaryPerson.name" column="company.primaryPerson.name" />
-		<result property="company.deputyPerson.id" column="company.deputyPerson.id" />
-		<result property="company.deputyPerson.name" column="company.deputyPerson.name" />
-		<result property="office.name" column="office.name" />
-		<result property="office.parentId" column="office.parentId" />
-		<result property="office.parentIds" column="office.parentIds" />
-		<result property="office.area.id" column="office.area.id" />
-		<result property="office.area.name" column="office.area.name" />
-		<result property="office.area.parentId" column="office.area.parentId" />
-		<result property="office.area.parentIds" column="office.area.parentIds" />
-		<result property="office.primaryPerson.id" column="office.primaryPerson.id" />
-		<result property="office.primaryPerson.name" column="office.primaryPerson.name" />
-		<result property="office.deputyPerson.id" column="office.deputyPerson.id" />
-		<result property="office.deputyPerson.name" column="office.deputyPerson.name" />
-		<collection property="roleList" ofType="Role">
-			<id property="id" column="roleList.id" />
-			<result property="office.id" column="roleList.office.id" />
-			<result property="name" column="roleList.name" />
-			<result property="enname" column="roleList.enname" />
-			<result property="roleType" column="roleList.roleType" />
-			<result property="dataScope" column="roleList.dataScope" />
-			<collection property="officeList" ofType="Office">
-				<id property="id" column="roleList.officeList.id" />
-			</collection>
-		</collection>
-	</resultMap> -->
 	
-	<!-- 通过tree_id表明用户归属于哪一层的哪个节点，如果是普通用户，可以做到控制用户节点与节点之间的访问， -->
+	<!-- 通过area_id表明用户归属于哪一层的哪个节点，如果是普通用户，可以做到控制用户节点与节点之间的访问， -->
     <sql id="userColumns">
     	a.id,
     	a.login_name,
@@ -70,7 +15,7 @@
 		a.user_type,
 		a.login_ip,
 		a.login_date,
-		a.remarks,
+		a.description,
 		a.login_flag,
 		a.photo,
 		a.create_by AS "createBy.id",
@@ -78,11 +23,11 @@
 		a.update_by AS "updateBy.id",
 		a.update_date,
 		a.del_flag,
-		t.name AS "tree.name"
-		t.parent_id AS "tree.parent.id"
-		t.parent_ids AS "tree.parentIds"
-		t.type AS "tree.type"
-		tt.*
+		ar.name AS "area.name"
+		ar.parent_id AS "area.parent.id"
+		ar.parent_ids AS "area.parentIds"
+		ar.type AS "area.type"
+		aa.*
 		<!--  
     	c.name AS "company.name",
     	c.parent_id AS "company.parent.id",
@@ -114,25 +59,11 @@
         r.role_type AS "roleList.roleType",
         r.data_scope AS "roleList.dataScope" -->
     </sql>
+
     
     <sql id="userJoins">
-        LEFT JOIN sys_tree t ON t.id = a.tree_id
-        LEFT JOIN t.type tt ON t.id = tt.tree_id
-        <!-- 
-		LEFT JOIN sys_office c ON c.id = a.company_id
-		LEFT JOIN sys_area ca ON ca.id = c.area_id
-		LEFT JOIN sys_office o ON o.id = a.office_id
-		LEFT JOIN sys_area oa ON oa.id = o.area_id
-		LEFT JOIN sys_user cu ON cu.id = c.primary_person
-		LEFT JOIN sys_user cu2 ON cu2.id = c.deputy_person
-		LEFT JOIN sys_user ou ON ou.id = o.primary_person
-		LEFT JOIN sys_user ou2 ON ou2.id = o.deputy_person
-		-->
-		<!-- 
-		LEFT JOIN sys_user_role ur ON ur.user_id = a.id
-        LEFT JOIN sys_role r ON r.id = ur.role_id -->
+		LEFT JOIN sys_area ar ON ar.id = c.area_id
     </sql>
-	
 	
 	<!-- 根据编号获得用户 -->
 	<select id="get" resultType="User">
@@ -166,13 +97,13 @@
 			JOIN sys_user_role ur ON ur.user_id = a.id AND ur.role_id = #{role.id}
 		</if>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-		<if test="tree != null and tree.id != null and tree.id != ''">
-			AND (t.id = #{tree.id} OR t.parent_ids LIKE 
-					<if test="dbName == 'oracle'">'%,'||#{tree.id}||',%')</if>
-					<if test="dbName == 'mssql'">'%,'+#{tree.id}+',%')</if>
-					<if test="dbName == 'mysql'">CONCAT('%,', #{tree.id}, ',%'))</if>
+		<if test="area != null and area.id != null and area.id != ''">
+			AND (o.id = #{area.id} OR ar.parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%,'||#{area.id}||',%')</if>
+					<if test="dbName == 'mssql'">'%,'+#{area.id}+',%')</if>
+					<if test="dbName == 'mysql'">CONCAT('%,', #{area.id}, ',%'))</if>
 		</if>
-		<!-- 如果不是超级管理员，则不显示超级管理员用户,系统管理员默认为1 -->
+		<!-- 如果不是超级管理员，则不显示超级管理员用户 -->
 		<if test="!currentUser.admin">
 			AND a.id != '1'
 		</if>
@@ -195,19 +126,18 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY c.code, o.code, a.name
+				ORDER BY a.name
 			</otherwise>
 		</choose>
 	</select>
 	
-	
-	<!-- 根据treeId获取用户（树查询用户时用） -->
-	<select id="findUserByTreeId" resultType="User" useCache="true">
+	<!-- 根据OfficeId获取用户（树查询用户时用） -->
+	<select id="findUserByAreaId" resultType="User" useCache="true">
 		SELECT
 			a.id, a.name, a.login_name
 		FROM sys_user a
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-			AND a.tree_id = #{tree.id}
+			AND a.area_id = #{area.id}
 		ORDER BY a.name
 	</select>
 	
@@ -218,7 +148,7 @@
 		FROM sys_user a
 		<include refid="userJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-		<!--  ORDER BY c.code, o.code, a.name-->
+		ORDER BY a.name
 	</select>
 	
 	<!-- 查询全部用户数目 -->
@@ -233,7 +163,8 @@
 	<insert id="insert">
 		INSERT INTO sys_user(
 			id, 
-			tree_id, 
+			area_id, 
+			login_name, 
 			password, 
 			no, 
 			name, 
@@ -245,13 +176,13 @@
 			create_date, 
 			update_by, 
 			update_date, 
-			remarks, 
+			description, 
 			login_flag, 
 			photo, 
 			del_flag
 		) VALUES (
 			#{id}, 
-			#{tree.id}, 
+			#{area.id}, 
 			#{loginName}, 
 			#{password}, 
 			#{no}, 
@@ -264,7 +195,7 @@
 			#{createDate}, 
 			#{updateBy.id}, 
 			#{updateDate}, 
-			#{remarks}, 
+			#{description}, 
 			#{loginFlag}, 
 			#{photo}, 
 			#{delFlag}
@@ -274,7 +205,7 @@
 	<!-- 更新用户 -->
 	<update id="update">
 		UPDATE sys_user SET 
-			company_id = #{tree.id}, 
+			area_id = #{area.id}, 
 			login_name = #{loginName}, 
 			password = #{password}, 
 			no = #{no}, 
@@ -285,7 +216,7 @@
 			user_type = #{userType}, 
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
-			remarks = #{remarks},
+			description = #{description},
 			login_flag = #{loginFlag},
 			photo = #{photo}
 		WHERE id = #{id}
@@ -315,7 +246,7 @@
 			mobile = #{mobile}, 
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
-			remarks = #{remarks},
+			description = #{description},
 			photo = #{photo}
 		WHERE id = #{id}
 	</update>

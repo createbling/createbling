@@ -15,6 +15,7 @@ import com.createbling.modules.sys.entity.User;
 public class Role extends DataEntity<Role> {
 	
 	private static final long serialVersionUID = 1L;
+	private Area area; //归属树
 	private String name; 	// 角色名称
 	private String enname;	// 英文名称
 	private String roleType;// 权限类型
@@ -30,6 +31,7 @@ public class Role extends DataEntity<Role> {
 //	private List<User> userList = Lists.newArrayList(); // 拥有用户列表
 	private List<Menu> menuList = Lists.newArrayList(); // 拥有菜单列表
 	//private List<Office> officeList = Lists.newArrayList(); // 按明细设置数据范围
+	private List<Area> areaList = Lists.newArrayList(); // 按明细设置数据范围
 
 	// 数据范围（1：所有数据；2：所在公司及以下数据；3：所在公司数据；4：所在部门及以下数据；5：所在部门数据；8：仅本人数据；9：按明细设置）
 	public static final String DATA_SCOPE_ALL = "1";
@@ -78,6 +80,13 @@ public class Role extends DataEntity<Role> {
 	public void setOffice(Office office) {
 		this.office = office;
 	}*/
+	public Area getArea() {
+	    return area;
+    }
+
+    public void setArea(Area area) {
+	    this.area = area;
+    }
 
 	@Length(min=1, max=100)
 	public String getName() {

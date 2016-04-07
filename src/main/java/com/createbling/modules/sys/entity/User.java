@@ -97,7 +97,7 @@ public class User extends DataEntity<User>{
 		return area;
 	}
 
-	public void setArea(String treeId) {
+	public void setArea(Area area) {
 		this.area = area;
 	}
 	
