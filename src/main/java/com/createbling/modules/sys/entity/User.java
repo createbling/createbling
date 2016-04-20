@@ -25,7 +25,7 @@ import com.google.common.collect.Lists;
  */
 public class User extends DataEntity<User>{
 	private String loginName;
-	private Area area;
+	private Area area; //所属树
 	private String password;
 	private String no;
 	private String name;
@@ -293,14 +293,17 @@ public class User extends DataEntity<User>{
 		return Collections3.extractToString(roleList, "name", ",");
 	}
 	
-	public boolean isAdmin(){
-		return isAdmin(this.id);
+	//超级管理员
+	public boolean isAdministrator(){
+		return isAdministrator(this.id);
 	}
-	
-	public static boolean isAdmin(String id){
+	//这里是超级管理员
+	public static boolean isAdministrator(String id){
+		//因为这里设置了，如果userid为1，则为admin
 		return id != null && "1".equals(id);
 	}
 	
+
 	@Override
 	public String toString() {
 		return id;

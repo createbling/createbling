@@ -26,12 +26,12 @@ public interface MenuDao extends CrudDao<Menu>{
 	 * 更新父节点
 	 * @return
 	 */
-	public int updateParentIds();
+	public int updateParentIds(Menu menu);
 	
 	/**
 	 * 更新节点排序
 	 * @return
 	 */
-	public int updateSort();
+	public int updateSort(Menu menu);
 	
 }

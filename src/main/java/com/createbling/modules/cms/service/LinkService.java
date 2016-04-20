@@ -44,7 +44,7 @@ public class LinkService extends CrudService<LinkDao, Link> {
 	@Transactional(readOnly = false)
 	public void delete(Link link, Boolean isRe) {
 		//dao.updateDelFlag(id, isRe!=null&&isRe?Link.DEL_FLAG_NORMAL:Link.DEL_FLAG_DELETE);
-		link.setDelFlag(isRe!=null&&isRe?Link.DEL_FLAG_NORMAL:Link.DEL_FLAG_DELETE);
+		link.setFlag(isRe!=null&&isRe?Link.DEL_FLAG_NORMAL:Link.DEL_FLAG_DELETE);
 		dao.delete(link);
 	}
 	

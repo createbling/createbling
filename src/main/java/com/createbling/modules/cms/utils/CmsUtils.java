@@ -172,7 +172,7 @@ public class CmsUtils {
 				page.setOrderBy((String)map.get("orderBy"));
 			}
 		}
-		article.setDelFlag(Article.DEL_FLAG_NORMAL);
+		article.setFlag(Article.DEL_FLAG_NORMAL);
 		page = articleService.findPage(page, article, false);
 		return page.getList();
 	}
@@ -201,7 +201,7 @@ public class CmsUtils {
 			@SuppressWarnings({ "unused", "rawtypes" })
 			Map map = JsonMapper.getInstance().fromJson("{"+param+"}", Map.class);
 		}
-		link.setDelFlag(Link.DEL_FLAG_NORMAL);
+		link.setFlag(Link.DEL_FLAG_NORMAL);
 		page = linkService.findPage(page, link, false);
 		return page.getList();
 	}

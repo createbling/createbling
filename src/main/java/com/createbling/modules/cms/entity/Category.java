@@ -8,11 +8,11 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.google.common.collect.Lists;
 import com.createbling.common.config.Global;
 import com.createbling.common.persistence.TreeEntity;
 import com.createbling.modules.cms.utils.CmsUtils;
-import com.createbling.modules.sys.entity.Office;
+import com.createbling.modules.sys.entity.Area;
+import com.google.common.collect.Lists;
 
 /**
  * 栏目Entity
@@ -25,7 +25,7 @@ public class Category extends TreeEntity<Category> {
 
 	private static final long serialVersionUID = 1L;
 	private Site site;		// 归属站点
-	private Office office;	// 归属部门
+	private Area area;	// 归属部门
 //	private Category parent;// 父级菜单
 //	private String parentIds;// 所有父级编号
 	private String module; 	// 栏目模型（article：文章；picture：图片；download：下载；link：链接；special：专题）
@@ -49,6 +49,8 @@ public class Category extends TreeEntity<Category> {
     private Date endDate;	// 结束时间
     private String cnt;//信息量
     private String hits;//点击量
+	//private String permission; // 权限标识
+
 	
 	private List<Category> childList = Lists.newArrayList(); 	// 拥有子分类列表
 
@@ -60,7 +62,7 @@ public class Category extends TreeEntity<Category> {
 		this.inList = Global.SHOW;
 		this.showModes = "0";
 		this.allowComment = Global.NO;
-		this.delFlag = DEL_FLAG_NORMAL;
+		this.flag = DEL_FLAG_NORMAL;
 		this.isAudit = Global.NO;
 	}
 
@@ -91,12 +93,12 @@ public class Category extends TreeEntity<Category> {
 		this.site = site;
 	}
 	
-	public Office getOffice() {
-		return office;
+	public Area getArea() {
+		return area;
 	}
 
-	public void setOffice(Office office) {
-		this.office = office;
+	public void setArea(Area area) {
+		this.area = area;
 	}
 
 //	@JsonBackReference
@@ -290,6 +292,8 @@ public class Category extends TreeEntity<Category> {
 	public void setCnt(String cnt) {
 		this.cnt = cnt;
 	}
+	
+
 	
 	public static void sortList(List<Category> list, List<Category> sourcelist, String parentId){
 		for (int i=0; i<sourcelist.size(); i++){

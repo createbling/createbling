@@ -9,6 +9,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +37,7 @@ import com.createbling.modules.cms.service.CategoryService;
 import com.createbling.modules.cms.service.CommentService;
 import com.createbling.modules.cms.service.LinkService;
 import com.createbling.modules.cms.service.SiteService;
-import com.createbling.modules.cms.utilss.CmsUtils;
+import com.createbling.modules.cms.utils.CmsUtils;
 
 /**
  * 网站Controller
@@ -59,9 +61,19 @@ public class FrontController extends BaseController{
 	@Autowired
 	private SiteService siteService;
 	
+	
+	@RequiresPermissions("user")
+	@RequestMapping(value = "${adminPath}")
+	public String frontIndex(HttpServletRequest request, HttpServletResponse response){
+		
+		
+		return "";
+	}
+	
 	/**
 	 * 网站首页
 	 */
+	@RequiresPermissions(value={"user","admin"},logical=Logical.OR)
 	@RequestMapping
 	public String index(Model model) {
 		Site site = CmsUtils.getSite(Site.defaultSiteId());
@@ -73,6 +85,7 @@ public class FrontController extends BaseController{
 	/**
 	 * 网站首页
 	 */
+	@RequiresPermissions(value={"user","admin"},logical=Logical.OR)
 	@RequestMapping(value = "index-{siteId}${urlSuffix}")
 	public String index(@PathVariable String siteId, Model model) {
 		if (siteId.equals("1")){
@@ -242,7 +255,7 @@ public class FrontController extends BaseController{
 			}
 			// 获取文章内容
 			Article article = articleService.get(contentId);
-			if (article==null || !Article.DEL_FLAG_NORMAL.equals(article.getDelFlag())){
+			if (article==null || !Article.DEL_FLAG_NORMAL.equals(article.getFlag())){
 				return "error/404";
 			}
 			// 文章阅读次数+1

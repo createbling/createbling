@@ -16,7 +16,7 @@ import com.createbling.common.utils.DateUtils;
 import com.createbling.modules.cms.dao.ArticleDao;
 import com.createbling.modules.cms.entity.Category;
 import com.createbling.modules.cms.entity.Site;
-import com.createbling.modules.sys.entity.Office;
+import com.createbling.modules.sys.entity.Area;
 
 /**
  * 统计Service
@@ -57,12 +57,12 @@ public class StatsService extends BaseService {
 		}
 		
 		String officeId = (String)(paramMap.get("officeId"));
-		Office office = new Office();
+		Area office = new Area();
 		if (officeId != null && !("".equals(officeId))){
 			office.setId(officeId);
-			category.setOffice(office);
+			category.setArea(office);
 		}else{
-			category.setOffice(office);
+			category.setArea(office);
 		}
 		
 		List<Category> list = articleDao.findStats(category);

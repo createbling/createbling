@@ -82,13 +82,13 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
 		}
 		// 如果没有审核权限，则将当前内容改为待审核状态
 		if (!UserUtils.getSubject().isPermitted("cms:article:audit")){
-			article.setDelFlag(Article.DEL_FLAG_AUDIT);
+			article.setFlag(Article.DEL_FLAG_AUDIT);
 		}
 		// 如果栏目不需要审核，则将该内容设为发布状态
 		if (article.getCategory()!=null&&StringUtils.isNotBlank(article.getCategory().getId())){
 			Category category = categoryDao.get(article.getCategory().getId());
 			if (!Global.YES.equals(category.getIsAudit())){
-				article.setDelFlag(Article.DEL_FLAG_NORMAL);
+				article.setFlag(Article.DEL_FLAG_NORMAL);
 			}
 		}
 		article.setUpdateBy(UserUtils.getUser());

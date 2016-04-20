@@ -22,7 +22,7 @@ import com.createbling.common.web.BaseController;
 import com.createbling.modules.cms.entity.Guestbook;
 import com.createbling.modules.cms.entity.Site;
 import com.createbling.modules.cms.service.GuestbookService;
-import com.createbling.modules.cms.utilss.CmsUtils;
+import com.createbling.modules.cms.utils.CmsUtils;
 
 /**
  * 留言板Controller

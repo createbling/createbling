@@ -15,19 +15,19 @@ public interface RoleDao extends CrudDao<Role>{
 	/*
 	 * 通过中文或者英文名得到角色
 	 */
-	public Role getByName(User user);
-	public Role getByEnname(User user);
+	public Role getByName(Role role);
+	public Role getByEnname(Role role);
 	
 	/*
 	 * 插入或删除菜单相关的角色
 	 */
-	public int deleteRoleMenu();
-	public int insertRoleMenu();
+	public int deleteRoleMenu(Role role);
+	public int insertRoleMenu(Role role);
 	/*
 	 * 插入或删除树相关的角色
 	 */
-	public int deleteRoletree();
-	public int insertRoletree();
+	public int deleteRoleArea(Role role);
+	public int insertRoleArea(Role role);
 	
 
 }

@@ -1,6 +1,3 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.createbling.common.service;
 
 import java.util.List;
@@ -14,8 +11,8 @@ import com.createbling.common.utils.StringUtils;
 
 /**
  * Service基类
- * @author ThinkGem
- * @version 2014-05-16
+ * @author createbling
+ * @version 2016-01-16
  */
 @Transactional(readOnly = true)
 public abstract class TreeService<D extends TreeDao<T>, T extends TreeEntity<T>> extends CrudService<D, T> {

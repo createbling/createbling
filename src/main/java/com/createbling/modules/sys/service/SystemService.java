@@ -26,8 +26,8 @@ import com.createbling.common.web.Servlets;
 import com.createbling.modules.sys.dao.MenuDao;
 import com.createbling.modules.sys.dao.RoleDao;
 import com.createbling.modules.sys.dao.UserDao;
+import com.createbling.modules.sys.entity.Area;
 import com.createbling.modules.sys.entity.Menu;
-import com.createbling.modules.sys.entity.Office;
 import com.createbling.modules.sys.entity.Role;
 import com.createbling.modules.sys.entity.User;
 import com.createbling.modules.sys.security.SystemAuthorizingRealm;
@@ -119,7 +119,7 @@ public class SystemService extends BaseService implements InitializingBean {
 			User user = new User();
 			user.setArea(new Area(areaId));
 			list = userDao.findUserByTreeId(user);
-			CacheUtils.put(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + treeId, list);
+			CacheUtils.put(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + areaId, list);
 		}
 		return list;
 	}
@@ -277,9 +277,13 @@ public class SystemService extends BaseService implements InitializingBean {
 			roleDao.insertRoleMenu(role);
 		}
 		// 更新角色与部门关联
-		roleDao.deleteRoleOffice(role);
+/*		roleDao.deleteRoleOffice(role);
 		if (role.getOfficeList().size() > 0){
 			roleDao.insertRoleOffice(role);
+		}*/
+		roleDao.deleteRoleArea(role);
+		if (role.getAreaList().size() > 0){
+			roleDao.insertRoleArea(role);
 		}
 		// 同步到Activiti
 		saveActivitiGroup(role);
@@ -404,7 +408,7 @@ public class SystemService extends BaseService implements InitializingBean {
 	public static boolean printKeyLoadMessage(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("\r\n======================================================================\r\n");
-		sb.append("\r\n    欢迎使用 "+Global.getConfig("productName")+"  - Powered By http://jeesite.com\r\n");
+		sb.append("\r\n    欢迎使用 "+Global.getConfig("productName")+"  -- Powered By http://createbling.com\r\n");
 		sb.append("\r\n======================================================================\r\n");
 		System.out.println(sb.toString());
 		return true;

@@ -1,6 +1,3 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/createbling/jeesite">JeeSite</a> All rights reserved.
- */
 package com.createbling.modules.sys.web;
 
 import java.util.List;
@@ -30,7 +27,7 @@ import com.createbling.modules.sys.utils.UserUtils;
 /**
  * 菜单Controller
  * @author createbling
- * @version 2013-3-23
+ * @version 2016-3-23
  */
 @Controller
 @RequestMapping(value = "${adminPath}/sys/menu")
@@ -81,7 +78,7 @@ public class MenuController extends BaseController {
 	@RequiresPermissions("sys:menu:edit")
 	@RequestMapping(value = "save")
 	public String save(Menu menu, Model model, RedirectAttributes redirectAttributes) {
-		if(!UserUtils.getUser().isAdmin()){
+		if(!UserUtils.getUser().isAdministrator()){
 			addMessage(redirectAttributes, "越权操作，只有超级管理员才能添加或修改数据！");
 			return "redirect:" + adminPath + "/sys/role/?repage";
 		}

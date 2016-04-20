@@ -19,12 +19,12 @@
 </update>
 
 <!-- 查找所有的基地名字 -->
-<select id="findNodeBase" resultType="node_id_name">
+<select id="findNodeBase" resultMap="node_id_name">
 		SELECT id,name FROM sys_tree WHERE parent_id=null
 </select>
 
 <!-- 按照父节点查找其所有子节点 -->
-<select id="findNodeByParent" resultType="node_id_name">
+<select id="findNodeByParent" resultMap="node_id_name">
 		SELECT id,name FROM sys_tree WHERE parent_ids like "%,#{parent_id}%"
 </select>
 

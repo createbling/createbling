@@ -28,11 +28,10 @@ import com.createbling.common.servlet.ValidateCodeServlet;
 import com.createbling.common.utils.Encodes;
 import com.createbling.common.utils.SpringContextHolder;
 import com.createbling.common.web.Servlets;
+import com.createbling.modules.cms.entity.Category;
 import com.createbling.modules.sys.entity.Menu;
 import com.createbling.modules.sys.entity.Role;
 import com.createbling.modules.sys.entity.User;
-import com.createbling.modules.sys.security.UsernamePasswordToken;
-import com.createbling.modules.sys.security.SystemAuthorizingRealm.Principal;
 import com.createbling.modules.sys.service.SystemService;
 import com.createbling.modules.sys.utils.LogUtils;
 import com.createbling.modules.sys.utils.UserUtils;
@@ -110,29 +109,37 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 			}
 		}
 		User user = getSystemService().getUserByLoginName(principal.getLoginName());
-		if (user != null) {
-			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-			List<Menu> list = UserUtils.getMenuList();
-			for (Menu menu : list){
-				if (StringUtils.isNotBlank(menu.getPermission())){
-					// 添加基于Permission的权限信息
-					for (String permission : StringUtils.split(menu.getPermission(),",")){
-						info.addStringPermission(permission);
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		
+		//如果是普通用户或者是管理员，取出前台页面catelogo列表权限并加入info中
+		if(user != null){
+			if(UserUtils.isAdmin() || user.isAdministrator()){
+				List<Menu> list = UserUtils.getMenuList();
+				for (Menu menu : list){
+					if (StringUtils.isNotBlank(menu.getPermission())){
+						// 添加基于Permission的权限信息
+						for (String permission : StringUtils.split(menu.getPermission(),",")){
+							info.addStringPermission(permission);
+						}
 					}
 				}
+				// 添加用户权限
+				info.addStringPermission("admin");
+				// 添加用户角色信息
+				for (Role role : user.getRoleList()){
+					info.addRole(role.getEnname());
+				}
+				// 更新登录IP和时间
+				getSystemService().updateUserLoginInfo(user);
+				// 记录登录日志
+				LogUtils.saveLog(Servlets.getRequest(), "系统登录");
+			}else{
+				//如果不是超级管理员也不是管理员则只显示前台页面列表，同时添加用户权限
+				info.addStringPermission("user");
 			}
-			// 添加用户权限
-			info.addStringPermission("user");
-			// 添加用户角色信息
-			for (Role role : user.getRoleList()){
-				info.addRole(role.getEnname());
-			}
-			// 更新登录IP和时间
-			getSystemService().updateUserLoginInfo(user);
-			// 记录登录日志
-			LogUtils.saveLog(Servlets.getRequest(), "系统登录");
 			return info;
-		} else {
+			//List<Category> listOne = UserUtils.getMenuList();
+		}else {
 			return null;
 		}
 	}

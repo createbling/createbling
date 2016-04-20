@@ -1,18 +1,68 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.createbling.common.persistence;
 
 import java.util.List;
-
 /**
  * DAO支持类实现
- * @author ThinkGem
- * @version 2014-05-16
+ * @author MingSun
+ * @version 2016-03-27
  * @param <T>
  */
 public interface CrudDao<T> extends BaseDao {
-
+	/**
+	 * 修改/删除某个节点
+	 * @param id
+	 * @return
+	 */
+	public void updateNode(T entity);
+	/**
+	 * 查找所有的基地
+	 * @param id
+	 * @return
+	 */
+	public List<T> findNodeBase();
+	/**
+	 * 查找某个节点的可见直系子节点
+	 * @param T
+	 * @return List<T>
+	 */
+	public List<T> findNodeByParent1(T entity);
+	/**
+	 * 查找某个节点的可见且属于专家配置的直系子节点
+	 * @param T
+	 * @return List<T>
+	 */
+	public List<T> findNodeByParent2(T entity);
+	/**
+	 * 按照id查询某个节点的所有信息
+	 * @param T
+	 * @return T
+	 */
+	public T findNodeById(String id) ;
+	/**
+	 *  为某个节点添加一个子节点（插入一个节点 ，记得把父节点的Children_ids进行修改）
+	 * @param T
+	 * @return 
+	 */
+	public void insertNode(T entity) ;
+	/**
+	 *  为某个节点添加一个子节点（插入一个节点 ，记得把父节点的Children_ids进行修改）
+	 * @param T
+	 * @return 
+	 */
+	public void createRealProcedure(String tableName) ;
+	/**
+	 *  为某个节点添加一个子节点（插入一个节点 ，记得把父节点的Children_ids进行修改）
+	 * @param T
+	 * @return 
+	 */
+	public void createExpertProcedure(String tableName) ;
+	/**
+	 * 删除某个节点
+	 * @param id
+	 * @return
+	 */
+	public void delete(T entity);
+///////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * 获取单条数据
 	 * @param id
@@ -26,7 +76,6 @@ public interface CrudDao<T> extends BaseDao {
 	 * @return
 	 */
 	public T get(T entity);
-	
 	/**
 	 * 查询数据列表，如果需要分页，请设置分页对象，如：entity.setPage(new Page<T>());
 	 * @param entity
@@ -62,21 +111,4 @@ public interface CrudDao<T> extends BaseDao {
 	 * @return
 	 */
 	public int update(T entity);
-	
-	/**
-	 * 删除数据（一般为逻辑删除，更新del_flag字段为1）
-	 * @param id
-	 * @see public int delete(T entity)
-	 * @return
-	 */
-	@Deprecated
-	public int delete(String id);
-	
-	/**
-	 * 删除数据（一般为逻辑删除，更新del_flag字段为1）
-	 * @param entity
-	 * @return
-	 */
-	public int delete(T entity);
-	
 }

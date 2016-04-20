@@ -1,15 +1,9 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.createbling.common.persistence;
 
 import java.io.Serializable;
 import java.util.Map;
-
 import javax.xml.bind.annotation.XmlTransient;
-
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 import com.createbling.common.config.Global;
@@ -18,7 +12,6 @@ import com.createbling.common.supcan.annotation.treelist.cols.SupCol;
 import com.createbling.common.utils.StringUtils;
 import com.createbling.modules.sys.entity.User;
 import com.createbling.modules.sys.utils.UserUtils;
-
 /**
  * Entity支持类
  * @author MingSun

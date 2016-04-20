@@ -1,6 +1,3 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/createbling/jeesite">JeeSite</a> All rights reserved.
- */
 package com.createbling.modules.sys.entity;
 
 import javax.validation.constraints.NotNull;

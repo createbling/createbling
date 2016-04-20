@@ -33,12 +33,18 @@ public class Role extends DataEntity<Role> {
 	//private List<Office> officeList = Lists.newArrayList(); // 按明细设置数据范围
 	private List<Area> areaList = Lists.newArrayList(); // 按明细设置数据范围
 
+	
 	// 数据范围（1：所有数据；2：所在公司及以下数据；3：所在公司数据；4：所在部门及以下数据；5：所在部门数据；8：仅本人数据；9：按明细设置）
+	/*
+	 * 现在数据范围改为
+	 * 1.所有数据，2.所在基地及以下数据，3.所在基地数据（意思是只能查看基地数据），4.所属作物及以下数据，5.所属周期和参数（意思是只能查看周期和参数）
+	 * 8：仅本人数据；9：按明细设置
+	 */
 	public static final String DATA_SCOPE_ALL = "1";
-	public static final String DATA_SCOPE_COMPANY_AND_CHILD = "2";
-	public static final String DATA_SCOPE_COMPANY = "3";
-	public static final String DATA_SCOPE_OFFICE_AND_CHILD = "4";
-	public static final String DATA_SCOPE_OFFICE = "5";
+	public static final String DATA_SCOPE_BASE_AND_CHILD = "2";
+	public static final String DATA_SCOPE_BASE = "3";
+	public static final String DATA_SCOPE_PLANT_AND_CHILD = "4";
+	public static final String DATA_SCOPE_PLANT = "5";
 	public static final String DATA_SCOPE_SELF = "8";
 	public static final String DATA_SCOPE_CUSTOM = "9";
 	
@@ -235,6 +241,42 @@ public class Role extends DataEntity<Role> {
 			setOfficeIdList(Lists.newArrayList(ids));
 		}
 	}*/
+	public List<Area> getAreaList() {
+		return areaList;
+	}
+
+	public void setAreaList(List<Area> areaList) {
+		this.areaList = areaList;
+	}
+
+	public List<String> getAreaIdList() {
+		List<String> areaIdList = Lists.newArrayList();
+		for (Area area : areaList) {
+			areaIdList.add(area.getId());
+		}
+		return areaIdList;
+	}
+
+	public void setAreaIdList(List<String> areaIdList) {
+		areaList = Lists.newArrayList();
+		for (String areaId : areaIdList) {
+			Area area = new Area();
+			area.setId(areaId);
+			areaList.add(area);
+		}
+	}
+
+	public String getAreaIds() {
+		return StringUtils.join(getAreaIdList(), ",");
+	}
+	
+	public void setAreaIds(String areaIds) {
+		areaList = Lists.newArrayList();
+		if (areaIds != null){
+			String[] ids = StringUtils.split(areaIds, ",");
+			setAreaIdList(Lists.newArrayList(ids));
+		}
+	}
 	
 	/**
 	 * 获取权限字符串列表

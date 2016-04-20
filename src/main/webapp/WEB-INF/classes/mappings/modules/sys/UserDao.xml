@@ -273,4 +273,38 @@
 		WHERE id = #{id}
 	</update>
 	
+	
+<!-- 	<resultMap type="com.createbling.modules.sys.entity.Coordinate" id="coordinate">
+	    <constructor>
+	        <idArg column="id" javaType="string"/>
+	    </constructor>
+	</resultMap> -->
+	<!-- 找出用户拥有的所有坐标点 -->
+<!-- 	<select id="getAllCoordinate" resultType="com.createbling.modules.sys.entity.Coordinate">
+	    SELECT 
+	        id as id,
+	        
+	</select> -->
+	<!-- 传入的参数应该是该用户所属area的最高父节点ID -->
+	<select id="getAllGis" resultType="com.createbling.modules.sys.entity.Gis">
+		SELECT
+			b.location,
+			b.longitude,
+			b.latitude,
+			b.create_by,
+			b.create_date
+		FROM sys_user u
+		LEFT JOIN sys_area a ON #{id} = a.id
+		LEFT JOIN a.type b on b.area_id=a.id
+	</select>
+	
+	<!-- 查询用户在area上的所有父节点,使用join而不使用where字句的原因在于，用户可能拥有多个area_id -->
+	<select id="getAreaParentIds" resultType="string">
+	    SELECT 
+	        a.parent_ids
+	    FROM sys_user u
+	    LEFT JOIN sys_user_role ur ON ur.user_id=u.id
+	    LEFT JOIN sys_role r ON r.id=ur.role_id
+	    LEFT JOIN sys_area a ON a.id=r.area_id
+	</select>	
 </mapper>

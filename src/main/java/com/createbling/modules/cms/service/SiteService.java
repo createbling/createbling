@@ -49,7 +49,7 @@ public class SiteService extends CrudService<SiteDao, Site> {
 	@Transactional(readOnly = false)
 	public void delete(Site site, Boolean isRe) {
 		//siteDao.updateDelFlag(id, isRe!=null&&isRe?Site.DEL_FLAG_NORMAL:Site.DEL_FLAG_DELETE);
-		site.setDelFlag(isRe!=null&&isRe?Site.DEL_FLAG_NORMAL:Site.DEL_FLAG_DELETE);
+		site.setFlag(isRe!=null&&isRe?Site.DEL_FLAG_NORMAL:Site.DEL_FLAG_DELETE);
 		super.delete(site);
 		//siteDao.delete(id);
 		CmsUtils.removeCache("site_"+site.getId());

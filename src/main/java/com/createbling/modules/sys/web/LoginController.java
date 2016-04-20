@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.google.common.collect.Maps;
 import com.createbling.common.config.Global;
 import com.createbling.common.security.shiro.session.SessionDAO;
 import com.createbling.common.servlet.ValidateCodeServlet;
@@ -27,14 +27,16 @@ import com.createbling.common.utils.CookieUtils;
 import com.createbling.common.utils.IdGen;
 import com.createbling.common.utils.StringUtils;
 import com.createbling.common.web.BaseController;
+import com.createbling.modules.sys.entity.Coordinate;
 import com.createbling.modules.sys.security.FormAuthenticationFilter;
 import com.createbling.modules.sys.security.SystemAuthorizingRealm.Principal;
 import com.createbling.modules.sys.utils.UserUtils;
+import com.google.common.collect.Maps;
 
 /**
  * 登录Controller
  * @author createbling
- * @version 2013-5-31
+ * @version 2016-4-16
  */
 @Controller
 public class LoginController extends BaseController{
@@ -42,11 +44,24 @@ public class LoginController extends BaseController{
 	@Autowired
 	private SessionDAO sessionDAO;
 	
+	//
+	@RequestMapping(value="${adminPath}/gis" , method = RequestMethod.GET)
+	public String gisController(HttpServletRequest request,HttpServletResponse resposne){
+		//首先找出所有地图坐标点
+		Coordinate coordinate = new Coordinate();
+		coordinate = UserUtils.getCoordinate();
+		request.setAttribute("coordinate", coordinate);
+		System.out.println(coordinate);
+		System.out.println("跳转到gis页面");
+		return "modules/sys/gis";
+	}
+	
 	/**
 	 * 管理登录
 	 */
 	@RequestMapping(value = "${adminPath}/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
+		//获得当前登录用户对象
 		Principal principal = UserUtils.getPrincipal();
 
 //		// 默认页签模式
@@ -60,12 +75,15 @@ public class LoginController extends BaseController{
 		}
 		
 		// 如果已登录，再次访问主页，则退出原账号。
+		// notAllowRefreshIndex不允许刷新主页，在配置文件中为flase，如果设置为true，则在登陆的时候设置LOGINED为flase 
 		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
 			CookieUtils.setCookie(response, "LOGINED", "false");
 		}
 		
 		// 如果已经登录，则跳转到管理首页
+		//用户不为空且不为移动端登陆
 		if(principal != null && !principal.isMobileLogin()){
+			//跳转到/a下面去
 			return "redirect:" + adminPath;
 		}
 //		String view;
@@ -74,6 +92,7 @@ public class LoginController extends BaseController{
 //		view += "jar:file:/D:/GitHub/jeesite/src/main/webapp/WEB-INF/lib/jeesite.jar!";
 //		view += "/"+getClass().getName().replaceAll("\\.", "/").replace(getClass().getSimpleName(), "")+"view/sysLogin";
 //		view += ".jsp";
+		//如果上面都未通过的话，说明用户为首次登陆，则跳转到登录页面中
 		return "modules/sys/sysLogin";
 	}
 
@@ -88,17 +107,18 @@ public class LoginController extends BaseController{
 		if(principal != null){
 			return "redirect:" + adminPath;
 		}
-
+        //对parameter名为username、rememberMe、mobileLogin、shiroLoginFailure的属性进行清理
+		//如果为空字符串则置为null，不为空则除去前后空格message
 		String username = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
 		boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM);
 		boolean mobile = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_MOBILE_PARAM);
 		String exception = (String)request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
 		String message = (String)request.getAttribute(FormAuthenticationFilter.DEFAULT_MESSAGE_PARAM);
-		
+		//如果message为空或，message为null
 		if (StringUtils.isBlank(message) || StringUtils.equals(message, "null")){
 			message = "用户或密码错误, 请重试.";
 		}
-
+		//将各属性添加到model中
 		model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, username);
 		model.addAttribute(FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM, rememberMe);
 		model.addAttribute(FormAuthenticationFilter.DEFAULT_MOBILE_PARAM, mobile);
@@ -126,10 +146,13 @@ public class LoginController extends BaseController{
 		return "modules/sys/sysLogin";
 	}
 
+
+	
 	/**
 	 * 登录成功，进入管理首页
+	 * 在shiro那里设置了permission，我说为什么不是角色，原来是因为这里单独用了user
 	 */
-	@RequiresPermissions("user")
+	@RequiresPermissions(value={"admin"})
 	@RequestMapping(value = "${adminPath}")
 	public String index(HttpServletRequest request, HttpServletResponse response) {
 		Principal principal = UserUtils.getPrincipal();
@@ -142,8 +165,12 @@ public class LoginController extends BaseController{
 		}
 		
 		// 如果已登录，再次访问主页，则退出原账号。
+		//notAllowRefreshIndex在配置文件中为false,如果为true，由于进入登录页面时设置了LOGINED为false
 		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
 			String logined = CookieUtils.getCookie(request, "LOGINED");
+			//logined如果为空或为假，则置为真。当直接进入index时，则会退出当前帐号而重新登录。
+			//notAllowRefreshIndex此时是不是意味着不允许刷新index，即不允许对当前主页url重新发送请求？
+			//是否是为了防止页面刷新？
 			if (StringUtils.isBlank(logined) || "false".equals(logined)){
 				CookieUtils.setCookie(response, "LOGINED", "true");
 			}else if (StringUtils.equals(logined, "true")){

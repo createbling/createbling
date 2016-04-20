@@ -30,7 +30,7 @@ import com.createbling.modules.cms.entity.Site;
 import com.createbling.modules.cms.service.CategoryService;
 import com.createbling.modules.cms.service.FileTplService;
 import com.createbling.modules.cms.service.SiteService;
-import com.createbling.modules.cms.utilss.TplUtils;
+import com.createbling.modules.cms.utils.TplUtils;
 
 /**
  * 栏目Controller
@@ -75,14 +75,14 @@ public class CategoryController extends BaseController {
 		}
 		Category parent = categoryService.get(category.getParent().getId());
 		category.setParent(parent);
-		if (category.getOffice()==null||category.getOffice().getId()==null){
-			category.setOffice(parent.getOffice());
+		if (category.getArea()==null||category.getArea().getId()==null){
+			category.setArea(parent.getArea());
 		}
         model.addAttribute("listViewList",getTplContent(Category.DEFAULT_TEMPLATE));
         model.addAttribute("category_DEFAULT_TEMPLATE",Category.DEFAULT_TEMPLATE);
         model.addAttribute("contentViewList",getTplContent(Article.DEFAULT_TEMPLATE));
         model.addAttribute("article_DEFAULT_TEMPLATE",Article.DEFAULT_TEMPLATE);
-		model.addAttribute("office", category.getOffice());
+		model.addAttribute("office", category.getArea());
 		model.addAttribute("category", category);
 		return "modules/cms/categoryForm";
 	}

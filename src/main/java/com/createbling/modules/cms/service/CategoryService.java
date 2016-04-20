@@ -11,18 +11,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.createbling.common.config.Global;
 import com.createbling.common.persistence.Page;
 import com.createbling.common.service.TreeService;
 import com.createbling.modules.cms.dao.CategoryDao;
 import com.createbling.modules.cms.entity.Category;
 import com.createbling.modules.cms.entity.Site;
-import com.createbling.modules.cms.utilss.CmsUtils;
-import com.createbling.modules.sys.entity.Office;
+import com.createbling.modules.cms.utils.CmsUtils;
+import com.createbling.modules.sys.entity.Area;
 import com.createbling.modules.sys.entity.User;
 import com.createbling.modules.sys.utils.UserUtils;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * 栏目Service
@@ -44,7 +44,7 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 		if (list == null){
 			User user = UserUtils.getUser();
 			Category category = new Category();
-			category.setOffice(new Office());
+			category.setArea(new Area());
 			category.getSqlMap().put("dsf", dataScopeFilter(user, "o", "u"));
 			category.setSite(new Site());
 			category.setParent(new Category());

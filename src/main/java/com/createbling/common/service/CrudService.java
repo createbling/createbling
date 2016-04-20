@@ -1,8 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.createbling.common.service;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +10,83 @@ import com.createbling.common.persistence.Page;
 
 /**
  * Service基类
- * @author ThinkGem
- * @version 2014-05-16
+ * @author MingSun
+ * @version 2016-03-27
  */
 @Transactional(readOnly = true)
 public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>> extends BaseService {
-	
 	/**
 	 * 持久层对象
 	 */
 	@Autowired
-	protected D dao;
+	protected D dao;	
+	/**
+	 * 修改某个节点
+	 * @param id
+	 * @return
+	 */
+	public void updateNode(T entity){
+		entity.preUpdate();
+		dao.updateNode(entity);
+	}
+	/**
+	 * 删除某个节点
+	 * @param id
+	 * @return
+	 */
+	public void delete(T entity){
+		entity.preUpdate();
+		dao.delete(entity);
+	}
+	/**
+	 * 查找所有的基地
+	 * @param 
+	 * @return List<T>
+	 */
+	public List<T> findNodeBase() {
+		return dao.findNodeBase();
+	}
+	/**
+	 * 查找某个节点的可见直系子节点
+	 * @param T
+	 * @return List<T>
+	 */
+	public List<T> findNodeByParent1(T entity) {
+		return dao.findNodeByParent1(entity);
+	}
+	/**
+	 * 查找某个节点的可见且属于专家配置的直系子节点
+	 * @param T
+	 * @return List<T>
+	 */
+	public List<T> findNodeByParent2(T entity) {
+		return dao.findNodeByParent2(entity);
+	}
+	/**
+	 * 按照id查询某个节点的所有信息
+	 * @param T
+	 * @return T
+	 */
+	public T findNodeById(String id) {
+		return dao.findNodeById(id);
+	}
+	/**
+	 *  为某个节点添加一个子节点（插入一个节点 ，记得把父节点的Children_ids进行修改）
+	 * @param T,String,String,String
+	 * @return 
+	 */
+	public void insertNode(T entity,String id,String tableNameReal,String tableNameExpert) {
+		entity.preInsert();
+		if(id.equals(null)){//若id为空则表明添加的是某一个基地则表明要激发存储过程
+			dao.insertNode(entity);
+			dao.createRealProcedure(tableNameReal);
+			dao.createExpertProcedure(tableNameExpert);
+		}else{
+			dao.insertNode(entity);
+		}
+	}
+//////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	/**
 	 * 获取单条数据
@@ -79,14 +141,4 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 			dao.update(entity);
 		}
 	}
-	
-	/**
-	 * 删除数据
-	 * @param entity
-	 */
-	@Transactional(readOnly = false)
-	public void delete(T entity) {
-		dao.delete(entity);
-	}
-
 }

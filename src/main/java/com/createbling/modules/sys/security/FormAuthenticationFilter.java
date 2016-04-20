@@ -66,7 +66,7 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 	}
 	
 	/**
-	 * 登录成功之后跳转URL
+	 * 登录成功之后跳转URL，不跳转到首页去
 	 */
 	public String getSuccessUrl() {
 		return super.getSuccessUrl();
@@ -75,6 +75,8 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 	@Override
 	protected void issueSuccessRedirect(ServletRequest request,
 			ServletResponse response) throws Exception {
+		
+		
 //		Principal p = UserUtils.getPrincipal();
 //		if (p != null && !p.isMobileLogin()){
 			 WebUtils.issueRedirect(request, response, getSuccessUrl(), null, true);

@@ -30,8 +30,8 @@ import com.createbling.modules.cms.service.ArticleService;
 import com.createbling.modules.cms.service.CategoryService;
 import com.createbling.modules.cms.service.FileTplService;
 import com.createbling.modules.cms.service.SiteService;
-import com.createbling.modules.cms.utilss.CmsUtils;
-import com.createbling.modules.cms.utilss.TplUtils;
+import com.createbling.modules.cms.utils.CmsUtils;
+import com.createbling.modules.cms.utils.TplUtils;
 import com.createbling.modules.sys.utils.UserUtils;
 
 /**

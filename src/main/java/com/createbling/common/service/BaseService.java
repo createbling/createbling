@@ -1,6 +1,3 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.createbling.common.service;
 
 import java.util.List;
@@ -14,11 +11,12 @@ import com.createbling.common.persistence.BaseEntity;
 import com.createbling.common.utils.StringUtils;
 import com.createbling.modules.sys.entity.Role;
 import com.createbling.modules.sys.entity.User;
+import com.createbling.modules.sys.utils.UserUtils;
 
 /**
  * Service基类
- * @author ThinkGem
- * @version 2014-05-16
+ * @author createbling
+ * @version 2016-01-16
  */
 @Transactional(readOnly = true)
 public abstract class BaseService {
@@ -30,9 +28,9 @@ public abstract class BaseService {
 
 	/**
 	 * 数据范围过滤
-	 * @param user 当前用户对象，通过“entity.getCurrentUser()”获取
-	 * @param officeAlias 机构表别名，多个用“,”逗号隔开。
-	 * @param userAlias 用户表别名，多个用“,”逗号隔开，传递空，忽略此参数
+	 * @param user 当前用户对象，通过“entity.getCurrentUser()”获取，实际上就是UserUtils.getUser()
+	 * @param officeAlias 机构表别名，多个用“,”逗号隔开。在原先的xml中office别名为o
+	 * @param userAlias 用户表别名，多个用“,”逗号隔开，传递空，忽略此参数，在原先的xml中user别名为u
 	 * @return 标准连接条件对象
 	 */
 	public static String dataScopeFilter(User user, String areaAlias, String userAlias) {
@@ -43,43 +41,52 @@ public abstract class BaseService {
 		List<String> dataScope = Lists.newArrayList();
 		
 		// 超级管理员，跳过权限过滤
-		if (!user.isAdmin()){
+		if (!user.isAdministrator()){
 			boolean isDataScopeAll = false;
 			//取出用户角色列表
 			for (Role r : user.getRoleList()){
 				//将office（实际就是area）用","分隔开
 				for (String oa : StringUtils.split(areaAlias, ",")){
 					//如果数据范围域不包括角色所包含的数据范围域且area（office）别名不为空
+					//如果数据范围不为空且数据表别名不为空
 					if (!dataScope.contains(r.getDataScope()) && StringUtils.isNotBlank(oa)){
 						//1：所有数据
+						//这里比较的实际是id
 						if (Role.DATA_SCOPE_ALL.equals(r.getDataScope())){
 							isDataScopeAll = true;
 						}
-						//2：所在公司及以下数据
-						else if (Role.DATA_SCOPE_COMPANY_AND_CHILD.equals(r.getDataScope())){
+						//2：所在基地及以下数据
+						else if (Role.DATA_SCOPE_BASE_AND_CHILD.equals(r.getDataScope())){
+							//------其实就是or oa.id=user.office.id,这里是查出了office的信息
+							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
+							//查出parentids为当前用户所属office的parentids+当前用户id的所有信息，其实意思就是该office下所有子节点
+							sqlString.append(" OR " + oa + ".parent_ids LIKE '" + user.getArea().getParentIds() + user.getArea().getId() + ",%'");
+						}
+						//3.所在基地数据和作物数据（意思是只能查看基地和作物信息，屏蔽周期和参数）
+						//此时不能添加下属机构，只能进行修改和删除，甚至也不能进行删除，注意这里应该在页面中显示出来。
+						else if (Role.DATA_SCOPE_BASE.equals(r.getDataScope())){
+							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
+							//------这里换成了等于，意思是只查询所在公司与公司直属部门数据，不能查看子公司数据
+							//sqlString.append(" OR (" + oa + ".parent_id = '" + user.getArea().getId() + "' AND " + oa + ".type = '2')");
+						    //这里能够查询直接子节点信息
+							sqlString.append(" OR " + oa + ".parent_id= '" + user.getArea().getId() + "'");
+						}
+						//4.所属作物及以下数据
+						else if (Role.DATA_SCOPE_PLANT_AND_CHILD.equals(r.getDataScope())){
 							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
 							sqlString.append(" OR " + oa + ".parent_ids LIKE '" + user.getArea().getParentIds() + user.getArea().getId() + ",%'");
 						}
-						//3：所在公司数据
-						else if (Role.DATA_SCOPE_COMPANY.equals(r.getDataScope())){
-							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
-							// 包括本公司下的部门 （type=1:公司；type=2：部门）
-							sqlString.append(" OR (" + oa + ".parent_id = '" + user.getArea().getId() + "' AND " + oa + ".type = '2')");
+						//5.所属周期或参数（意思是只能查看周期和参数），这里应该设置查询相同type
+						else if (Role.DATA_SCOPE_PLANT.equals(r.getDataScope())){
+							sqlString.append(" OR " + oa + ".type = '" + user.getArea().getType() + "'");
 						}
-						//4：所在部门及以下数据
-						else if (Role.DATA_SCOPE_OFFICE_AND_CHILD.equals(r.getDataScope())){
-							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
-							sqlString.append(" OR " + oa + ".parent_ids LIKE '" + user.getArea().getParentIds() + user.getArea().getId() + ",%'");
-						}
-						else if (Role.DATA_SCOPE_OFFICE.equals(r.getDataScope())){
-							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
-						}
+						//9：按明细设置
 						else if (Role.DATA_SCOPE_CUSTOM.equals(r.getDataScope())){
 //							String officeIds =  StringUtils.join(r.getOfficeIdList(), "','");
 //							if (StringUtils.isNotEmpty(officeIds)){
 //								sqlString.append(" OR " + oa + ".id IN ('" + officeIds + "')");
 //							}
-							sqlString.append(" OR EXISTS (SELECT 1 FROM sys_role_office WHERE role_id = '" + r.getId() + "'");
+							sqlString.append(" OR EXISTS (SELECT 1 FROM sys_role_area WHERE role_id = '" + r.getId() + "'");
 							sqlString.append(" AND office_id = " + oa +".id)");
 						}
 						//else if (Role.DATA_SCOPE_SELF.equals(r.getDataScope())){
@@ -91,6 +98,7 @@ public abstract class BaseService {
 			if (!isDataScopeAll){
 				if (StringUtils.isNotBlank(userAlias)){
 					for (String ua : StringUtils.split(userAlias, ",")){
+						//只能查看user id相关的数据
 						sqlString.append(" OR " + ua + ".id = '" + user.getId() + "'");
 					}
 				}else {
@@ -125,7 +133,7 @@ public abstract class BaseService {
 		User user = entity.getCurrentUser();
 		
 		// 如果是超级管理员，则不过滤数据
-		if (user.isAdmin()) {
+		if (user.isAdministrator()) {
 			return;
 		}
 
@@ -148,7 +156,7 @@ public abstract class BaseService {
 		}
 		String dataScopeString = String.valueOf(dataScopeInteger);
 		
-		// 生成部门权限SQL语句
+/*		// 生成部门权限SQL语句
 		for (String where : StringUtils.split(officeWheres, ",")){
 			if (Role.DATA_SCOPE_COMPANY_AND_CHILD.equals(dataScopeString)){
 				// 包括本公司下的部门 （type=1:公司；type=2：部门）
@@ -181,7 +189,7 @@ public abstract class BaseService {
 				sqlString.append(" AND ro123456.role_id = '" + roleId + "'");
 				sqlString.append(" AND o123456." + where +")");
 			}
-		}
+		}*/
 		// 生成个人权限SQL语句
 		for (String where : StringUtils.split(userWheres, ",")){
 			if (Role.DATA_SCOPE_SELF.equals(dataScopeString)){
