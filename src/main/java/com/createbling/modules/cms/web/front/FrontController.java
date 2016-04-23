@@ -89,8 +89,10 @@ public class FrontController extends BaseController{
 	@RequestMapping(value = "index-{siteId}${urlSuffix}")
 	public String index(@PathVariable String siteId, Model model) {
 		if (siteId.equals("1")){
+			//主站点，跳转至/a，即上面的index控制器
 			return "redirect:"+Global.getFrontPath();
 		}
+		//否则的话把该站点的网站取出来。
 		Site site = CmsUtils.getSite(siteId);
 		// 子站有独立页面，则显示独立页面
 		if (StringUtils.isNotBlank(site.getCustomIndexView())){
