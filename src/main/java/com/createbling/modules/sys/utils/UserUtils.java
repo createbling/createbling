@@ -244,6 +244,17 @@ public class UserUtils {
 		return areaList;
 	}*/
 	
+	public static Area getAreaById(String id){
+		List<Area> areaList = getAreaList();
+		//循环取出
+		for(Area area : areaList){
+			if(area.getId().equals(id)){
+				return area;
+			}
+		}
+		return new Area();
+	}
+	
 	/**
 	 * 获取当前用户有权限访问的AREA
 	 * @return

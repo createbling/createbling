@@ -20,7 +20,13 @@ import com.createbling.modules.sys.utils.UserUtils;
 public class RealValueService {
 	@Autowired
 	private RealValueDao realValueDao;
-	//只读的事物
+	
+	/**
+	 * 取出当前时间的实时数据
+	 * @param realInfo
+	 * @return
+	 * 只读的事物
+	 */
 	@Transactional(readOnly = true)
 	public RealValue getRealValue(RealInfo realInfo){
 		//这里取出的实时数据仅仅在当前时间的一小段范围内，并对间隔5秒的数据进行处理
@@ -132,7 +138,7 @@ public class RealValueService {
 	 */
 	@Transactional(readOnly = true)
 	public void getInitailValue(){
-		List<Area> areaList = UserUtils.getAreaList();
+/*		List<Area> areaList = UserUtils.getAreaList();
 		//循环取出第一个作物的第一个参数
 		for(Area area : areaList){
 			if(area.getType().equals("detail_parameter")){
@@ -141,7 +147,7 @@ public class RealValueService {
 			    Area areaParent = UserUtils.getAreaById(secondParentId);
 			    
 			}
-		}
+		}*/
 	}
 
 }

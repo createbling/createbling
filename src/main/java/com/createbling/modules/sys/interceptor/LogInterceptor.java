@@ -1,5 +1,5 @@
 /**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem.jeesite/jeesite">JeeSite</a> All rights reserved.
+ * Copyright &copy; 2012-2014 <a href="https://github.com/createbling/jeesite">JeeSite</a> All rights reserved.
  */
 package com.createbling.modules.sys.interceptor;
 
@@ -12,13 +12,13 @@ import org.springframework.core.NamedThreadLocal;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.common.utils.DateUtils;
-import com.thinkgem.jeesite.modules.sys.utils.LogUtils;
+import com.createbling.common.service.BaseService;
+import com.createbling.common.utils.DateUtils;
+import com.createbling.modules.sys.utils.LogUtils;
 
 /**
  * 日志拦截器
- * @author thinkgem.jeesite
+ * @author createbling
  * @version 2014-8-19
  */
 public class LogInterceptor extends BaseService implements HandlerInterceptor {

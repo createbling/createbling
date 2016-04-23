@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.createbling.common.persistence;
+package com.createbling.common.persistence.proxy;
 
 import java.util.List;
 
