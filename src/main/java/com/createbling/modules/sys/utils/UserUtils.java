@@ -104,6 +104,7 @@ public class UserUtils {
 		if (user == null){
 			//如果缓存中没有用户信息，则根据用户名查找
 			user = userDao.getByLoginName(new User(null, loginName));
+			System.out.println("取出的用户名为"+user.getName());
 			//如果仍然为空，则返回空
 			if (user == null){
 				return null;

@@ -13,7 +13,7 @@
 		a.sort,
 		a.is_show,
 		a.permission,
-		a.remarks,
+		a.description,
 		a.create_by AS "createBy.id",
 		a.create_date,
 		a.update_by AS "updateBy.id",
@@ -23,6 +23,7 @@
 	</sql>
 	
 	<sql id="menuJoins">
+        <!-- 将menu与menu相连接找出其直接parent -->
 		LEFT JOIN sys_menu p ON p.id = a.parent_id
     </sql>
 	
@@ -57,8 +58,11 @@
 		SELECT DISTINCT
 			<include refid="menuColumns"/>
 		FROM sys_menu a
+		<!-- 找出父节点 -->
 		LEFT JOIN sys_menu p ON p.id = a.parent_id
+		<!-- 找出角色对应的role-menu -->
 		JOIN sys_role_menu rm ON rm.menu_id = a.id
+		<!-- 找出对应的角色信息 -->
 		JOIN sys_role r ON r.id = rm.role_id AND r.useable='1'
 		JOIN sys_user_role ur ON ur.role_id = r.id
 		JOIN sys_user u ON u.id = ur.user_id AND u.id = #{userId}
@@ -82,7 +86,7 @@
 			create_date, 
 			update_by, 
 			update_date, 
-			remarks, 
+			description, 
 			del_flag
 		) VALUES (
 			#{id}, 
@@ -99,7 +103,7 @@
 			#{createDate}, 
 			#{updateBy.id}, 
 			#{updateDate}, 
-			#{remarks}, 
+			#{description}, 
 			#{delFlag}
 		)
 	</insert>
@@ -117,7 +121,7 @@
 			permission = #{permission}, 
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
-			remarks = #{remarks}
+			description = #{description}
 		WHERE id = #{id}
 	</update>
 	
