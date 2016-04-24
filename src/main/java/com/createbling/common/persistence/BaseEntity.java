@@ -172,8 +172,8 @@ public abstract class BaseEntity<T> implements Serializable {
 	/**
 	 * 删除标记（-1：不可见；0：可见非专家配置；1：可见且专家配）
 	 */
-	public static final String DEL_FLAG_NORMAL = "-1";
-	public static final String DEL_FLAG_DELETE = "0";
+	public static final String DEL_FLAG_DELETE = "-1";
+	public static final String DEL_FLAG_NORMAL = "0";
 	public static final String DEL_FLAG_AUDIT = "1";
 	
 }

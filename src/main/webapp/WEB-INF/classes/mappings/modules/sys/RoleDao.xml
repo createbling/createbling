@@ -43,8 +43,9 @@
 		a.create_date,
 		a.update_by AS "updateBy.id",
 		a.update_date,
-		a.del_flag,
+		a.flag,
     	o.name AS "area.name",
+    	<!-- 除掉了o.code, -->
     	a.useable AS useable,
     	a.is_sys AS sysData
     </sql>
@@ -78,7 +79,7 @@
 			<include refid="roleColumns"/>
 		FROM sys_role a
 		JOIN sys_area o ON o.id = a.area_id
-		WHERE a.name = #{name} AND a.del_flag = #{DEL_FLAG_NORMAL}
+		WHERE a.name = #{name} AND a.flag = #{DEL_FLAG_NORMAL}
 	</select>
 	
 	<select id="getByEnname" resultType="Role">
@@ -86,7 +87,7 @@
 			<include refid="roleColumns"/>
 		FROM sys_role a
 		JOIN sys_area o ON o.id = a.area_id
-		WHERE a.enname = #{enname} AND a.del_flag = #{DEL_FLAG_NORMAL}
+		WHERE a.enname = #{enname} AND a.flag = #{DEL_FLAG_NORMAL}
 	</select>
 	
 	<select id="findList" resultMap="roleResult">
@@ -102,9 +103,9 @@
 		LEFT JOIN sys_user u ON u.id = ur.user_id
 		<!-- 将角色与area相连接，找出角色所对应的area -->
 		LEFT JOIN sys_role_area ro ON ro.role_id = a.id
-		<!-- chauncy这里原先是a.del_flag = #{DEL_FLAG_NORMAL} -->
+		<!-- chauncy这里原先是a.flag = #{DEL_FLAG_NORMAL} -->
 		<!-- chauncy这里原先是a.useable=#{useable} -->
-		WHERE a.del_flag = 0 AND a.useable= 1
+		WHERE a.flag = 0 AND a.useable= 1
 		<if test="user != null and user.id != null and user.id != ''">
 			AND u.id = #{user.id}
 		</if>
@@ -123,7 +124,7 @@
 		FROM sys_role a
 		<!-- 找出角色对应的area即可 -->
 		LEFT JOIN sys_area o ON o.id = a.area_id
-		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		WHERE a.flag = #{DEL_FLAG_NORMAL}
 		<!-- chauncy去掉了o.code -->
 		ORDER BY a.name
 	</select>
@@ -141,7 +142,7 @@
 			update_by, 
 			update_date, 
 			remarks, 
-			del_flag,
+			flag,
 			is_sys,
 			useable
 		) VALUES (
@@ -207,7 +208,7 @@
 	
 	<update id="delete">
 		UPDATE sys_role SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 	

@@ -13,7 +13,7 @@
 		SELECT 
 			* 
 		FROM sys_dict 
-		WHERE del_flag = #{DEL_FLAG_NORMAL} 
+		WHERE flag = #{DEL_FLAG_NORMAL} 
 		<if test="type != null and type != ''">
 			AND type = #{type}
 		</if>
@@ -30,7 +30,7 @@
 		SELECT 
 			* 
 		FROM sys_dict 
-		WHERE del_flag = #{DEL_FLAG_NORMAL} 
+		WHERE flag = #{DEL_FLAG_NORMAL} 
 		ORDER BY type, sort, update_date DESC
 	</select>
 	
@@ -38,7 +38,7 @@
 		SELECT 
 			type 
 		FROM sys_dict 
-		WHERE del_flag = #{DEL_FLAG_NORMAL} 
+		WHERE flag = #{DEL_FLAG_NORMAL} 
 		GROUP BY type
 		ORDER BY type
 	</select>
@@ -56,7 +56,7 @@
 			update_by, 
 			update_date, 
 			remarks, 
-			del_flag
+			flag
 		) VALUES (
 			#{id}, 
 			#{value}, 
@@ -88,7 +88,7 @@
 	
 	<update id="delete">
 		UPDATE sys_dict SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 	

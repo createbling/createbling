@@ -1,15 +1,10 @@
-package org.apache.jsp.WEB_002dINF.views.error;
+package org.apache.jsp.WEB_002dINF.views.layouts;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.createbling.common.web.Servlets;
-import com.createbling.common.utils.Exceptions;
-import com.createbling.common.utils.StringUtils;
 
-public final class _500_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class blank_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
 static private org.apache.jasper.runtime.ProtectedFunctionMapper _jspx_fnmap_0;
@@ -29,6 +24,9 @@ static {
   }
 
   private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_c_set_var_value_nobody;
+  private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_sitemesh_title_nobody;
+  private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_sitemesh_head_nobody;
+  private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_sitemesh_body_nobody;
 
   private org.glassfish.jsp.api.ResourceInjector _jspx_resourceInjector;
 
@@ -38,10 +36,16 @@ static {
 
   public void _jspInit() {
     _jspx_tagPool_c_set_var_value_nobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
+    _jspx_tagPool_sitemesh_title_nobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
+    _jspx_tagPool_sitemesh_head_nobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
+    _jspx_tagPool_sitemesh_body_nobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
   }
 
   public void _jspDestroy() {
     _jspx_tagPool_c_set_var_value_nobody.release();
+    _jspx_tagPool_sitemesh_title_nobody.release();
+    _jspx_tagPool_sitemesh_head_nobody.release();
+    _jspx_tagPool_sitemesh_body_nobody.release();
   }
 
   public void _jspService(HttpServletRequest request, HttpServletResponse response)
@@ -49,10 +53,6 @@ static {
 
     PageContext pageContext = null;
     HttpSession session = null;
-    Throwable exception = org.apache.jasper.runtime.JspRuntimeLibrary.getThrowable(request);
-    if (exception != null) {
-      response.setStatus((Integer)request.getAttribute("javax.servlet.error.status_code"));
-    }
     ServletContext application = null;
     ServletConfig config = null;
     JspWriter out = null;
@@ -72,37 +72,7 @@ static {
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
-
-response.setStatus(500);
-
-// 获取异常类
-Throwable ex = Exceptions.getThrowable(request);
-if (ex != null){
-	LoggerFactory.getLogger("500.jsp").error(ex.getMessage(), ex);
-}
-
-// 编译错误信息
-StringBuilder sb = new StringBuilder("错误信息：\n");
-if (ex != null) {
-	sb.append(Exceptions.getStackTraceAsString(ex));
-} else {
-	sb.append("未知错误.\n\n");
-}
-
-// 如果是异步请求或是手机端，则直接返回信息
-if (Servlets.isAjaxRequest(request)) {
-	out.print(sb);
-}
-
-// 输出异常信息页面
-else {
-
-      out.write("\n");
-      out.write("\n");
-      out.write("\n");
-      out.write("\n");
-      out.write("\n");
-      out.write("\n");
+      out.write('\n');
       out.write("\n");
       out.write("\n");
       out.write("\n");
@@ -119,10 +89,14 @@ else {
       if (_jspx_meth_c_set_1(_jspx_page_context))
         return;
       out.write("\n");
+      out.write("\n");
       out.write("<!DOCTYPE html>\n");
-      out.write("<html>\n");
+      out.write("<html style=\"overflow-x:auto;overflow-y:auto;\">\n");
       out.write("<head>\n");
-      out.write("\t<title>500 - 系统内部错误</title>\n");
+      out.write("\t<title>");
+      if (_jspx_meth_sitemesh_title_0(_jspx_page_context))
+        return;
+      out.write("</title><!--  - Powered By JeeSite -->\n");
       out.write("\t");
       out.write("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" /><meta name=\"author\" content=\"http://jeesite.com/\"/>\n");
       out.write("<meta name=\"renderer\" content=\"webkit\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8,IE=9,IE=10\" />\n");
@@ -186,33 +160,19 @@ else {
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctxStatic}", java.lang.String.class, (PageContext)_jspx_page_context, null));
       out.write("';</script>");
       out.write("\n");
+      out.write("\t<!-- Baidu tongji analytics --><script>var _hmt=_hmt||[];(function(){var hm=document.createElement(\"script\");hm.src=\"//hm.baidu.com/hm.js?82116c626a8d504a5c0675073362ef6f\";var s=document.getElementsByTagName(\"script\")[0];s.parentNode.insertBefore(hm,s);})();</script>\n");
+      out.write("\t");
+      if (_jspx_meth_sitemesh_head_0(_jspx_page_context))
+        return;
+      out.write("\n");
       out.write("</head>\n");
       out.write("<body>\n");
-      out.write("\t<div class=\"container-fluid\">\n");
-      out.write("\t\t<div class=\"page-header\"><h1>系统内部错误.</h1></div>\n");
-      out.write("\t\t<div class=\"errorMessage\">\n");
-      out.write("\t\t\t错误信息：");
-      out.print(ex==null?"未知错误.":StringUtils.toHtml(ex.getMessage()));
-      out.write(" <br/> <br/>\n");
-      out.write("\t\t\t请点击“查看详细信息”按钮，将详细错误信息发送给系统管理员，谢谢！<br/> <br/>\n");
-      out.write("\t\t\t<a href=\"javascript:\" onclick=\"history.go(-1);\" class=\"btn\">返回上一页</a> &nbsp;\n");
-      out.write("\t\t\t<a href=\"javascript:\" onclick=\"$('.errorMessage').toggle();\" class=\"btn\">查看详细信息</a>\n");
-      out.write("\t\t</div>\n");
-      out.write("\t\t<div class=\"errorMessage hide\">\n");
-      out.write("\t\t\t");
-      out.print(StringUtils.toHtml(sb.toString()));
-      out.write(" <br/>\n");
-      out.write("\t\t\t<a href=\"javascript:\" onclick=\"history.go(-1);\" class=\"btn\">返回上一页</a> &nbsp;\n");
-      out.write("\t\t\t<a href=\"javascript:\" onclick=\"$('.errorMessage').toggle();\" class=\"btn\">隐藏详细信息</a>\n");
-      out.write("\t\t\t<br/> <br/>\n");
-      out.write("\t\t</div>\n");
-      out.write("\t\t<script>try{top.$.jBox.closeTip();}catch(e){}</script>\n");
-      out.write("\t</div>\n");
+      out.write("\t");
+      if (_jspx_meth_sitemesh_body_0(_jspx_page_context))
+        return;
+      out.write("\n");
       out.write("</body>\n");
-      out.write("</html>\n");
-
-} out = pageContext.pushBody();
-
+      out.write("</html>");
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){
         out = _jspx_out;
@@ -261,6 +221,57 @@ else {
       return true;
     }
     _jspx_tagPool_c_set_var_value_nobody.reuse(_jspx_th_c_set_1);
+    return false;
+  }
+
+  private boolean _jspx_meth_sitemesh_title_0(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  sitemesh:title
+    com.opensymphony.module.sitemesh.taglib.decorator.TitleTag _jspx_th_sitemesh_title_0 = (com.opensymphony.module.sitemesh.taglib.decorator.TitleTag) _jspx_tagPool_sitemesh_title_nobody.get(com.opensymphony.module.sitemesh.taglib.decorator.TitleTag.class);
+    _jspx_th_sitemesh_title_0.setPageContext(_jspx_page_context);
+    _jspx_th_sitemesh_title_0.setParent(null);
+    int _jspx_eval_sitemesh_title_0 = _jspx_th_sitemesh_title_0.doStartTag();
+    if (_jspx_th_sitemesh_title_0.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_sitemesh_title_nobody.reuse(_jspx_th_sitemesh_title_0);
+      return true;
+    }
+    _jspx_tagPool_sitemesh_title_nobody.reuse(_jspx_th_sitemesh_title_0);
+    return false;
+  }
+
+  private boolean _jspx_meth_sitemesh_head_0(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  sitemesh:head
+    com.opensymphony.module.sitemesh.taglib.decorator.HeadTag _jspx_th_sitemesh_head_0 = (com.opensymphony.module.sitemesh.taglib.decorator.HeadTag) _jspx_tagPool_sitemesh_head_nobody.get(com.opensymphony.module.sitemesh.taglib.decorator.HeadTag.class);
+    _jspx_th_sitemesh_head_0.setPageContext(_jspx_page_context);
+    _jspx_th_sitemesh_head_0.setParent(null);
+    int _jspx_eval_sitemesh_head_0 = _jspx_th_sitemesh_head_0.doStartTag();
+    if (_jspx_th_sitemesh_head_0.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_sitemesh_head_nobody.reuse(_jspx_th_sitemesh_head_0);
+      return true;
+    }
+    _jspx_tagPool_sitemesh_head_nobody.reuse(_jspx_th_sitemesh_head_0);
+    return false;
+  }
+
+  private boolean _jspx_meth_sitemesh_body_0(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  sitemesh:body
+    com.opensymphony.module.sitemesh.taglib.decorator.BodyTag _jspx_th_sitemesh_body_0 = (com.opensymphony.module.sitemesh.taglib.decorator.BodyTag) _jspx_tagPool_sitemesh_body_nobody.get(com.opensymphony.module.sitemesh.taglib.decorator.BodyTag.class);
+    _jspx_th_sitemesh_body_0.setPageContext(_jspx_page_context);
+    _jspx_th_sitemesh_body_0.setParent(null);
+    int _jspx_eval_sitemesh_body_0 = _jspx_th_sitemesh_body_0.doStartTag();
+    if (_jspx_th_sitemesh_body_0.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_sitemesh_body_nobody.reuse(_jspx_th_sitemesh_body_0);
+      return true;
+    }
+    _jspx_tagPool_sitemesh_body_nobody.reuse(_jspx_th_sitemesh_body_0);
     return false;
   }
 }

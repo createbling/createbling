@@ -3,13 +3,9 @@ package org.apache.jsp.WEB_002dINF.views.error;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.createbling.common.web.Servlets;
-import com.createbling.common.utils.Exceptions;
-import com.createbling.common.utils.StringUtils;
 
-public final class _500_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class _404_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
 static private org.apache.jasper.runtime.ProtectedFunctionMapper _jspx_fnmap_0;
@@ -73,33 +69,16 @@ static {
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
 
-response.setStatus(500);
-
-// 获取异常类
-Throwable ex = Exceptions.getThrowable(request);
-if (ex != null){
-	LoggerFactory.getLogger("500.jsp").error(ex.getMessage(), ex);
-}
-
-// 编译错误信息
-StringBuilder sb = new StringBuilder("错误信息：\n");
-if (ex != null) {
-	sb.append(Exceptions.getStackTraceAsString(ex));
-} else {
-	sb.append("未知错误.\n\n");
-}
+response.setStatus(404);
 
 // 如果是异步请求或是手机端，则直接返回信息
 if (Servlets.isAjaxRequest(request)) {
-	out.print(sb);
+	out.print("页面不存在.");
 }
 
-// 输出异常信息页面
+//输出异常信息页面
 else {
 
-      out.write("\n");
-      out.write("\n");
-      out.write("\n");
       out.write("\n");
       out.write("\n");
       out.write("\n");
@@ -122,7 +101,7 @@ else {
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("<head>\n");
-      out.write("\t<title>500 - 系统内部错误</title>\n");
+      out.write("\t<title>404 - 页面不存在</title>\n");
       out.write("\t");
       out.write("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" /><meta name=\"author\" content=\"http://jeesite.com/\"/>\n");
       out.write("<meta name=\"renderer\" content=\"webkit\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8,IE=9,IE=10\" />\n");
@@ -189,28 +168,14 @@ else {
       out.write("</head>\n");
       out.write("<body>\n");
       out.write("\t<div class=\"container-fluid\">\n");
-      out.write("\t\t<div class=\"page-header\"><h1>系统内部错误.</h1></div>\n");
-      out.write("\t\t<div class=\"errorMessage\">\n");
-      out.write("\t\t\t错误信息：");
-      out.print(ex==null?"未知错误.":StringUtils.toHtml(ex.getMessage()));
-      out.write(" <br/> <br/>\n");
-      out.write("\t\t\t请点击“查看详细信息”按钮，将详细错误信息发送给系统管理员，谢谢！<br/> <br/>\n");
-      out.write("\t\t\t<a href=\"javascript:\" onclick=\"history.go(-1);\" class=\"btn\">返回上一页</a> &nbsp;\n");
-      out.write("\t\t\t<a href=\"javascript:\" onclick=\"$('.errorMessage').toggle();\" class=\"btn\">查看详细信息</a>\n");
-      out.write("\t\t</div>\n");
-      out.write("\t\t<div class=\"errorMessage hide\">\n");
-      out.write("\t\t\t");
-      out.print(StringUtils.toHtml(sb.toString()));
-      out.write(" <br/>\n");
-      out.write("\t\t\t<a href=\"javascript:\" onclick=\"history.go(-1);\" class=\"btn\">返回上一页</a> &nbsp;\n");
-      out.write("\t\t\t<a href=\"javascript:\" onclick=\"$('.errorMessage').toggle();\" class=\"btn\">隐藏详细信息</a>\n");
-      out.write("\t\t\t<br/> <br/>\n");
-      out.write("\t\t</div>\n");
+      out.write("\t\t<div class=\"page-header\"><h1>页面不存在.</h1></div>\n");
+      out.write("\t\t<div><a href=\"javascript:\" onclick=\"history.go(-1);\" class=\"btn\">返回上一页</a></div>\n");
       out.write("\t\t<script>try{top.$.jBox.closeTip();}catch(e){}</script>\n");
       out.write("\t</div>\n");
       out.write("</body>\n");
       out.write("</html>\n");
 
+out.print("<!--"+request.getAttribute("javax.servlet.forward.request_uri")+"-->");
 } out = pageContext.pushBody();
 
     } catch (Throwable t) {
