@@ -1,6 +1,3 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/createbling/jeesite">JeeSite</a> All rights reserved.
- */
 package com.createbling.modules.cms.web.front;
 
 import java.util.Date;
@@ -45,7 +42,7 @@ import com.createbling.modules.cms.utils.CmsUtils;
  * @version 2013-5-29
  */
 @Controller
-@RequestMapping(value = "${frontPath}")
+@RequestMapping(value = "${newPathOfFront}")
 public class FrontController extends BaseController{
 	
 	@Autowired
@@ -62,20 +59,22 @@ public class FrontController extends BaseController{
 	private SiteService siteService;
 	
 	
-	@RequiresPermissions("user")
-	@RequestMapping(value = "${adminPath}")
+/*	@RequiresPermissions("user")
+	//@RequestMapping(value = "${adminPath}")
 	public String frontIndex(HttpServletRequest request, HttpServletResponse response){
 		
 		
 		return "";
-	}
+	}*/
 	
 	/**
 	 * 网站首页
 	 */
-	@RequiresPermissions(value={"user","admin"},logical=Logical.OR)
+	//@RequiresPermissions(value={"user","admin"},logical=Logical.OR)
 	@RequestMapping
 	public String index(Model model) {
+		System.out.println("进入了主页");
+		//默认站点是1
 		Site site = CmsUtils.getSite(Site.defaultSiteId());
 		model.addAttribute("site", site);
 		model.addAttribute("isIndex", true);
@@ -83,22 +82,25 @@ public class FrontController extends BaseController{
 	}
 	
 	/**
-	 * 网站首页
+	 * 网站首页,前台实际上是跳转到了这里，index-1.htm
 	 */
-	@RequiresPermissions(value={"user","admin"},logical=Logical.OR)
-	@RequestMapping(value = "index-{siteId}${urlSuffix}")
+	//@RequiresPermissions(value={"user","admin"},logical=Logical.OR)
+	@RequestMapping(value = "index-{siteId}.html")
 	public String index(@PathVariable String siteId, Model model) {
-		if (siteId.equals("1")){
+/*		if (siteId.equals("1")){
 			//主站点，跳转至/a，即上面的index控制器
 			return "redirect:"+Global.getFrontPath();
-		}
-		//否则的话把该站点的网站取出来。
+		}*/
+		System.out.println("进入了主页");
+		//否则的话把该站点的网站site信息取出来。
 		Site site = CmsUtils.getSite(siteId);
 		// 子站有独立页面，则显示独立页面
 		if (StringUtils.isNotBlank(site.getCustomIndexView())){
 			model.addAttribute("site", site);
 			model.addAttribute("isIndex", true);
-			return "modules/cms/front/themes/"+site.getTheme()+"/frontIndex"+site.getCustomIndexView();
+			//这里是跳转到自定义的首页视图文件中
+			//这里先加入新的controller
+			return "redirect:"+Global.getFrontPath()+Global.getNewPathOfFront()+site.getCustomIndexView();
 		}
 		// 否则显示子站第一个栏目
 		List<Category> mainNavList = CmsUtils.getMainNavList(siteId);
@@ -289,7 +291,7 @@ public class FrontController extends BaseController{
 		Comment c = new Comment();
 		c.setCategory(comment.getCategory());
 		c.setContentId(comment.getContentId());
-		c.setDelFlag(Comment.DEL_FLAG_NORMAL);
+		c.setFlag(Comment.DEL_FLAG_NORMAL);
 		page = commentService.findPage(page, c);
 		model.addAttribute("page", page);
 		model.addAttribute("comment", comment);
@@ -313,7 +315,7 @@ public class FrontController extends BaseController{
 				}
 				comment.setIp(request.getRemoteAddr());
 				comment.setCreateDate(new Date());
-				comment.setDelFlag(Comment.DEL_FLAG_AUDIT);
+				comment.setFlag(Comment.DEL_FLAG_AUDIT);
 				commentService.save(comment);
 				return "{result:1, message:'提交成功。'}";
 			}else{

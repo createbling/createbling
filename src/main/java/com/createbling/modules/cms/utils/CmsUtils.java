@@ -7,14 +7,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-import com.createbling.common.config.Global;
-import com.createbling.common.utils.StringUtils;
+import javax.servlet.ServletContext;
 
+import org.springframework.ui.Model;
+
+import com.createbling.common.config.Global;
 import com.createbling.common.mapper.JsonMapper;
 import com.createbling.common.persistence.Page;
 import com.createbling.common.utils.CacheUtils;
 import com.createbling.common.utils.SpringContextHolder;
+import com.createbling.common.utils.StringUtils;
 import com.createbling.modules.cms.entity.Article;
 import com.createbling.modules.cms.entity.Category;
 import com.createbling.modules.cms.entity.Link;
@@ -23,10 +25,11 @@ import com.createbling.modules.cms.service.ArticleService;
 import com.createbling.modules.cms.service.CategoryService;
 import com.createbling.modules.cms.service.LinkService;
 import com.createbling.modules.cms.service.SiteService;
-
-import javax.servlet.ServletContext;
-
-import org.springframework.ui.Model;
+import com.createbling.modules.sys.dao.BaseDetailDao;
+import com.createbling.modules.sys.entity.BaseDetail;
+import com.createbling.modules.sys.entity.User;
+import com.createbling.modules.sys.utils.UserUtils;
+import com.google.common.collect.Lists;
 
 /**
  * 内容管理工具类
@@ -40,14 +43,30 @@ public class CmsUtils {
 	private static ArticleService articleService = SpringContextHolder.getBean(ArticleService.class);
 	private static LinkService linkService = SpringContextHolder.getBean(LinkService.class);
     private static ServletContext context = SpringContextHolder.getBean(ServletContext.class);
-
+	private static BaseDetailDao baseDetailDao = SpringContextHolder.getBean(BaseDetailDao.class);
+    
 	private static final String CMS_CACHE = "cmsCache";
+	
+	
+	/**
+	 * 获得baseDetail信息
+	 */
+	public static List<BaseDetail> getBaseDetailList(){
+		List<BaseDetail> baseDetail = Lists.newArrayList();
+		//获取当前用户
+		User user = UserUtils.getUser();
+		if(user != null){
+			baseDetail = baseDetailDao.getBaseByUser(user);
+		}
+		return baseDetail;
+	}
 	
 	/**
 	 * 获得站点列表
 	 */
 	public static List<Site> getSiteList(){
 		@SuppressWarnings("unchecked")
+		//从缓存中找出sitelist
 		List<Site> siteList = (List<Site>)CacheUtils.get(CMS_CACHE, "siteList");
 		if (siteList == null){
 			Page<Site> page = new Page<Site>(1, -1);
@@ -63,6 +82,7 @@ public class CmsUtils {
 	 * @param siteId 站点编号
 	 */
 	public static Site getSite(String siteId){
+		//默认站点为1，如果传入参数为空，则将站点置为1
 		String id = "1";
 		if (StringUtils.isNotBlank(siteId)){
 			id = siteId;

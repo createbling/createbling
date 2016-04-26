@@ -20,7 +20,7 @@ public class Site extends DataEntity<Site> {
 	private String name;	// 站点名称
 	private String title;	// 站点标题
 	private String logo;	// 站点logo
-	private String description;// 描述，填写有助于搜索引擎优化
+	private String note;// 描述，填写有助于搜索引擎优化
 	private String keywords;// 关键字，填写有助于搜索引擎优化
 	private String theme;	// 主题
 	private String copyright;// 版权信息
@@ -63,12 +63,12 @@ public class Site extends DataEntity<Site> {
 	}
 
 	@Length(min=0, max=255)
-	public String getDescription() {
-		return description;
+	public String getNote() {
+		return note;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	@Length(min=0, max=255)

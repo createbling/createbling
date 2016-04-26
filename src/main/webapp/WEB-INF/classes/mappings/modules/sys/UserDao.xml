@@ -259,7 +259,7 @@
 	        
 	</select> -->
 	<!-- 传入的参数应该是该用户所属area的最高父节点ID -->
-	<select id="getAllGis" resultType="com.createbling.modules.sys.entity.Gis">
+<!-- 	<select id="getAllGis" resultType="com.createbling.modules.sys.entity.Gis">
 		SELECT
 			b.location,
 			b.longitude,
@@ -269,7 +269,7 @@
 		FROM sys_user u
 		LEFT JOIN sys_area a ON #{id} = a.id
 		LEFT JOIN a.type b on b.area_id=a.id
-	</select>
+	</select> -->
 	
 	<!-- 查询用户在area上的所有父节点,使用join而不使用where字句的原因在于，用户可能拥有多个area_id -->
 	<select id="getAreaParentIds" resultType="string">

@@ -10,7 +10,7 @@
 		a.color AS "color",
 		a.image AS "image",
 		a.keywords AS "keywords",
-		a.description AS "description",
+		a.abstract AS "abstract",
 		a.weight AS "weight",
 		a.weight_date AS "weightDate",
 		a.hits AS "hits",
@@ -21,8 +21,8 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
+		a.description AS "description",
+		a.flag AS "flag",
 		c.name AS "category.name",
 		u.name AS "user.name"
 	</sql>
@@ -47,7 +47,7 @@
 		FROM cms_article a
 		<include refid="cmsArticleJoins"/>
 		<where>
-			a.del_flag = #{delFlag}
+			a.flag = #{flag}
 			<if test="title != null and title != ''">
 				AND a.title LIKE 
 					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
@@ -93,7 +93,7 @@
 		FROM cms_article a
 		<include refid="cmsArticleJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.flag = #{DEL_FLAG_NORMAL}
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -114,7 +114,7 @@
 			color,
 			image,
 			keywords,
-			description,
+			abstract,
 			weight,
 			weight_date,
 			hits,
@@ -125,8 +125,8 @@
 			create_date,
 			update_by,
 			update_date,
-			remarks,
-			del_flag
+			description,
+			flag
 		) VALUES (
 			#{id},
 			#{category.id},
@@ -135,7 +135,7 @@
 			#{color},
 			#{image},
 			#{keywords},
-			#{description},
+			#{abstract},
 			#{weight},
 			#{weightDate},
 			#{hits},
@@ -146,8 +146,8 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
-			#{remarks},
-			#{delFlag}
+			#{description},
+			#{flag}
 		)
 	</insert>
 	
@@ -159,7 +159,7 @@
 			color = #{color},
 			image = #{image},
 			keywords = #{keywords},
-			description = #{description},
+			abstract = #{abstract},
 			weight = #{weight},
 			weight_date = #{weightDate},
 			hits = #{hits},
@@ -169,14 +169,14 @@
 			create_date = #{createDate},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks},
-			del_flag = #{delFlag}
+			description = #{description},
+			flag = #{flag}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE cms_article SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 	
@@ -219,7 +219,7 @@
 		  JOIN cms_category cp ON c.parent_id = cp.id
 		  JOIN sys_office o ON o.id = c.office_id
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} 
+			a.flag = #{DEL_FLAG_NORMAL} 
 			AND c.site_id = #{site.id}
 			<if test="office.id != null and office.id != ''">
 				AND (c.office_id = #{office.id} OR o.parent_ids like 

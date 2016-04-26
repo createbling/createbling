@@ -19,10 +19,13 @@
 				<!-- 用户文件也可以匿名访问 -->
 				/userfiles/** = anon
 				<!--adminPath为/a  -->
-				${adminPath}/cas = cas
-				${adminPath}/login = authc
-				${adminPath}/logout = logout
-				${adminPath}/** = user
+				<!-- 由于现在登陆改成了进入前台，这里换成了frontPath -->
+				${frontPath}/cas = cas
+				${frontPath}/login = authc
+				${frontPath}/logout = logout
+				${frontPath}/** = user
+				<!-- 后台的访问必须具有admin权限 -->
+				${adminPath}/** = perms[admin]
 				/act/rest/service/editor/** = perms[act:model:edit]
 				/act/rest/service/model/** = perms[act:model:edit]
 				/act/rest/service/** = user
@@ -35,8 +38,9 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" /><!-- 
 		<property name="loginUrl" value="${cas.server.url}?service=${cas.project.url}${adminPath}/cas" /> -->
-		<property name="loginUrl" value="${adminPath}/login" />
-		<property name="successUrl" value="${adminPath}?login" />
+		<property name="loginUrl" value="${frontPath}/login" />
+		<!-- chauncy在这里设置了登陆成功后跳转url -->
+		<property name="successUrl" value="${frontPath}?login" />
 		<property name="filters">
             <map>
                 <entry key="cas" value-ref="casFilter"/>
@@ -48,9 +52,9 @@
 		</property>
 	</bean>
 	
-	<!-- CAS认证过滤器 -->  
+	<!-- CAS认证过滤器 ，这里由原先的adminPath改成了frontPath-->  
 	<bean id="casFilter" class="org.apache.shiro.cas.CasFilter">  
-		<property name="failureUrl" value="${adminPath}/login"/>
+		<property name="failureUrl" value="${frontPath}/login"/>
 	</bean>
 	
 	<!-- 定义Shiro安全管理配置 -->
@@ -79,7 +83,7 @@
 	<!-- 指定本系统SESSIONID, 默认为: JSESSIONID 问题: 与SERVLET容器名冲突, 如JETTY, TOMCAT 等默认JSESSIONID,
 		当跳出SHIRO SERVLET时如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失! -->
 	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-	    <constructor-arg name="name" value="jeesite.session.id"/>
+	    <constructor-arg name="name" value="createbling.session.id"/>
 	</bean>
 
 	<!-- 自定义Session存储容器 -->

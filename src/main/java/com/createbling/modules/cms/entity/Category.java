@@ -33,7 +33,7 @@ public class Category extends TreeEntity<Category> {
 	private String image; 	// 栏目图片
 	private String href; 	// 链接
 	private String target; 	// 目标（ _blank、_self、_parent、_top）
-	private String description; 	// 描述，填写有助于搜索引擎优化
+	private String note; 	// 描述，填写有助于搜索引擎优化
 	private String keywords; 	// 关键字，填写有助于搜索引擎优化
 //	private Integer sort; 		// 排序（升序）
 	private String inMenu; 		// 是否在导航中显示（1：显示；0：不显示）
@@ -182,12 +182,12 @@ public class Category extends TreeEntity<Category> {
 	}
 
 	@Length(min=0, max=255)
-	public String getDescription() {
-		return description;
+	public String getNote() {
+		return note;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	@Length(min=0, max=255)

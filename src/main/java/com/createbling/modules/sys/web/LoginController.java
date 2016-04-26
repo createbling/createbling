@@ -3,6 +3,7 @@
  */
 package com.createbling.modules.sys.web;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,8 @@ import com.createbling.common.utils.CookieUtils;
 import com.createbling.common.utils.IdGen;
 import com.createbling.common.utils.StringUtils;
 import com.createbling.common.web.BaseController;
-import com.createbling.modules.sys.entity.Coordinate;
+import com.createbling.modules.cms.utils.CmsUtils;
+import com.createbling.modules.sys.entity.BaseDetail;
 import com.createbling.modules.sys.security.FormAuthenticationFilter;
 import com.createbling.modules.sys.security.SystemAuthorizingRealm.Principal;
 import com.createbling.modules.sys.utils.UserUtils;
@@ -36,7 +38,7 @@ import com.google.common.collect.Maps;
 /**
  * 登录Controller
  * @author createbling
- * @version 2016-4-16
+ * @version 2016-4-25
  */
 @Controller
 public class LoginController extends BaseController{
@@ -44,22 +46,10 @@ public class LoginController extends BaseController{
 	@Autowired
 	private SessionDAO sessionDAO;
 	
-	//
-	@RequestMapping(value="${adminPath}/gis" , method = RequestMethod.GET)
-	public String gisController(HttpServletRequest request,HttpServletResponse resposne){
-		//首先找出所有地图坐标点
-		Coordinate coordinate = new Coordinate();
-		coordinate = UserUtils.getCoordinate();
-		request.setAttribute("coordinate", coordinate);
-		System.out.println(coordinate);
-		System.out.println("跳转到gis页面");
-		return "modules/sys/gis";
-	}
-	
 	/**
-	 * 管理登录
+	 * 管理登录，换成了前台路径
 	 */
-	@RequestMapping(value = "${adminPath}/login", method = RequestMethod.GET)
+	@RequestMapping(value = "${frontPath}/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
 		//获得当前登录用户对象
 		Principal principal = UserUtils.getPrincipal();
@@ -84,7 +74,7 @@ public class LoginController extends BaseController{
 		//用户不为空且不为移动端登陆
 		if(principal != null && !principal.isMobileLogin()){
 			//跳转到/a下面去
-			return "redirect:" + adminPath;
+			return "redirect:" + frontPath;
 		}
 //		String view;
 //		view = "/WEB-INF/views/modules/sys/sysLogin.jsp";
@@ -99,13 +89,13 @@ public class LoginController extends BaseController{
 	/**
 	 * 登录失败，真正登录的POST请求由Filter完成
 	 */
-	@RequestMapping(value = "${adminPath}/login", method = RequestMethod.POST)
+	@RequestMapping(value = "${frontPath}/login", method = RequestMethod.POST)
 	public String loginFail(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
 		
 		// 如果已经登录，则跳转到管理首页
 		if(principal != null){
-			return "redirect:" + adminPath;
+			return "redirect:" + frontPath;
 		}
         //对parameter名为username、rememberMe、mobileLogin、shiroLoginFailure的属性进行清理
 		//如果为空字符串则置为null，不为空则除去前后空格message
@@ -151,10 +141,11 @@ public class LoginController extends BaseController{
 	/**
 	 * 登录成功，进入管理首页
 	 * 在shiro那里设置了permission，我说为什么不是角色，原来是因为这里单独用了user
+	 * 这里的permission可以让admin和user角色同时通过
 	 */
-	@RequiresPermissions(value={"admin"})
-	@RequestMapping(value = "${adminPath}")
-	public String index(HttpServletRequest request, HttpServletResponse response) {
+	@RequiresPermissions(value={"admin","user"},logical = Logical.OR)
+	@RequestMapping(value = "${frontPath}")
+	public String index(Model model,HttpServletRequest request, HttpServletResponse response) {
 		Principal principal = UserUtils.getPrincipal();
 
 		// 登录成功后，验证码计算器清零
@@ -175,7 +166,7 @@ public class LoginController extends BaseController{
 				CookieUtils.setCookie(response, "LOGINED", "true");
 			}else if (StringUtils.equals(logined, "true")){
 				UserUtils.getSubject().logout();
-				return "redirect:" + adminPath + "/login";
+				return "redirect:" + frontPath + "/login";
 			}
 		}
 		
@@ -187,7 +178,7 @@ public class LoginController extends BaseController{
 			if (request.getParameter("index") != null){
 				return "modules/sys/sysIndex";
 			}
-			return "redirect:" + adminPath + "/login";
+			return "redirect:" + frontPath + "/login";
 		}
 		
 //		// 登录成功后，获取上次登录的当前站点ID
@@ -207,7 +198,18 @@ public class LoginController extends BaseController{
 ////			request.getSession().setAttribute("aaa", "aa");
 ////		}
 //		System.out.println("==========================b");
-		return "modules/sys/sysIndex";
+		//做进入首页前的一些工作
+		//加载GIS数据
+		System.out.println("下面进行加载GIS数据");
+		//找出所有的GIS坐标
+		List<BaseDetail> baseDetailList = CmsUtils.getBaseDetailList();
+		model.addAttribute("baseDetailList", baseDetailList);
+		System.out.println(baseDetailList.size());
+		System.out.println("从index跳转到gis页面"); 
+		
+		//进入页面
+		
+		return "modules/cms/frontIndex/gis";
 	}
 	
 	/**

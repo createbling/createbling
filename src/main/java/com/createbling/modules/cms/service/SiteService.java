@@ -30,7 +30,8 @@ public class SiteService extends CrudService<SiteDao, Site> {
 //		dc.add(Restrictions.eq(Site.FIELD_DEL_FLAG, site.getDelFlag()));
 //		//dc.addOrder(Order.asc("id"));
 //		return siteDao.find(page, dc);
-		
+		//这里是找出office站点对应的站点，但是我们没有office字段，这里暂时用area字段来控制
+		//这里传入user别名u,office别名为o
 		site.getSqlMap().put("site", dataScopeFilter(site.getCurrentUser(), "o", "u"));
 		
 		return super.findPage(page, site);

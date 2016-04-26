@@ -13,7 +13,7 @@
 		a.create_date AS "createDate",
 		a.audit_user_id AS "auditUser.id",
 		a.audit_date AS "auditDate",
-		a.del_flag AS "delFlag"
+		a.flag AS "flag"
 	</sql>
 	
 	<sql id="cmsCommentDaoJoins">
@@ -33,7 +33,7 @@
 		FROM cms_comment a
 		<include refid="cmsCommentDaoJoins"/>
 		<where>
-			a.del_flag = #{delFlag}
+			a.flag = #{flag}
 			<if test="title != null and title != ''">
 				AND a.title LIKE 
 					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
@@ -57,7 +57,7 @@
 		FROM cms_comment a
 		<include refid="cmsCommentDaoJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.flag = #{DEL_FLAG_NORMAL}
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -81,7 +81,7 @@
 			create_date,
 			audit_user_id,
 			audit_date,
-			del_flag
+			flag
 		) VALUES (
 			#{id},
 			#{category.id},
@@ -93,7 +93,7 @@
 			#{createDate},
 			#{auditUser.id},
 			#{auditDate},
-			#{delFlag}
+			#{flag}
 		)
 	</insert>
 	
@@ -109,13 +109,13 @@
 			create_date = #{createDate},
 			audit_user_id = #{auditUser.id},
 			audit_date = #{auditDate},
-			del_flag = #{delFlag}
+			flag = #{flag}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE cms_comment SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 	

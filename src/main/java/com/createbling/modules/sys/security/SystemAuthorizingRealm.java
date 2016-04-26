@@ -73,6 +73,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 		
 		// 校验用户名密码
 		User user = getSystemService().getUserByLoginName(token.getUsername());
+		System.out.println("取出的用户如下："+user);
 		if (user != null) {
 			if (Global.NO.equals(user.getLoginFlag())){
 				throw new AuthenticationException("msg:该已帐号禁止登录.");
@@ -123,7 +124,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 						}
 					}
 				}
-				// 添加用户权限
+				// 添加管理员权限
 				info.addStringPermission("admin");
 				// 添加用户角色信息
 				for (Role role : user.getRoleList()){
@@ -132,10 +133,14 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 				// 更新登录IP和时间
 				getSystemService().updateUserLoginInfo(user);
 				// 记录登录日志
-				LogUtils.saveLog(Servlets.getRequest(), "系统登录");
+				LogUtils.saveLog(Servlets.getRequest(), "系统管理员登录");
 			}else{
 				//如果不是超级管理员也不是管理员则只显示前台页面列表，同时添加用户权限
 				info.addStringPermission("user");
+				// 更新登录IP和时间
+				getSystemService().updateUserLoginInfo(user);
+				// 记录登录日志
+				LogUtils.saveLog(Servlets.getRequest(), "前台用户登录");
 			}
 			return info;
 			//List<Category> listOne = UserUtils.getMenuList();

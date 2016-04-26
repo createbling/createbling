@@ -15,7 +15,7 @@
 		a.re_user_id AS "reUser.id",
 		a.re_date AS "reDate",
 		a.re_content AS "reContent",
-		a.del_flag AS "delFlag",
+		a.flag AS "flag",
 		u.name AS "reUser.name"		
 	</sql>
 	
@@ -37,7 +37,7 @@
 		FROM cms_guestbook a
 		<include refid="cmsGuestbookJoins"/>
 		<where>
-			a.del_flag = #{delFlag}
+			a.flag = #{flag}
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -55,7 +55,7 @@
 		FROM cms_guestbook a
 		<include refid="cmsGuestbookJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.flag = #{DEL_FLAG_NORMAL}
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -81,7 +81,7 @@
 			re_user_id,
 			re_date,
 			re_content,
-			del_flag
+			flag
 		) VALUES (
 			#{id},
 			#{type},
@@ -95,7 +95,7 @@
 			#{reUser.id},
 			#{reDate},
 			#{reContent},
-			#{delFlag}
+			#{flag}
 		)
 	</insert>
 	
@@ -112,13 +112,13 @@
 			re_user_id = #{reUser.id},
 			re_date = #{reDate},
 			re_content = #{reContent},
-			del_flag = #{delFlag}
+			flag = #{flag}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE cms_guestbook SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 	

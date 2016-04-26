@@ -72,7 +72,7 @@ public class GuestbookController extends BaseController {
 			guestbook.setReDate(new Date());
 		}
 		guestbookService.save(guestbook);
-		addMessage(redirectAttributes, DictUtils.getDictLabel(guestbook.getDelFlag(), "cms_del_flag", "保存")
+		addMessage(redirectAttributes, DictUtils.getDictLabel(guestbook.getFlag(), "cms_del_flag", "保存")
 				+"留言'" + guestbook.getName() + "'成功");
 		return "redirect:" + adminPath + "/cms/guestbook/?repage&status=2";
 	}

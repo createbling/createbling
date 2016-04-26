@@ -13,7 +13,7 @@
 		a.image AS "image",
 		a.href AS "href",
 		a.target AS "target",
-		a.description AS "description",
+		a.abstract AS "abstract",
 		a.keywords AS "keywords",
 		a.sort AS "sort",
 		a.in_menu AS "inMenu",
@@ -28,8 +28,8 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
+		a.description AS "description",
+		a.flag AS "delFlag",
 		c.name AS "parent.name",
 		c.view_config AS "parent.viewConfig",
 		o.name AS "office.name",
@@ -55,7 +55,7 @@
 			a.image AS "image",
 			a.href AS "href",
 			a.target AS "target",
-			a.description AS "description",
+			a.abstract AS "abstract",
 			a.keywords AS "keywords",
 			a.sort AS "sort",
 			a.in_menu AS "inMenu",
@@ -70,8 +70,8 @@
 			a.create_date AS "createDate",
 			a.update_by AS "updateBy.id",
 			a.update_date AS "updateDate",
-			a.remarks AS "remarks",
-			a.del_flag AS "delFlag",
+			a.description AS "description",
+			a.flag AS "delFlag",
 			o.name AS "office.name"
 		FROM cms_category a
 		JOIN sys_office o ON o.id = a.office_id
@@ -85,7 +85,7 @@
 		FROM cms_category a
 		<include refid="cmsCategoryDaoJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.flag = #{DEL_FLAG_NORMAL}
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -103,7 +103,7 @@
 		FROM cms_category a
 		<include refid="cmsCategoryDaoJoins"/>
 		<where>
-			a.del_flag = #{delFlag}
+			a.flag = #{delFlag}
 			<if test=" site.id != null and site.id != ''">
 				AND a.site_id  = #{site.id}
 			</if>
@@ -121,7 +121,7 @@
 		FROM cms_category a
 		<include refid="cmsCategoryDaoJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.flag = #{DEL_FLAG_NORMAL}
 			<if test=" site.id != null and site.id != ''">
 				AND a.site_id  = #{site.id}
 			</if>
@@ -148,7 +148,7 @@
 			image,
 			href,
 			target,
-			description,
+			abstract,
 			keywords,
 			sort,
 			in_menu,
@@ -163,8 +163,8 @@
 			create_date,
 			update_by,
 			update_date,
-			remarks,
-			del_flag
+			description,
+			flag
 		) VALUES (
 			#{id},
 			#{parent.id},
@@ -176,7 +176,7 @@
 			#{image},
 			#{href},
 			#{target},
-			#{description},
+			#{abstract},
 			#{keywords},
 			#{sort},
 			#{inMenu},
@@ -191,7 +191,7 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
-			#{remarks},
+			#{description},
 			#{delFlag}
 		)
 	</insert>
@@ -208,7 +208,7 @@
 			image = #{image},
 			href = #{href},
 			target = #{target},
-			description = #{description},
+			abstract = #{abstract},
 			keywords = #{keywords},
 			sort = #{sort},
 			in_menu = #{inMenu},
@@ -221,8 +221,8 @@
 			view_config = #{viewConfig},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks},
-			del_flag = #{delFlag}
+			description = #{description},
+			flag = #{delFlag}
 		WHERE id = #{id}
 	</update>
 	
@@ -235,7 +235,7 @@
 	
 	<update id="delete">
 		UPDATE cms_category SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id} OR parent_ids LIKE 
 					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
 					<if test="dbName == 'mssql'">'%,'+#{id}+',%'</if>
@@ -248,7 +248,7 @@
 		FROM cms_category a
 		<include refid="cmsCategoryDaoJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} 
+			a.flag = #{DEL_FLAG_NORMAL} 
 			<if test=" site.id != null and site.id != ''">
 				AND a.site_id  = #{site.id}
 			</if>
@@ -264,7 +264,7 @@
 		FROM cms_category a
 		<include refid="cmsCategoryDaoJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} 
+			a.flag = #{DEL_FLAG_NORMAL} 
 			AND a.parent_id LIKE 
 					<if test="dbName == 'oracle'">'%'||#{id}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{id}+'%'</if>
@@ -288,7 +288,7 @@
 		  JOIN cms_category cp ON c.parent_id = cp.id
 		  JOIN sys_office o ON o.id = c.office_id
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} 
+			a.flag = #{DEL_FLAG_NORMAL} 
 			AND a.category_id
 			AND c.site_id =
 			AND c.id = :id or c.parent_ids LIKE 

@@ -16,8 +16,6 @@ import com.createbling.modules.sys.dao.MenuDao;
 import com.createbling.modules.sys.dao.RoleDao;
 import com.createbling.modules.sys.dao.UserDao;
 import com.createbling.modules.sys.entity.Area;
-import com.createbling.modules.sys.entity.Coordinate;
-import com.createbling.modules.sys.entity.Gis;
 import com.createbling.modules.sys.entity.Menu;
 import com.createbling.modules.sys.entity.Role;
 import com.createbling.modules.sys.entity.User;
@@ -35,6 +33,7 @@ public class UserUtils {
 	private static MenuDao menuDao = SpringContextHolder.getBean(MenuDao.class);
 	private static AreaDao areaDao = SpringContextHolder.getBean(AreaDao.class);
 
+	
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
 	public static final String USER_CACHE_LOGIN_NAME_ = "ln";
@@ -167,7 +166,7 @@ public class UserUtils {
 	}
 
 	
-	public static Coordinate getCoordinate(){
+/*	public static Coordinate getCoordinate(){
 		@SuppressWarnings("unchecked")
 		User user = getUser();
 		Coordinate coordinate = new Coordinate();
@@ -182,7 +181,7 @@ public class UserUtils {
 		}
 		//封装成坐标
 		return coordinate;
-	} 
+	}*/ 
 	
 	
 	/**

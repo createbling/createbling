@@ -94,6 +94,13 @@ public class Global {
 	}
 	
 	/**
+	 * 获取新的路径
+	 */
+	public static String getNewPathOfFront(){
+		return getConfig("newPathOfFront");
+	}
+	
+	/**
 	 * 获取URL后缀
 	 */
 	public static String getUrlSuffix() {

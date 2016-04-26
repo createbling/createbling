@@ -8,7 +8,7 @@
 		a.title AS "title",
 		a.logo AS "logo",
 		a.domain AS "domain",
-		a.description AS "description",
+		a.abstract AS "abstract",
 		a.keywords AS "keywords",
 		a.theme AS "theme",
 		a.copyright AS "copyright",
@@ -17,8 +17,8 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.description AS "description",
+		a.flag AS "flag"
 	</sql>
 	
 	<sql id="cmsSiteJoins">
@@ -38,7 +38,7 @@
 		FROM cms_site a
 		<include refid="cmsSiteJoins"/>
 		<where>
-			a.del_flag = #{delFlag}
+			a.flag = #{flag}
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
@@ -62,7 +62,7 @@
 		FROM cms_site a
 		<include refid="cmsSiteJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.flag = #{DEL_FLAG_NORMAL}
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -81,7 +81,7 @@
 			title,
 			logo,
 			domain,
-			description,
+			abstract,
 			keywords,
 			theme,
 			copyright,
@@ -90,15 +90,15 @@
 			create_date,
 			update_by,
 			update_date,
-			remarks,
-			del_flag
+			description,
+			flag
 		) VALUES (
 			#{id},
 			#{name},
 			#{title},
 			#{logo},
 			null,
-			#{description},
+			#{abstract},
 			#{keywords},
 			#{theme},
 			#{copyright},
@@ -107,8 +107,8 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
-			#{remarks},
-			#{delFlag}
+			#{description},
+			#{flag}
 		)
 	</insert>
 	
@@ -118,21 +118,21 @@
 			title = #{title},
 			logo = #{logo},
 			domain = #{domain},
-			description = #{description},
+			abstract = #{abstract},
 			keywords = #{keywords},
 			theme = #{theme},
 			copyright = #{copyright},
 			custom_index_view = #{customIndexView},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks},
-			del_flag = #{delFlag}
+			description = #{description},
+			flag = #{flag}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE cms_site SET 
-			del_flag = #{delFlag}
+			flag = #{flag}
 		WHERE id = #{id}
 	</update>
 	

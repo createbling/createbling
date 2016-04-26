@@ -32,7 +32,7 @@ public class Article extends DataEntity<Article> {
 	private String color;	// 标题颜色（red：红色；green：绿色；blue：蓝色；yellow：黄色；orange：橙色）
 	private String image;	// 文章图片
 	private String keywords;// 关键字
-	private String description;// 描述、摘要
+	private String  note;// 描述、摘要
 	private Integer weight;	// 权重，越大越靠前
 	private Date weightDate;// 权重期限，超过期限，将weight设置为0
 	private Integer hits;	// 点击数
@@ -122,13 +122,18 @@ public class Article extends DataEntity<Article> {
 		this.keywords = keywords;
 	}
 
-	@Length(min=0, max=255)
-	public String getDescription() {
-		return description;
-	}
 
 	public Date getBeginDate() {
 		return beginDate;
+	}
+
+	@Length(min=0, max=255)
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	public void setBeginDate(Date beginDate) {
@@ -143,9 +148,7 @@ public class Article extends DataEntity<Article> {
 		this.endDate = endDate;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+
 
 	@NotNull
 	public Integer getWeight() {

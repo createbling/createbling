@@ -82,7 +82,7 @@ input,button,select,textarea{outline:none}
 		<div class="input">
 			<div class="log">
 			
-				<form id="loginForm" class="form-signin" action="${ctx}/login" method="post">
+				<form id="loginForm" class="form-signin" action="/createbling/f/login" method="post">
 				<div class="name">
 					<label class="input-label" for="username">用户名</label>
 					<input type="text" class="text" id="username" name="username" placeholder="用户名" tabindex="1">

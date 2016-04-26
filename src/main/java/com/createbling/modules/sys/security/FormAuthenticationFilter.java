@@ -79,7 +79,7 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 		
 //		Principal p = UserUtils.getPrincipal();
 //		if (p != null && !p.isMobileLogin()){
-			 WebUtils.issueRedirect(request, response, getSuccessUrl(), null, true);
+			 WebUtils.issueRedirect(request, response, "/f/index-1.html", null, true);
 //		}else{
 //			super.issueSuccessRedirect(request, response);
 //		}

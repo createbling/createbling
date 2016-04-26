@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.createbling.common.persistence.CrudDao;
 import com.createbling.common.persistence.annotation.MyBatisDao;
-import com.createbling.modules.sys.entity.Gis;
 import com.createbling.modules.sys.entity.User;
 
 /**
@@ -75,7 +74,7 @@ public interface UserDao extends CrudDao<User>{
 	 * @param user
 	 * @return
 	 */
-	public List<Gis> getAllGis(User user);
+	//public List<Gis> getAllGis(User user);
 	//取出user对应角色对应area的所有父节点
 	public String getAreaParentIds();
 }

@@ -29,11 +29,11 @@ public class Comment extends DataEntity<Comment> {
 	private Date createDate;// 评论时间
 	private User auditUser; // 审核人
 	private Date auditDate;	// 审核时间
-	private String delFlag;	// 删除标记删除标记（0：正常；1：删除；2：审核）
+	private String flag;	// 删除标记删除标记（0：正常；1：删除；2：审核）
 
 	public Comment() {
 		super();
-		this.delFlag = DEL_FLAG_AUDIT;
+		this.flag = DEL_FLAG_AUDIT;
 	}
 	
 	public Comment(String id){
@@ -127,12 +127,12 @@ public class Comment extends DataEntity<Comment> {
 	}
 
 	@Length(min=1, max=1)
-	public String getDelFlag() {
-		return delFlag;
+	public String getFlag() {
+		return flag;
 	}
 
-	public void setDelFlag(String delFlag) {
-		this.delFlag = delFlag;
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 
 }

@@ -15,8 +15,8 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
+		a.description AS "description",
+		a.flag AS "flag",
 		c.name AS "category.name",
 		u.name AS "user.name"
 	</sql>
@@ -40,7 +40,7 @@
 		FROM cms_link a
 		<include refid="cmsLinkJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.flag = #{DEL_FLAG_NORMAL}
 			<if test="title != null and title != ''">
 				AND a.title LIKE 
 					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
@@ -64,7 +64,7 @@
 		FROM cms_link a
 		<include refid="cmsLinkJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.flag = #{DEL_FLAG_NORMAL}
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -90,8 +90,8 @@
 			create_date,
 			update_by,
 			update_date,
-			remarks,
-			del_flag
+			description,
+			flag
 		) VALUES (
 			#{id},
 			#{category.id},
@@ -105,8 +105,8 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
-			#{remarks},
-			#{delFlag}
+			#{description},
+			#{flag}
 		)
 	</insert>
 	
@@ -121,14 +121,14 @@
 			weight_date = #{weightDate},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks},
-			del_flag = #{delFlag}
+			description = #{description},
+			flag = #{flag}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE cms_link SET 
-			del_flag = #{delFlag}
+			flag = #{flag}
 		WHERE id = #{id}
 	</update>
 	

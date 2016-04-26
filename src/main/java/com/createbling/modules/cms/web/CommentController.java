@@ -62,9 +62,9 @@ public class CommentController extends BaseController {
 				comment.setAuditUser(UserUtils.getUser());
 				comment.setAuditDate(new Date());
 			}
-			comment.setDelFlag(Comment.DEL_FLAG_NORMAL);
+			comment.setFlag(Comment.DEL_FLAG_NORMAL);
 			commentService.save(comment);
-			addMessage(redirectAttributes, DictUtils.getDictLabel(comment.getDelFlag(), "cms_del_flag", "保存")
+			addMessage(redirectAttributes, DictUtils.getDictLabel(comment.getFlag(), "cms_del_flag", "保存")
 					+"评论'" + StringUtils.abbr(StringUtils.replaceHtml(comment.getContent()),50) + "'成功");
 		}
 		return "redirect:" + adminPath + "/cms/comment/?repage&delFlag=2";

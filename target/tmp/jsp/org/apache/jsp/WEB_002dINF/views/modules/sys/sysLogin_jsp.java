@@ -189,9 +189,7 @@ static {
       out.write("\t\t<div class=\"input\">\n");
       out.write("\t\t\t<div class=\"log\">\n");
       out.write("\t\t\t\n");
-      out.write("\t\t\t\t<form id=\"loginForm\" class=\"form-signin\" action=\"");
-      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctx}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("/login\" method=\"post\">\n");
+      out.write("\t\t\t\t<form id=\"loginForm\" class=\"form-signin\" action=\"/createbling/f/login\" method=\"post\">\n");
       out.write("\t\t\t\t<div class=\"name\">\n");
       out.write("\t\t\t\t\t<label class=\"input-label\" for=\"username\">用户名</label>\n");
       out.write("\t\t\t\t\t<input type=\"text\" class=\"text\" id=\"username\" name=\"username\" placeholder=\"用户名\" tabindex=\"1\">\n");

@@ -23,8 +23,11 @@ static {
   private static java.util.Vector _jspx_dependants;
 
   static {
-    _jspx_dependants = new java.util.Vector(2);
+    _jspx_dependants = new java.util.Vector(5);
     _jspx_dependants.add("/WEB-INF/views/include/taglib.jsp");
+    _jspx_dependants.add("/WEB-INF/tlds/shiros.tld");
+    _jspx_dependants.add("/WEB-INF/tlds/fns.tld");
+    _jspx_dependants.add("/WEB-INF/tlds/fnc.tld");
     _jspx_dependants.add("/WEB-INF/views/include/head.jsp");
   }
 
