@@ -1,0 +1,242 @@
+.program{
+	width: 100%;
+	overflow: hidden; 
+	border-radius: 4px; 
+	margin:0 auto;
+	/*background: #e5e5e5;*/
+	clear: both;
+}
+.pro_title{
+	width:60%; 
+	margin:0px 0 0 0px; 
+	height: 60px;
+	border-bottom: 1px solid #ccc;
+}
+.pro_title h2{
+	line-height: 60px; 
+	color: #BBBBBB; 
+	font-size: 36px; 
+	font-weight: bold;
+	font-family: "隶书";
+}
+.pro_con{
+	width: 100%;
+	overflow: hidden;
+	margin: 20px auto;
+    
+}
+.pro_input{
+	width: 100%;
+	overflow: hidden;
+	padding-bottom: 20px;
+    float: left;
+    background: #f5f5f5;
+}
+.pro_top{
+	width: 100%;
+	height: 35px;
+	margin-bottom: 60px;
+	background: #45b0b5;
+}
+.pro_top p{
+    margin-left: 5px; 
+    color: #fff;
+    line-height: 35px;
+    font-size: 18px;
+    text-align: center;
+
+}
+.inputbox{
+	width: 40%;
+	height: 40px;
+	margin-bottom: 30px;
+	margin-left: 85px;
+	float: left;
+
+}
+.inputbox_left{
+   width: 20%;
+   height: 100%;
+   float: left;
+   line-height: 40px;
+   font-size: 16px;
+   color: rgba(0,0,0,0.6);
+}
+.input_right{
+	width: 75%;
+	height: 100%;
+	float: right;
+}
+.nice-select {
+	width: 75%;
+	height: 38px;
+	border: 1px solid rgba(0,0,0,0.6);
+	position: relative;
+	border-radius: 2px;
+	background: #fff url(../images/a2.jpg) no-repeat right center;
+	cursor:pointer;
+	float: right;
+	padding-left: 5px;
+}
+.nice-select input {
+	display: block;
+	width: 100%;
+	height: 38px;
+	line-height: 38px \9;
+	border: 0;
+	outline: 0;
+	background: none;
+	cursor:pointer;
+	color: #555;
+	font-size: 15px;
+}
+.nice-select ul {
+	width: 100%;
+	display: none;
+	position: absolute;
+	left: -1px;
+	top: 38px;
+	background-color: #fff;
+	border: 1px solid rgba(0,0,0,0.6);
+	border-top: 0;
+	z-index:9999;
+}
+.nice-select ul li {
+	height: 30px;
+	line-height: 30px;
+	overflow: hidden;
+	padding: 0 10px;
+	cursor: pointer;
+	color: #555;
+}
+.nice-select ul li.on {
+	background-color: #45b0b5;
+}
+.submit{
+	clear: both;
+	display: block;
+	width: 80px;
+	height: 35px;
+	margin:240px auto 0;
+	border-radius: 3px;
+	background: #45b0b5;
+	color: #fff;
+	text-align: center;
+	line-height: 35px;
+}
+.submit:hover{
+	background: #67d2d7;
+	color: #f5f5f5;
+}
+/*
+.pro_middle{
+	width: 5%;
+	height: 480px;
+	float: left;
+	line-height: 50px;
+	text-align: center;
+	font-size: 14px;
+	color: #45b0b5;
+	cursor: default;
+}
+.cut{
+	width: 0px;
+	height: 400px;
+	margin: 20px auto;
+	border-left: 1px dashed #45b0b5;
+	border-left-width: 80%;
+}
+*/
+.pro_result{
+	width: 100%;
+	overflow: hidden;
+	float: right;
+}
+
+.result_box{
+	width: 32%;
+	height: 240px;
+	margin: 20px 2% 0 0;
+	border-radius: 3px;
+	float: left;
+	background: #fff;
+}
+.result_box:nth-child(3n){
+	margin-right: 0px;
+}
+.nth{
+	margin-right: 0px !important;
+}
+
+.result_box p{
+	line-height: 40px;
+    font-size: 15px; 
+    color: #fff; 
+    margin-left: 5px;
+}
+.result_box p span{
+	padding: 0px 10px; 
+	background: #FF6B6B; 
+	border-radius: 3px;
+}
+.result_box p span.close{
+	line-height: 20px;
+	height: 20px;
+	margin:10px 5px;
+	float: right;
+	background: none;
+	color: #a5a5a5;
+	font-size: 18px;
+	cursor: pointer;
+}
+.placeholder{
+    line-height: 160px;
+    text-align: center;
+    color: #696969;
+    font-size: 15px;
+}
+.val_icon{
+	width: 25%;
+	height: 200px;
+	float: left;
+}
+.val_icon i{
+	display: block;
+	margin: 30px auto;
+	text-align: right;
+	font-size: 35px;
+}
+.val{
+	width: 50%;
+	height: 200px;
+	float: left;
+	font-size: 110px;
+	line-height: 160px;
+	text-align: center;
+}
+
+.val_unit{
+	width: 25%;
+	height: 200px;
+	float: left;
+}
+.val_unit span{
+	display: block;
+	margin: 100px auto 0;
+	font-size: 24px;
+	line-height: 40px;
+	text-align: left;
+}
+.package{display: none;}
+
+.pink{color: #FF6B6B; }/*红*/
+.cray{color: #36D7B6;  }/*青*/
+.yellow{color: #FFA200;}/*黄*/
+.blue{color: #56ABE4;}/*蓝*/
+.green{color: #00cc00}
+
+.b_pink{background: #ff6b6b !important;}
+.b_cray{background:#36D7B6 !important;}
+.b_yellow{ background: #FFA200 !important;}
+.b_blue{ background: #56ABE4 !important;}
+.b_green{background: #00bb00 !important;}

@@ -35,4 +35,35 @@
 		 FROM sys_tree WHERE id=#{id}
 </select>
 
+    <!-- chauncy加入了areaColumns,areaJoins,findalllist -->
+    <!-- 定义字段 -->
+	<sql id="areaColumns">
+		a.id,
+		a.parent_id AS "parent.id",
+		a.parent_ids,
+		<!--  a.area_id AS "area.id",-->
+		a.name,
+		a.sort,
+		a.type,
+		a.description,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.flag,
+		<!--  a.useable AS useable,-->
+		p.name AS "parent.name"
+
+	</sql>
+	<sql id="areaJoins">
+		LEFT JOIN sys_area p ON p.id = a.parent_id   
+	</sql>
+	<select id="findAllList" resultType="Area">
+		SELECT
+			<include refid="areaColumns"/>
+		FROM sys_area a
+		<include refid="areaJoins"/>
+		WHERE a.flag = #{DEL_FLAG_NORMAL}
+	</select>
+	<!-- chauncy加入了areaColumns,areaJoins,findalllist -->
 </mapper>

@@ -107,6 +107,14 @@ public class Global {
 		return getConfig("urlSuffix");
 	}
 	
+	
+	/**
+	 * 获取地图ak
+	 */
+	public static String getGisAk() {
+		return getConfig("gis.ak");
+	}
+	
 	/**
 	 * 是否是演示模式，演示模式下不能修改用户、角色、密码、菜单、授权
 	 */
@@ -119,6 +127,7 @@ public class Global {
 	 * 在修改系统用户和角色时是否同步到Activiti
 	 */
 	public static Boolean isSynActivitiIndetity() {
+		//在配置中这个参数为false，说明在修改系统用户和角色时是否不会同步到Activiti
 		String dm = getConfig("activiti.isSynActivitiIndetity");
 		return "true".equals(dm) || "1".equals(dm);
 	}

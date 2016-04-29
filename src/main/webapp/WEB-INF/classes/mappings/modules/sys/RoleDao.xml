@@ -50,9 +50,11 @@
     	a.is_sys AS sysData
     </sql>
     
+    <!-- 经测试，这里是正常的 -->
 	<select id="get" resultMap="roleResult">
 		SELECT
-			<include refid="roleColumns"/>,<!-- 
+			<include refid="roleColumns"/>,
+			<!-- 
 			ur.user_id AS "userList.id",
 			u.login_name AS "userList.loginName",
 			u.name AS "userList.name",
@@ -124,6 +126,7 @@
 		FROM sys_role a
 		<!-- 找出角色对应的area即可 -->
 		LEFT JOIN sys_area o ON o.id = a.area_id
+		<!-- 查找flag为0的角色进行显示，这里没有涉及到 DEL_FLAG_DELETE的处理-->
 		WHERE a.flag = #{DEL_FLAG_NORMAL}
 		<!-- chauncy去掉了o.code -->
 		ORDER BY a.name
@@ -157,7 +160,7 @@
 			#{updateBy.id}, 
 			#{updateDate}, 
 			#{remarks}, 
-			#{delFlag},
+			#{flag},
 			#{sysData},
 			#{useable}
 		)

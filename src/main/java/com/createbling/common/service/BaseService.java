@@ -76,10 +76,10 @@ public abstract class BaseService {
 							sqlString.append(" OR " + oa + ".id = '" + user.getArea().getId() + "'");
 							sqlString.append(" OR " + oa + ".parent_ids LIKE '" + user.getArea().getParentIds() + user.getArea().getId() + ",%'");
 						}
-						//5.所属周期或参数（意思是只能查看周期和参数），这里应该设置查询相同type
+/*						//5.所属周期或参数（意思是只能查看周期和参数），这里应该设置查询相同type
 						else if (Role.DATA_SCOPE_PLANT.equals(r.getDataScope())){
 							sqlString.append(" OR " + oa + ".type = '" + user.getArea().getType() + "'");
-						}
+						}*/
 						//9：按明细设置
 						else if (Role.DATA_SCOPE_CUSTOM.equals(r.getDataScope())){
 //							String officeIds =  StringUtils.join(r.getOfficeIdList(), "','");
@@ -87,7 +87,7 @@ public abstract class BaseService {
 //								sqlString.append(" OR " + oa + ".id IN ('" + officeIds + "')");
 //							}
 							sqlString.append(" OR EXISTS (SELECT 1 FROM sys_role_area WHERE role_id = '" + r.getId() + "'");
-							sqlString.append(" AND office_id = " + oa +".id)");
+							sqlString.append(" AND area_id = " + oa +".id)");
 						}
 						//else if (Role.DATA_SCOPE_SELF.equals(r.getDataScope())){
 						dataScope.add(r.getDataScope());
@@ -128,8 +128,8 @@ public abstract class BaseService {
 	 * 		dataScopeFilter(user, "dsf", "id=a.office_id", "id=a.create_by");
 	 * 		dataScopeFilter(entity, "dsf", "code=a.jgdm", "no=a.cjr"); // 适应于业务表关联不同字段时使用，如果关联的不是机构id是code。
 	 */
-	public static void dataScopeFilter(BaseEntity<?> entity, String sqlMapKey, String officeWheres, String userWheres) {
-
+	public static void dataScopeFilter(BaseEntity<?> entity, String sqlMapKey, String areaWheres, String userWheres) {
+        //取出当前用户
 		User user = entity.getCurrentUser();
 		
 		// 如果是超级管理员，则不过滤数据

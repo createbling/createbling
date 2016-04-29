@@ -48,7 +48,8 @@ public class UserController extends BaseController{
 	//如果存在id，取出user，如果不存在则新建一个用户
 	@ModelAttribute
 	public User get(@RequestParam(required=false) String id){
-		if(StringUtils.isBlank(id)){
+		if(StringUtils.isNotBlank(id)){
+			System.out.println("这里是usercontroller的get方法的id:"+id);
 			return systemService.getUser(id);
 		}else{
 			return new User();
@@ -300,15 +301,20 @@ public class UserController extends BaseController{
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("user")
+	@RequiresPermissions("admin")
 	@RequestMapping(value = "info")
 	public String info(User user, HttpServletResponse response, Model model) {
+		System.out.println("当前取出的用户为--测试一："+user.getName());
+		//取出当前用户，经过测试一这里没有问题，取出的是正常的
 		User currentUser = UserUtils.getUser();
+		System.out.println("当前取出的用户为："+currentUser.getName());
+		//如果用户名不为空
 		if (StringUtils.isNotBlank(user.getName())){
 			if(Global.isDemoMode()){
 				model.addAttribute("message", "演示模式，不允许操作！");
 				return "modules/sys/userInfo";
 			}
+			//设置当前用户的种种参数
 			currentUser.setEmail(user.getEmail());
 			currentUser.setPhone(user.getPhone());
 			currentUser.setMobile(user.getMobile());
@@ -326,7 +332,7 @@ public class UserController extends BaseController{
 	 * 返回用户信息
 	 * @return
 	 */
-	@RequiresPermissions("user")
+	@RequiresPermissions("admin")
 	@ResponseBody
 	@RequestMapping(value = "infoData")
 	public User infoData() {
@@ -340,7 +346,7 @@ public class UserController extends BaseController{
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("user")
+	@RequiresPermissions("admin")
 	@RequestMapping(value = "modifyPwd")
 	public String modifyPwd(String oldPassword, String newPassword, Model model) {
 		User user = UserUtils.getUser();
@@ -360,7 +366,7 @@ public class UserController extends BaseController{
 		return "modules/sys/userModifyPwd";
 	}
 	
-	@RequiresPermissions("user")
+	@RequiresPermissions("admin")
 	@ResponseBody
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) String areaId, HttpServletResponse response) {

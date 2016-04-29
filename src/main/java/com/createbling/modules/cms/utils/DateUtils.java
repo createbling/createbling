@@ -141,6 +141,18 @@ public class DateUtils {
         return new Date(times);
     }
     
+    /**
+     * 
+     * @param String
+     * @param minutes
+     * @return
+     */
+    public static Date addSecondsToOneString(String dateString,int seconds){
+    	Date date = getDateFromStr(dateString,"yyyy-MM-dd HH:mm:ss");
+        long times= date.getTime() + seconds*1000;
+        return new Date(times);
+    }
+    
     //获得一周前的日期
     public static String lastWeek(){
         Date date = new Date();

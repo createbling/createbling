@@ -61,6 +61,7 @@ public class RoleController extends BaseController {
 	
 	@RequiresPermissions("sys:role:view")
 	@RequestMapping(value = {"list", ""})
+	//当前台进入的时候首先匹配该路径
 	public String list(Role role, Model model) {
 		//取出所有角色并返回相应视图
 		List<Role> list = systemService.findAllRole();
@@ -68,7 +69,7 @@ public class RoleController extends BaseController {
 		return "modules/sys/roleList";
 	}
 	
-    //返回role的表格
+    //返回role的表格，这里对应了前台的role的修改，通过提交表单进行修改
 	@RequiresPermissions("sys:role:view")
 	@RequestMapping(value = "form")
 	public String form(Role role, Model model) {
@@ -89,6 +90,7 @@ public class RoleController extends BaseController {
 	@RequiresPermissions("sys:role:edit")
 	@RequestMapping(value = "save")
 	public String save(Role role, Model model, RedirectAttributes redirectAttributes) {
+		//只有不为系统数据其他人才可以修改
 		if(!UserUtils.getUser().isAdministrator()&&role.getSysData().equals(Global.YES)){
 			addMessage(redirectAttributes, "越权操作，只有超级管理员才能修改此数据！");
 			return "redirect:" + adminPath + "/sys/role/?repage";
@@ -131,6 +133,7 @@ public class RoleController extends BaseController {
 ////		}else if (UserUtils.getUser().getRoleIdList().contains(id)){
 ////			addMessage(redirectAttributes, "删除角色失败, 不能删除当前用户所在角色");
 //		}else{
+		    //使用系统服务进行删除role
 			systemService.deleteRole(role);
 			addMessage(redirectAttributes, "删除角色成功");
 //		}
@@ -265,7 +268,7 @@ public class RoleController extends BaseController {
 	 * @param name
 	 * @return
 	 */
-	@RequiresPermissions("user")
+	@RequiresPermissions("admin")
 	@ResponseBody
 	@RequestMapping(value = "checkName")
 	public String checkName(String oldName, String name) {
@@ -283,7 +286,7 @@ public class RoleController extends BaseController {
 	 * @param name
 	 * @return
 	 */
-	@RequiresPermissions("user")
+	@RequiresPermissions("admin")
 	@ResponseBody
 	@RequestMapping(value = "checkEnname")
 	public String checkEnname(String oldEnname, String enname) {

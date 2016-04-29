@@ -114,12 +114,13 @@ public class SystemService extends BaseService implements InitializingBean {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<User> findUserByAreaId(String areaId) {
-		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + areaId);
+		//chauncy修改了这里,OFFICE已经被AREA替换
+		List<User> list = (List<User>)CacheUtils.get(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_AREA_ID_ + areaId);
 		if (list == null){
 			User user = new User();
 			user.setArea(new Area(areaId));
-			list = userDao.findUserByTreeId(user);
-			CacheUtils.put(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + areaId, list);
+			list = userDao.findUserByAreaId(user);
+			CacheUtils.put(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_AREA_ID_ + areaId, list);
 		}
 		return list;
 	}
@@ -136,7 +137,7 @@ public class SystemService extends BaseService implements InitializingBean {
 			// 清除原用户所属树用户缓存
 			User oldUser = userDao.get(user.getId());
 			if (oldUser.getArea() != null && oldUser.getArea().getId() != null){
-				CacheUtils.remove(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_OFFICE_ID_ + oldUser.getArea().getId());
+				CacheUtils.remove(UserUtils.USER_CACHE, UserUtils.USER_CACHE_LIST_BY_AREA_ID_ + oldUser.getArea().getId());
 			}
 			// 更新用户数据
 			user.preUpdate();
@@ -268,6 +269,7 @@ public class SystemService extends BaseService implements InitializingBean {
 			// 同步到Activiti
 			saveActivitiGroup(role);
 		}else{
+			//否则更新数据
 			role.preUpdate();
 			roleDao.update(role);
 		}
@@ -295,6 +297,7 @@ public class SystemService extends BaseService implements InitializingBean {
 
 	@Transactional(readOnly = false)
 	public void deleteRole(Role role) {
+		//删除role
 		roleDao.delete(role);
 		// 同步到Activiti
 		deleteActivitiGroup(role);
@@ -492,6 +495,7 @@ public class SystemService extends BaseService implements InitializingBean {
 	}
 
 	public void deleteActivitiGroup(Role role) {
+		//由于isSynActivitiIndetity为false，返回空
 		if (!Global.isSynActivitiIndetity()){
 			return;
 		}

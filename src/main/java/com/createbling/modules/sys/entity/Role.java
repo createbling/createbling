@@ -28,7 +28,7 @@ public class Role extends DataEntity<Role> {
 	
 	private User user;		// 根据用户ID查询角色列表
 
-//	private List<User> userList = Lists.newArrayList(); // 拥有用户列表
+    //private List<User> userList = Lists.newArrayList(); // 拥有用户列表
 	private List<Menu> menuList = Lists.newArrayList(); // 拥有菜单列表
 	//private List<Office> officeList = Lists.newArrayList(); // 按明细设置数据范围
 	private List<Area> areaList = Lists.newArrayList(); // 按明细设置数据范围
@@ -45,12 +45,13 @@ public class Role extends DataEntity<Role> {
 	public static final String DATA_SCOPE_BASE_AND_CHILD = "2";
 	public static final String DATA_SCOPE_BASE = "3";
 	public static final String DATA_SCOPE_PLANT_AND_CHILD = "4";
-	public static final String DATA_SCOPE_PLANT = "5";
+	//public static final String DATA_SCOPE_PLANT = "5";
 	public static final String DATA_SCOPE_SELF = "8";
 	public static final String DATA_SCOPE_CUSTOM = "9";
 	
 	public Role() {
 		super();
+		//默认的数据范围为本身
 		this.dataScope = DATA_SCOPE_SELF;
 		this.useable=Global.YES;
 	}
@@ -203,45 +204,6 @@ public class Role extends DataEntity<Role> {
 		}
 	}
 	
-	/*
-	 *对于每个office 
-	 */
-/*	public List<Office> getOfficeList() {
-		return officeList;
-	}
-
-	public void setOfficeList(List<Office> officeList) {
-		this.officeList = officeList;
-	}
-
-	public List<String> getOfficeIdList() {
-		List<String> officeIdList = Lists.newArrayList();
-		for (Office office : officeList) {
-			officeIdList.add(office.getId());
-		}
-		return officeIdList;
-	}
-
-	public void setOfficeIdList(List<String> officeIdList) {
-		officeList = Lists.newArrayList();
-		for (String officeId : officeIdList) {
-			Office office = new Office();
-			office.setId(officeId);
-			officeList.add(office);
-		}
-	}
-
-	public String getOfficeIds() {
-		return StringUtils.join(getOfficeIdList(), ",");
-	}
-	
-	public void setOfficeIds(String officeIds) {
-		officeList = Lists.newArrayList();
-		if (officeIds != null){
-			String[] ids = StringUtils.split(officeIds, ",");
-			setOfficeIdList(Lists.newArrayList(ids));
-		}
-	}*/
 	public List<Area> getAreaList() {
 		return areaList;
 	}
@@ -300,20 +262,4 @@ public class Role extends DataEntity<Role> {
 		this.user = user;
 	}
 
-//	public boolean isAdmin(){
-//		return isAdmin(this.id);
-//	}
-//	
-//	public static boolean isAdmin(String id){
-//		return id != null && "1".equals(id);
-//	}
-	
-//	@Transient
-//	public String getMenuNames() {
-//		List<String> menuNameList = Lists.newArrayList();
-//		for (Menu menu : menuList) {
-//			menuNameList.add(menu.getName());
-//		}
-//		return StringUtils.join(menuNameList, ",");
-//	}
 }

@@ -93,7 +93,7 @@ public class DictController extends BaseController {
 		return "redirect:" + adminPath + "/sys/dict/?repage&type="+dict.getType();
 	}
 	
-	@RequiresPermissions("user")
+	@RequiresPermissions("admin")
 	@ResponseBody
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) String type, HttpServletResponse response) {

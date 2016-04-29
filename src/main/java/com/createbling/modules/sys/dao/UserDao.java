@@ -26,7 +26,7 @@ public interface UserDao extends CrudDao<User>{
 	 * @param user
 	 * @return
 	 */
-	public List<User> findUserByTreeId(User user);
+	public List<User> findUserByAreaId(User user);
 	
 	/**
 	 * 查询全部用户数目

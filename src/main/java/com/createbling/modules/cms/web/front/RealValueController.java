@@ -31,7 +31,7 @@ public class RealValueController extends BaseController{
 	@Autowired
 	private RealValueService realValueService;
 	
-	@RequestMapping(value = {"/getRealListAndInitialValue"})
+/*	@RequestMapping(value = {"/getRealListAndInitialValue"})
 	public String getRealListAndInitialValue(Model model,HttpServletRequest request,HttpServletResponse response){
 		//必须通过parameterId、startTime、endTime以及tableName来取出对应的实时数据
 		//首先tableName表示的是作物名
@@ -61,7 +61,7 @@ public class RealValueController extends BaseController{
 			}
 		}
 		return "";
-	}
+	}*/
 	
 	@RequestMapping(value = {"/getRealValue"})
 	public String getRealValue(Model model,HttpServletRequest request,HttpServletResponse response){

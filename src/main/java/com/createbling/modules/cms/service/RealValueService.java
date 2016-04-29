@@ -27,21 +27,21 @@ public class RealValueService {
 	 * @return
 	 * 只读的事物
 	 */
-	@Transactional(readOnly = true)
+/*	@Transactional(readOnly = true)
 	public RealValue getRealValue(RealInfo realInfo){
 		//这里取出的实时数据仅仅在当前时间的一小段范围内，并对间隔5秒的数据进行处理
 		realInfo.setEndTime(DateUtils.getNowDate());
 		realInfo.setStartTime(DateUtils.cutSecondsToNowDate(5));
 		RealValue realValue = realValueDao.get(realInfo);
 		return realValue;
-	}
+	}*/
 	
 	/**
 	 * 取出多少天以前的实时数据
 	 * @param realInfo
 	 * @return
 	 */
-	@Transactional(readOnly = true)
+/*	@Transactional(readOnly = true)
 	public RealValue getBeforeValue(RealInfo realInfo){
 		//取出历史实时数据,在现有的时间上减去n天
 		Date endTime = DateUtils.cutDaysToNowDate(300);
@@ -52,13 +52,13 @@ public class RealValueService {
 		return realValue;
 		
 	}
-	
+	*/
 	/**
 	 * 取出一段时间以前1个小时的数据，并对每分钟内数据求取平均值，再返回60组数据放入列表中
 	 * @param realInfo
 	 * @return
 	 */
-	@Transactional(readOnly = true)
+/*	@Transactional(readOnly = true)
 	public List<RealValue> getRealValueList(RealInfo realInfo){
 		List<RealValue> realValueList = new ArrayList<RealValue>();
 		int minutes = 60;
@@ -123,21 +123,21 @@ public class RealValueService {
 			start = end;
 		}
 		return realValueList;
-	}
-	
+	}*/
+/*	
 	@Transactional(readOnly = true)
 	public List<RealValue> getBeforeValueList(RealInfo realInfo){
 		//这里取出的实时数据仅仅在当前时间的一小段范围内
 		//RealValue realValue = realValueDao.get(realInfo);
 		List<RealValue> realValueList = getRealValueList(realInfo);
 		return realValueList;
-	}
+	}*/
 	
 	/**
 	 * 取出初始值，返回的是对应作物对应参数的的对应数据
 	 */
 	@Transactional(readOnly = true)
-	public void getInitailValue(){
+	public RealValue getInitailValue(RealInfo realInfo){
 /*		List<Area> areaList = UserUtils.getAreaList();
 		//循环取出第一个作物的第一个参数
 		for(Area area : areaList){
@@ -148,6 +148,10 @@ public class RealValueService {
 			    
 			}
 		}*/
+		//取出历史实时数据,在现有的时间上减去n天
+		RealValue realValue = realValueDao.get(realInfo);
+		System.out.println("到了这一步");
+		return realValue;
 	}
 
 }

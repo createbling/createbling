@@ -110,13 +110,13 @@ public class MenuController extends BaseController {
 		return "redirect:" + adminPath + "/sys/menu/";
 	}
 
-	@RequiresPermissions("user")
+	@RequiresPermissions("admin")
 	@RequestMapping(value = "tree")
 	public String tree() {
 		return "modules/sys/menuTree";
 	}
 
-	@RequiresPermissions("user")
+	@RequiresPermissions("admin")
 	@RequestMapping(value = "treeselect")
 	public String treeselect(String parentId, Model model) {
 		model.addAttribute("parentId", parentId);
@@ -149,7 +149,7 @@ public class MenuController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequiresPermissions("user")
+	@RequiresPermissions("admin")
 	@ResponseBody
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId,@RequestParam(required=false) String isShowHide, HttpServletResponse response) {

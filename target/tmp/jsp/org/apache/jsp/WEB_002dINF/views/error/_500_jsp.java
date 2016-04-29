@@ -13,9 +13,11 @@ public final class _500_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
 static private org.apache.jasper.runtime.ProtectedFunctionMapper _jspx_fnmap_0;
+static private org.apache.jasper.runtime.ProtectedFunctionMapper _jspx_fnmap_1;
 
 static {
   _jspx_fnmap_0= org.apache.jasper.runtime.ProtectedFunctionMapper.getMapForFunction("fns:getAdminPath", com.createbling.common.config.Global.class, "getAdminPath", new Class[] {});
+  _jspx_fnmap_1= org.apache.jasper.runtime.ProtectedFunctionMapper.getMapForFunction("fns:getFrontPath", com.createbling.common.config.Global.class, "getFrontPath", new Class[] {});
 }
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -23,11 +25,8 @@ static {
   private static java.util.Vector _jspx_dependants;
 
   static {
-    _jspx_dependants = new java.util.Vector(5);
+    _jspx_dependants = new java.util.Vector(2);
     _jspx_dependants.add("/WEB-INF/views/include/taglib.jsp");
-    _jspx_dependants.add("/WEB-INF/tlds/shiros.tld");
-    _jspx_dependants.add("/WEB-INF/tlds/fns.tld");
-    _jspx_dependants.add("/WEB-INF/tlds/fnc.tld");
     _jspx_dependants.add("/WEB-INF/views/include/head.jsp");
   }
 
@@ -121,6 +120,13 @@ else {
       out.write('\n');
       if (_jspx_meth_c_set_1(_jspx_page_context))
         return;
+      out.write('\n');
+      if (_jspx_meth_c_set_2(_jspx_page_context))
+        return;
+      out.write('\n');
+      if (_jspx_meth_c_set_3(_jspx_page_context))
+        return;
+      out.write('\n');
       out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
@@ -264,6 +270,44 @@ else {
       return true;
     }
     _jspx_tagPool_c_set_var_value_nobody.reuse(_jspx_th_c_set_1);
+    return false;
+  }
+
+  private boolean _jspx_meth_c_set_2(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  c:set
+    org.apache.taglibs.standard.tag.rt.core.SetTag _jspx_th_c_set_2 = (org.apache.taglibs.standard.tag.rt.core.SetTag) _jspx_tagPool_c_set_var_value_nobody.get(org.apache.taglibs.standard.tag.rt.core.SetTag.class);
+    _jspx_th_c_set_2.setPageContext(_jspx_page_context);
+    _jspx_th_c_set_2.setParent(null);
+    _jspx_th_c_set_2.setVar("cmsStatic");
+    _jspx_th_c_set_2.setValue((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${pageContext.request.contextPath}/static/modules/cms/frontIndex", java.lang.Object.class, (PageContext)_jspx_page_context, null));
+    int _jspx_eval_c_set_2 = _jspx_th_c_set_2.doStartTag();
+    if (_jspx_th_c_set_2.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_c_set_var_value_nobody.reuse(_jspx_th_c_set_2);
+      return true;
+    }
+    _jspx_tagPool_c_set_var_value_nobody.reuse(_jspx_th_c_set_2);
+    return false;
+  }
+
+  private boolean _jspx_meth_c_set_3(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  c:set
+    org.apache.taglibs.standard.tag.rt.core.SetTag _jspx_th_c_set_3 = (org.apache.taglibs.standard.tag.rt.core.SetTag) _jspx_tagPool_c_set_var_value_nobody.get(org.apache.taglibs.standard.tag.rt.core.SetTag.class);
+    _jspx_th_c_set_3.setPageContext(_jspx_page_context);
+    _jspx_th_c_set_3.setParent(null);
+    _jspx_th_c_set_3.setVar("frx");
+    _jspx_th_c_set_3.setValue((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${pageContext.request.contextPath}${fns:getFrontPath()}", java.lang.Object.class, (PageContext)_jspx_page_context, _jspx_fnmap_1));
+    int _jspx_eval_c_set_3 = _jspx_th_c_set_3.doStartTag();
+    if (_jspx_th_c_set_3.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_c_set_var_value_nobody.reuse(_jspx_th_c_set_3);
+      return true;
+    }
+    _jspx_tagPool_c_set_var_value_nobody.reuse(_jspx_th_c_set_3);
     return false;
   }
 }

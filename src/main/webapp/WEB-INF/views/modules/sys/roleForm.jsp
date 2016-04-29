@@ -27,7 +27,7 @@
 					for(var i=0; i<nodes2.length; i++) {
 						ids2.push(nodes2[i].id);
 					}
-					$("#officeIds").val(ids2);
+					$("#areaIds").val(ids2);
 					loading('正在提交，请稍等...');
 					form.submit();
 				},
@@ -99,9 +99,11 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/sys/role/">角色列表</a></li>
+		<%--判断是否拥有某种权限进而显示修改或者查看 --%>
 		<li class="active"><a href="${ctx}/sys/role/form?id=${role.id}">角色<shiro:hasPermission name="sys:role:edit">${not empty role.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:role:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="role" action="${ctx}/sys/role/save" method="post" class="form-horizontal">
+		<%-- <c:out value="${role.id}"></c:out> --%>
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
 		<div class="control-group">
@@ -127,12 +129,14 @@
 				<span class="help-inline"><font color="red">*</font> 工作流用户组标识</span>
 			</div>
 		</div>
-		<div class="control-group">
+<%-- 		<div class="control-group">
 			<label class="control-label">角色类型:</label>
-			<div class="controls"><%--
+			<div class="controls">
 				<form:input path="roleType" htmlEscape="false" maxlength="50" class="required"/>
 				<span class="help-inline" title="activiti有3种预定义的组类型：security-role、assignment、user 如果使用Activiti Explorer，需要security-role才能看到manage页签，需要assignment才能claim任务">
-					工作流组用户组类型（security-role：管理员、assignment：可进行任务分配、user：普通用户）</span> --%>
+					工作流组用户组类型（security-role：管理员、assignment：可进行任务分配、user：普通用户）</span>
+				<!-- 这里好像会涉及到工作流 -->
+				<!-- 是否应该加上一个字段表明是管理员还是普通用户呢 -->
 				<form:select path="roleType" class="input-medium">
 					<form:option value="assignment">任务分配</form:option>
 					<form:option value="security-role">管理角色</form:option>
@@ -140,6 +144,23 @@
 				</form:select>
 				<span class="help-inline" title="activiti有3种预定义的组类型：security-role、assignment、user 如果使用Activiti Explorer，需要security-role才能看到manage页签，需要assignment才能claim任务">
 					工作流组用户组类型（任务分配：assignment、管理角色：security-role、普通角色：user）</span>
+			</div>
+		</div> --%>
+		<!-- 增加一个字段表示是管理员还是用户 -->
+	    <div class="control-group">
+			<label class="control-label">角色类型:</label>
+			<div class="controls"><%--
+				<form:input path="roleType" htmlEscape="false" maxlength="50" class="required"/>
+				<span class="help-inline" title="activiti有3种预定义的组类型：security-role、assignment、user 如果使用Activiti Explorer，需要security-role才能看到manage页签，需要assignment才能claim任务">
+					工作流组用户组类型（security-role：管理员、assignment：可进行任务分配、user：普通用户）</span> --%>
+				<!-- 这里好像会涉及到工作流 -->
+				<!-- 是否应该加上一个字段表明是管理员还是普通用户呢 -->
+				<form:select path="roleType" class="input-medium">
+					<form:option value="admin">管理角色</form:option>
+					<form:option value="user">普通角色</form:option>
+				</form:select>
+				<span class="help-inline" title="role-type一共有两种类型，管理员即后台用户为admin角色，普通角色即前台用户即为user">
+					用户类型（管理角色：admin、普通角色：user）</span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -163,6 +184,7 @@
 		<div class="control-group">
 			<label class="control-label">数据范围:</label>
 			<div class="controls">
+			    <!-- 这里仍然有些疑问 -->
 				<form:select path="dataScope" class="input-medium">
 					<form:options items="${fns:getDictList('sys_data_scope')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
@@ -174,8 +196,8 @@
 			<div class="controls">
 				<div id="menuTree" class="ztree" style="margin-top:3px;float:left;"></div>
 				<form:hidden path="menuIds"/>
-				<div id="officeTree" class="ztree" style="margin-left:100px;margin-top:3px;float:left;"></div>
-				<form:hidden path="officeIds"/>
+				<div id="areaTree" class="ztree" style="margin-left:100px;margin-top:3px;float:left;"></div>
+				<form:hidden path="areaIds"/>
 			</div>
 		</div>
 		<div class="control-group">

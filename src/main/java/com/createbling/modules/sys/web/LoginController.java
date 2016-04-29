@@ -28,7 +28,11 @@ import com.createbling.common.utils.CookieUtils;
 import com.createbling.common.utils.IdGen;
 import com.createbling.common.utils.StringUtils;
 import com.createbling.common.web.BaseController;
+import com.createbling.modules.cms.entity.RealInfo;
+import com.createbling.modules.cms.entity.RealValue;
+import com.createbling.modules.cms.service.RealValueService;
 import com.createbling.modules.cms.utils.CmsUtils;
+import com.createbling.modules.cms.utils.DateUtils;
 import com.createbling.modules.sys.entity.BaseDetail;
 import com.createbling.modules.sys.security.FormAuthenticationFilter;
 import com.createbling.modules.sys.security.SystemAuthorizingRealm.Principal;
@@ -45,6 +49,8 @@ public class LoginController extends BaseController{
 	
 	@Autowired
 	private SessionDAO sessionDAO;
+	@Autowired
+	private RealValueService realValueService;
 	
 	/**
 	 * 管理登录，换成了前台路径
@@ -206,10 +212,32 @@ public class LoginController extends BaseController{
 		model.addAttribute("baseDetailList", baseDetailList);
 		System.out.println(baseDetailList.size());
 		System.out.println("从index跳转到gis页面"); 
-		
+		//记载实时数据
+		RealInfo realInfo = new RealInfo();
+		realInfo.setParameterId("3");
+		realInfo.setTableName("carbon");
+		realInfo.setStartTime("2015-10-23 15:35:19");
+		realInfo.setEndTime("2015-10-23 15:35:19");
+		RealValue realValue = realValueService.getInitailValue(realInfo);
+		System.out.println("测试的实时数据值为："+realValue.getValue());
+		System.out.println("测试的实时数据值为：");
 		//进入页面
 		
-		return "modules/cms/frontIndex/gis";
+		return "modules/cms/frontIndex/frontIndex";
+	}
+
+	/**
+	 * 登录成功，进入管理首页
+	 */
+	@RequiresPermissions("admin")
+	@RequestMapping(value = "${adminPath}",method = RequestMethod.GET)
+	public String adminIndex(HttpServletRequest request, HttpServletResponse response) {
+		Principal principal = UserUtils.getPrincipal();
+		System.out.println("进入了后台页面");
+		if (logger.isDebugEnabled()){
+			logger.debug("show index, active session size: {}", sessionDAO.getActiveSessions(false).size());
+		}
+		return "modules/sys/sysIndex";
 	}
 	
 	/**

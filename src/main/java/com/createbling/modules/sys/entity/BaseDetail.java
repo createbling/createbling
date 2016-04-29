@@ -15,7 +15,7 @@ public class BaseDetail extends DataEntity<BaseDetail>{
 	@Value("${gis.apiName}")
 	private String apiName;  //使用的什么api
 	
-	@Value("${gis.al}")
+	@Value("${gis.ak}")
 	private String ak;   //访问的密钥
 	
 	

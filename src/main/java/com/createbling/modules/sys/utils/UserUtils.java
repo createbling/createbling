@@ -37,13 +37,13 @@ public class UserUtils {
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
 	public static final String USER_CACHE_LOGIN_NAME_ = "ln";
-	public static final String USER_CACHE_LIST_BY_OFFICE_ID_ = "oid_";
+	//chauncy修改了这里，因为office已经被area替换，但是这里的名字还未被替换，仍然沿用oid_
+	public static final String USER_CACHE_LIST_BY_AREA_ID_ = "oid_";
 
 	public static final String CACHE_ROLE_LIST = "roleList";
 	public static final String CACHE_MENU_LIST = "menuList";
 	public static final String CACHE_AREA_LIST = "areaList";
-	public static final String CACHE_OFFICE_LIST = "officeList";
-	public static final String CACHE_OFFICE_ALL_LIST = "officeAllList";
+	public static final String CACHE_AREA_ALL_LIST = "areaAllList";
 	public static final String CACHE_COORDINATE = "coordinate";
 	
 	/**
@@ -78,8 +78,10 @@ public class UserUtils {
 		//实际上是从缓存中获取用户ID
 		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_ID_ + id);
 		if (user ==  null){
+			System.out.println("get方法传进来的参数id为："+id);
 			//然后从数据库中查询该用户所有信息
 			user = userDao.get(id);
+			System.out.println("从数据库中取出的user信息为："+user);
 			if (user == null){
 				return null;
 			}
@@ -123,10 +125,10 @@ public class UserUtils {
 	public static void clearCache(){
 		removeCache(CACHE_ROLE_LIST);
 		removeCache(CACHE_MENU_LIST);
-		removeCache(CACHE_AREA_LIST);
 		//注意，这里移除了office缓存，后面可能出现问题
-		removeCache(CACHE_OFFICE_LIST);
-		removeCache(CACHE_OFFICE_ALL_LIST);
+		//chauncy修改了这里，因为area替换成了office
+		removeCache(CACHE_AREA_LIST);
+		removeCache(CACHE_AREA_ALL_LIST);
 		removeCache(CACHE_COORDINATE);
 		//同时移除当前用户
 		UserUtils.clearCache(getUser());
@@ -142,7 +144,7 @@ public class UserUtils {
 		CacheUtils.remove(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getOldLoginName());
 		//因为用户跟office相关联，这里如果获取的office（实际就是area）不为空，则根据officeID删除user
 		if (user.getArea() != null && user.getArea().getId() != null){
-			CacheUtils.remove(USER_CACHE, USER_CACHE_LIST_BY_OFFICE_ID_ + user.getArea().getId());
+			CacheUtils.remove(USER_CACHE, USER_CACHE_LIST_BY_AREA_ID_ + user.getArea().getId());
 		}
 		//移除对应所有gis信息
 		//CacheUtils.remove();
@@ -155,8 +157,10 @@ public class UserUtils {
 	public static User getUser(){
 		Principal principal = getPrincipal();
 		if (principal!=null){
+			System.out.println("principal中取出的id为："+principal.getId());
 			User user = get(principal.getId());
 			if (user != null){
+				System.out.println("principal中取出user对象为："+user.getName());
 				return user;
 			}
 			return new User();
@@ -201,6 +205,7 @@ public class UserUtils {
 				//否则的话
 				Role role = new Role();
 				//否则的话，使用自定义SQL（SQL标识，SQL内容）
+				//注意：这里的o u 分别与roledao.xml的findlist方法中的sys_area和sys_user相对应
 				role.getSqlMap().put("dsf", BaseService.dataScopeFilter(user.getCurrentUser(), "o", "u"));
 				roleList = roleDao.findList(role);
 			}
@@ -218,8 +223,13 @@ public class UserUtils {
 		List<Menu> menuList = (List<Menu>)getCache(CACHE_MENU_LIST);
 		if (menuList == null){
 			User user = getUser();
+			//这里是chauncy为了查看当前用户所做的测试
+			System.out.println("当前用户的ID是："+user.getId());
 			if (user.isAdministrator()){
+				
 				menuList = menuDao.findAllList(new Menu());
+				//这里是chauncy为了查看当前菜单列表所做的测试
+				System.out.println("菜单列表如下："+menuList.size());
 			}else{
 				Menu m = new Menu();
 				m.setUserId(user.getId());
@@ -262,7 +272,8 @@ public class UserUtils {
 	public static List<Area> getAreaList(){
 		@SuppressWarnings("unchecked")
 		//首先从缓存中取出area_list,在这里由于不知道还有哪些地方应用了，故先保留CACHE_OFFICE_LIST
-		List<Area> areaList = (List<Area>)getCache(CACHE_OFFICE_LIST);
+		//CHAUNCY修改了这里，因为改成了area
+		List<Area> areaList = (List<Area>)getCache(CACHE_AREA_LIST);
 		//如果areaList等于空
 		if (areaList == null){
 			//取出当前用户
@@ -311,7 +322,7 @@ public class UserUtils {
 	 */
 	public static List<Area> getAreaAllList(){
 		@SuppressWarnings("unchecked")
-		List<Area> areaList = (List<Area>)getCache(CACHE_OFFICE_ALL_LIST);
+		List<Area> areaList = (List<Area>)getCache(CACHE_AREA_ALL_LIST);
 		if (areaList == null){
 			areaList = areaDao.findAllList(new Area());
 		}
