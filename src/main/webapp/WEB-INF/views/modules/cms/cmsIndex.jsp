@@ -1,20 +1,22 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>内容管理</title>
-	<meta name="decorator" content="default"/>
+<title>内容管理</title>
+<meta name="decorator" content="default" />
 </head>
 <body>
 	<div id="content" class="row-fluid">
 		<div id="left">
-			<iframe id="cmsMenuFrame" name="cmsMenuFrame" src="${ctx}/cms/tree" style="overflow:visible;"
-				scrolling="yes" frameborder="no" width="100%"></iframe>
+			<iframe id="cmsMenuFrame" name="cmsMenuFrame" src="${ctx}/cms/tree"
+				style="overflow: visible;" scrolling="yes" frameborder="no"
+				width="100%"></iframe>
 		</div>
 		<div id="openClose" class="close">&nbsp;</div>
 		<div id="right">
-			<iframe id="cmsMainFrame" name="cmsMainFrame" src="${ctx}/cms/none" style="overflow:visible;"
-				scrolling="yes" frameborder="no" width="100%"></iframe>
+			<iframe id="cmsMainFrame" name="cmsMainFrame" src="${ctx}/cms/none"
+				style="overflow: visible;" scrolling="yes" frameborder="no"
+				width="100%"></iframe>
 		</div>
 	</div>
 	<script type="text/javascript"> 

@@ -115,9 +115,9 @@ static {
       out.write("\n");
       out.write("<html>\n");
       out.write("<head>\n");
-      out.write("\t<title>个人信息</title>\n");
-      out.write("\t<meta name=\"decorator\" content=\"default\"/>\n");
-      out.write("\t<script type=\"text/javascript\">\n");
+      out.write("<title>个人信息</title>\n");
+      out.write("<meta name=\"decorator\" content=\"default\" />\n");
+      out.write("<script type=\"text/javascript\">\n");
       out.write("\t\t$(document).ready(function() {\n");
       out.write("\t\t\t$(\"#inputForm\").validate({\n");
       out.write("\t\t\t\tsubmitHandler: function(form){\n");
@@ -145,7 +145,8 @@ static {
       out.write("\t\t<li><a href=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctx}", java.lang.String.class, (PageContext)_jspx_page_context, null));
       out.write("/sys/user/modifyPwd\">修改密码</a></li>\n");
-      out.write("\t</ul><br/>\n");
+      out.write("\t</ul>\n");
+      out.write("\t<br />\n");
       out.write("\t");
       if (_jspx_meth_form_form_0(_jspx_page_context))
         return;
@@ -261,10 +262,12 @@ static {
         do {
           out.write("\n");
           out.write("\t\t");
+          out.write("\n");
+          out.write("\t\t");
           if (_jspx_meth_sys_message_0((javax.servlet.jsp.tagext.JspTag) _jspx_th_form_form_0, _jspx_page_context, _jspx_push_body_count_form_form_0))
             return true;
           out.write("\n");
-          out.write(" \t\t<div class=\"control-group\">\n");
+          out.write("\t\t<div class=\"control-group\">\n");
           out.write("\t\t\t<label class=\"control-label\">头像:</label>\n");
           out.write("\t\t\t<div class=\"controls\">\n");
           out.write("\t\t\t\t");
@@ -285,6 +288,7 @@ static {
           out.write("</label>\n");
           out.write("\t\t\t</div>\n");
           out.write("\t\t</div>\n");
+          out.write("\t\t");
           out.write("\n");
           out.write("\t\t<div class=\"control-group\">\n");
           out.write("\t\t\t<label class=\"control-label\">姓名:</label>\n");
@@ -350,16 +354,19 @@ static {
           out.write("\t\t<div class=\"control-group\">\n");
           out.write("\t\t\t<label class=\"control-label\">上次登录:</label>\n");
           out.write("\t\t\t<div class=\"controls\">\n");
-          out.write("\t\t\t\t<label class=\"lbl\">IP: ");
+          out.write("\t\t\t\t<label class=\"lbl\">IP:\n");
+          out.write("\t\t\t\t\t");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${user.oldLoginIp}", java.lang.String.class, (PageContext)_jspx_page_context, null));
           out.write("&nbsp;&nbsp;&nbsp;&nbsp;时间：");
           if (_jspx_meth_fmt_formatDate_0((javax.servlet.jsp.tagext.JspTag) _jspx_th_form_form_0, _jspx_page_context, _jspx_push_body_count_form_form_0))
             return true;
-          out.write("</label>\n");
+          out.write("\n");
+          out.write("\t\t\t\t</label>\n");
           out.write("\t\t\t</div>\n");
           out.write("\t\t</div>\n");
           out.write("\t\t<div class=\"form-actions\">\n");
-          out.write("\t\t\t<input id=\"btnSubmit\" class=\"btn btn-primary\" type=\"submit\" value=\"保 存\"/>\n");
+          out.write("\t\t\t<input id=\"btnSubmit\" class=\"btn btn-primary\" type=\"submit\"\n");
+          out.write("\t\t\t\tvalue=\"保 存\" />\n");
           out.write("\t\t</div>\n");
           out.write("\t");
           int evalDoAfterBody = _jspx_th_form_form_0.doAfterBody();

@@ -148,6 +148,7 @@ public class RoleController extends BaseController {
 	 */
 	@RequiresPermissions("sys:role:edit")
 	@RequestMapping(value = "assign")
+	//用于角色管理界面的角色分配
 	public String assign(Role role, Model model) {
 		List<User> userList = systemService.findUser(new User(new Role(role.getId())));
 		model.addAttribute("userList", userList);

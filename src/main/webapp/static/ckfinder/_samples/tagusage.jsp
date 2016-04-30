@@ -10,34 +10,35 @@
  * modifying or distribute this file or part of its contents. The contents of
  * this file is part of the Source Code of CKFinder.
 -->
-<%@page language="Java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="Java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!-- import the tag library -->
-<%@ taglib uri="http://ckfinder.com" prefix="ckfinder" %>
+<%@ taglib uri="http://ckfinder.com" prefix="ckfinder"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>CKFinder - Java Sample - Standalone</title>
-	<link href="sample.css" rel="stylesheet" type="text/css" />
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="robots" content="noindex, nofollow" />
+<title>CKFinder - Java Sample - Standalone</title>
+<link href="sample.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
 </head>
 <body>
-	<h1 class="samples">
-		CKFinder - Java Sample - Standalone
-	</h1>
-	<div class="description">
-		CKFinder may be used in standalone mode inside any page, to create a repository
-		manager with ease.</div>
+	<h1 class="samples">CKFinder - Java Sample - Standalone</h1>
+	<div class="description">CKFinder may be used in standalone mode
+		inside any page, to create a repository manager with ease.</div>
 	<p style="padding-left: 30px; padding-right: 30px;">
-	<!-- CKFinder tag on your JSP page -->
-	<ckfinder:ckfinder basePath="../" width="100%" height="500" />
+		<!-- CKFinder tag on your JSP page -->
+		<ckfinder:ckfinder basePath="../" width="100%" height="500" />
 	</p>
 	<div id="footer">
 		<hr />
 		<p>
-			CKFinder - Ajax File Manager - <a class="samples" href="http://ckfinder.com/">http://ckfinder.com</a>
+			CKFinder - Ajax File Manager - <a class="samples"
+				href="http://ckfinder.com/">http://ckfinder.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
+			Copyright &copy; 2003-2012, <a class="samples"
+				href="http://cksource.com/">CKSource</a> - Frederico Knabben. All
+			rights reserved.
 		</p>
 	</div>
 </body>

@@ -96,7 +96,7 @@ pre code {
 }
 
 img {
- 	border: 1px solid #eee;
+	border: 1px solid #eee;
 }
 
 p#statusgreen {
@@ -116,7 +116,7 @@ fieldset label {
 }
 
 fieldset label.error {
-	color: red;	
+	color: red;
 }
 
 fieldset label.valid {

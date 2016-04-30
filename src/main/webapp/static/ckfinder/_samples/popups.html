@@ -12,26 +12,28 @@
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>CKFinder - Sample - Popups</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="robots" content="noindex, nofollow" />
-	<link href="sample.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="../ckfinder.js"></script>
-	<style type="text/css">
-	img {
-		padding:10px;
-		margin:5px;
-		border:1px solid #d5d5d5;
-	}
-	div.thumb {
-		float:left;
-	}
-	div.caption {
-		padding-left:5px;
-		font-size:10px;
-	}
-	</style>
-	<script type="text/javascript">
+<title>CKFinder - Sample - Popups</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex, nofollow" />
+<link href="sample.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../ckfinder.js"></script>
+<style type="text/css">
+img {
+	padding: 10px;
+	margin: 5px;
+	border: 1px solid #d5d5d5;
+}
+
+div.thumb {
+	float: left;
+}
+
+div.caption {
+	padding-left: 5px;
+	font-size: 10px;
+}
+</style>
+<script type="text/javascript">
 
 function BrowseServer( startupPath, functionData )
 {
@@ -88,30 +90,35 @@ function ShowThumbnails( fileUrl, data )
 	<h1 class="samples">
 		CKFinder - Sample - Popups<br />
 	</h1>
-	<div class="description">
-		CKFinder may be opened in a popup. You may define a custom JavaScript function to be called when
-		an image is selected (double-clicked).</div>
+	<div class="description">CKFinder may be opened in a popup. You
+		may define a custom JavaScript function to be called when an image is
+		selected (double-clicked).</div>
 	<p>
-		<strong>Selected File URL</strong><br/>
-		<input id="xFilePath" name="FilePath" type="text" size="60" />
-		<input type="button" value="Browse Server" onclick="BrowseServer( 'Files:/', 'xFilePath' );" />
+		<strong>Selected File URL</strong><br /> <input id="xFilePath"
+			name="FilePath" type="text" size="60" /> <input type="button"
+			value="Browse Server"
+			onclick="BrowseServer( 'Files:/', 'xFilePath' );" />
 	</p>
 	<p>
-		<strong>Selected Image URL</strong><br/>
-		<input id="xImagePath" name="ImagePath" type="text" size="60" />
-		<input type="button" value="Browse Server" onclick="BrowseServer( 'Images:/', 'xImagePath' );" />
+		<strong>Selected Image URL</strong><br /> <input id="xImagePath"
+			name="ImagePath" type="text" size="60" /> <input type="button"
+			value="Browse Server"
+			onclick="BrowseServer( 'Images:/', 'xImagePath' );" />
 	</p>
-	<div id="preview" style="display:none">
-		<strong>Selected Thumbnails</strong><br/>
+	<div id="preview" style="display: none">
+		<strong>Selected Thumbnails</strong><br />
 		<div id="thumbnails"></div>
 	</div>
 	<div id="footer">
 		<hr />
 		<p>
-			CKFinder - Ajax File Manager - <a class="samples" href="http://ckfinder.com/">http://ckfinder.com</a>
+			CKFinder - Ajax File Manager - <a class="samples"
+				href="http://ckfinder.com/">http://ckfinder.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
+			Copyright &copy; 2003-2012, <a class="samples"
+				href="http://cksource.com/">CKSource</a> - Frederico Knabben. All
+			rights reserved.
 		</p>
 	</div>
 </body>

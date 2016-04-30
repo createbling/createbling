@@ -103,17 +103,18 @@ static {
       out.write("\n");
       out.write("<html>\n");
       out.write("<head>\n");
-      out.write("\t<title>菜单管理</title>\n");
-      out.write("\t<meta name=\"decorator\" content=\"default\"/>\n");
-      out.write("\t");
+      out.write("<title>菜单管理</title>\n");
+      out.write("<meta name=\"decorator\" content=\"default\" />\n");
       out.write("<link href=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctxStatic}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("/treeTable/themes/vsStyle/treeTable.min.css\" rel=\"stylesheet\" type=\"text/css\" />\n");
+      out.write("/treeTable/themes/vsStyle/treeTable.min.css\"\n");
+      out.write("\trel=\"stylesheet\" type=\"text/css\" />\n");
       out.write("<script src=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctxStatic}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("/treeTable/jquery.treeTable.min.js\" type=\"text/javascript\"></script>");
+      out.write("/treeTable/jquery.treeTable.min.js\"\n");
+      out.write("\ttype=\"text/javascript\"></script>");
       out.write("\n");
-      out.write("\t<script type=\"text/javascript\">\n");
+      out.write("<script type=\"text/javascript\">\n");
       out.write("\t\t$(document).ready(function() {\n");
       out.write("\t\t\t$(\"#treeTable\").treeTable({expandLevel : 3}).show();\n");
       out.write("\t\t});\n");
@@ -141,21 +142,33 @@ static {
         return;
       out.write("\n");
       out.write("\t<form id=\"listForm\" method=\"post\">\n");
-      out.write("\t\t<table id=\"treeTable\" class=\"table table-striped table-bordered table-condensed hide\">\n");
-      out.write("\t\t\t<thead><tr><th>名称</th><th>链接</th><th style=\"text-align:center;\">排序</th><th>可见</th><th>权限标识</th>");
+      out.write("\t\t<table id=\"treeTable\"\n");
+      out.write("\t\t\tclass=\"table table-striped table-bordered table-condensed hide\">\n");
+      out.write("\t\t\t<thead>\n");
+      out.write("\t\t\t\t<tr>\n");
+      out.write("\t\t\t\t\t<th>名称</th>\n");
+      out.write("\t\t\t\t\t<th>链接</th>\n");
+      out.write("\t\t\t\t\t<th style=\"text-align: center;\">排序</th>\n");
+      out.write("\t\t\t\t\t<th>可见</th>\n");
+      out.write("\t\t\t\t\t<th>权限标识</th>\n");
+      out.write("\t\t\t\t\t");
       if (_jspx_meth_shiro_hasPermission_1(_jspx_page_context))
         return;
-      out.write("</tr></thead>\n");
-      out.write("\t\t\t<tbody>");
+      out.write("\n");
+      out.write("\t\t\t\t</tr>\n");
+      out.write("\t\t\t</thead>\n");
+      out.write("\t\t\t<tbody>\n");
+      out.write("\t\t\t\t");
       if (_jspx_meth_c_forEach_0(_jspx_page_context))
         return;
-      out.write("</tbody>\n");
+      out.write("\n");
+      out.write("\t\t\t</tbody>\n");
       out.write("\t\t</table>\n");
       out.write("\t\t");
       if (_jspx_meth_shiro_hasPermission_4(_jspx_page_context))
         return;
       out.write("\n");
-      out.write("\t </form>\n");
+      out.write("\t</form>\n");
       out.write("</body>\n");
       out.write("</html>");
     } catch (Throwable t) {
@@ -259,9 +272,11 @@ static {
     int _jspx_eval_shiro_hasPermission_0 = _jspx_th_shiro_hasPermission_0.doStartTag();
     if (_jspx_eval_shiro_hasPermission_0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
-        out.write("<li><a href=\"");
+        out.write("\n");
+        out.write("\t\t\t<li><a href=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctx}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("/sys/menu/form\">菜单添加</a></li>");
+        out.write("/sys/menu/form\">菜单添加</a></li>\n");
+        out.write("\t\t");
         int evalDoAfterBody = _jspx_th_shiro_hasPermission_0.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;
@@ -302,7 +317,9 @@ static {
     int _jspx_eval_shiro_hasPermission_1 = _jspx_th_shiro_hasPermission_1.doStartTag();
     if (_jspx_eval_shiro_hasPermission_1 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
-        out.write("<th>操作</th>");
+        out.write("\n");
+        out.write("\t\t\t\t\t\t<th>操作</th>\n");
+        out.write("\t\t\t\t\t");
         int evalDoAfterBody = _jspx_th_shiro_hasPermission_1.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;
@@ -332,14 +349,17 @@ static {
       if (_jspx_eval_c_forEach_0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
         do {
           out.write("\n");
-          out.write("\t\t\t\t<tr id=\"");
+          out.write("\t\t\t\t\t<tr id=\"");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-          out.write("\" pId=\"");
+          out.write("\"\n");
+          out.write("\t\t\t\t\t\tpId=\"");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.parent.id ne '1'?menu.parent.id:'0'}", java.lang.String.class, (PageContext)_jspx_page_context, null));
           out.write("\">\n");
-          out.write("\t\t\t\t\t<td nowrap><i class=\"icon-");
+          out.write("\t\t\t\t\t\t<td nowrap><i\n");
+          out.write("\t\t\t\t\t\t\tclass=\"icon-");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty menu.icon?menu.icon:' hide'}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-          out.write("\"></i><a href=\"");
+          out.write("\"></i><a\n");
+          out.write("\t\t\t\t\t\t\thref=\"");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctx}", java.lang.String.class, (PageContext)_jspx_page_context, null));
           out.write("/sys/menu/form?id=");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
@@ -347,35 +367,35 @@ static {
           out.write('>');
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.name}", java.lang.String.class, (PageContext)_jspx_page_context, null));
           out.write("</a></td>\n");
-          out.write("\t\t\t\t\t<td title=\"");
+          out.write("\t\t\t\t\t\t<td title=\"");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.href}", java.lang.String.class, (PageContext)_jspx_page_context, null));
           out.write('"');
           out.write('>');
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${fns:abbr(menu.href,30)}", java.lang.String.class, (PageContext)_jspx_page_context, _jspx_fnmap_2));
           out.write("</td>\n");
-          out.write("\t\t\t\t\t<td style=\"text-align:center;\">\n");
-          out.write("\t\t\t\t\t\t");
+          out.write("\t\t\t\t\t\t<td style=\"text-align: center;\">");
           if (_jspx_meth_shiro_hasPermission_2((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_forEach_0, _jspx_page_context, _jspx_push_body_count_c_forEach_0))
             return true;
+          out.write("\n");
+          out.write("\t\t\t\t\t\t\t");
           if (_jspx_meth_shiro_lacksPermission_0((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_forEach_0, _jspx_page_context, _jspx_push_body_count_c_forEach_0))
             return true;
-          out.write("\n");
-          out.write("\t\t\t\t\t</td>\n");
-          out.write("\t\t\t\t\t<td>");
+          out.write("</td>\n");
+          out.write("\t\t\t\t\t\t<td>");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.isShow eq '1'?'显示':'隐藏'}", java.lang.String.class, (PageContext)_jspx_page_context, null));
           out.write("</td>\n");
-          out.write("\t\t\t\t\t<td title=\"");
+          out.write("\t\t\t\t\t\t<td title=\"");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.permission}", java.lang.String.class, (PageContext)_jspx_page_context, null));
           out.write('"');
           out.write('>');
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${fns:abbr(menu.permission,30)}", java.lang.String.class, (PageContext)_jspx_page_context, _jspx_fnmap_2));
           out.write("</td>\n");
-          out.write("\t\t\t\t\t");
+          out.write("\t\t\t\t\t\t");
           if (_jspx_meth_shiro_hasPermission_3((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_forEach_0, _jspx_page_context, _jspx_push_body_count_c_forEach_0))
             return true;
           out.write("\n");
-          out.write("\t\t\t\t</tr>\n");
-          out.write("\t\t\t");
+          out.write("\t\t\t\t\t</tr>\n");
+          out.write("\t\t\t\t");
           int evalDoAfterBody = _jspx_th_c_forEach_0.doAfterBody();
           if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
             break;
@@ -408,13 +428,14 @@ static {
     if (_jspx_eval_shiro_hasPermission_2 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
         out.write("\n");
-        out.write("\t\t\t\t\t\t\t<input type=\"hidden\" name=\"ids\" value=\"");
+        out.write("\t\t\t\t\t\t\t\t<input type=\"hidden\" name=\"ids\" value=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\"/>\n");
-        out.write("\t\t\t\t\t\t\t<input name=\"sorts\" type=\"text\" value=\"");
+        out.write("\" />\n");
+        out.write("\t\t\t\t\t\t\t\t<input name=\"sorts\" type=\"text\" value=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.sort}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\" style=\"width:50px;margin:0;padding:0;text-align:center;\">\n");
-        out.write("\t\t\t\t\t\t");
+        out.write("\"\n");
+        out.write("\t\t\t\t\t\t\t\t\tstyle=\"width: 50px; margin: 0; padding: 0; text-align: center;\">\n");
+        out.write("\t\t\t\t\t\t\t");
         int evalDoAfterBody = _jspx_th_shiro_hasPermission_2.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;
@@ -470,23 +491,24 @@ static {
     int _jspx_eval_shiro_hasPermission_3 = _jspx_th_shiro_hasPermission_3.doStartTag();
     if (_jspx_eval_shiro_hasPermission_3 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
-        out.write("<td nowrap>\n");
-        out.write("\t\t\t\t\t\t<a href=\"");
+        out.write("\n");
+        out.write("\t\t\t\t\t\t\t<td nowrap><a href=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctx}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("/sys/menu/form?id=");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("\">修改</a>\n");
-        out.write("\t\t\t\t\t\t<a href=\"");
+        out.write("\t\t\t\t\t\t\t\t<a href=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctx}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("/sys/menu/delete?id=");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\" onclick=\"return confirmx('要删除该菜单及所有子菜单项吗？', this.href)\">删除</a>\n");
-        out.write("\t\t\t\t\t\t<a href=\"");
+        out.write("\"\n");
+        out.write("\t\t\t\t\t\t\t\tonclick=\"return confirmx('要删除该菜单及所有子菜单项吗？', this.href)\">删除</a> <a\n");
+        out.write("\t\t\t\t\t\t\t\thref=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctx}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("/sys/menu/form?parent.id=");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\">添加下级菜单</a> \n");
-        out.write("\t\t\t\t\t</td>");
+        out.write("\">添加下级菜单</a></td>\n");
+        out.write("\t\t\t\t\t\t");
         int evalDoAfterBody = _jspx_th_shiro_hasPermission_3.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;
@@ -512,9 +534,12 @@ static {
     int _jspx_eval_shiro_hasPermission_4 = _jspx_th_shiro_hasPermission_4.doStartTag();
     if (_jspx_eval_shiro_hasPermission_4 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
-        out.write("<div class=\"form-actions pagination-left\">\n");
-        out.write("\t\t\t<input id=\"btnSubmit\" class=\"btn btn-primary\" type=\"button\" value=\"保存排序\" onclick=\"updateSort();\"/>\n");
-        out.write("\t\t</div>");
+        out.write("\n");
+        out.write("\t\t\t<div class=\"form-actions pagination-left\">\n");
+        out.write("\t\t\t\t<input id=\"btnSubmit\" class=\"btn btn-primary\" type=\"button\"\n");
+        out.write("\t\t\t\t\tvalue=\"保存排序\" onclick=\"updateSort();\" />\n");
+        out.write("\t\t\t</div>\n");
+        out.write("\t\t");
         int evalDoAfterBody = _jspx_th_shiro_hasPermission_4.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;

@@ -6,10 +6,10 @@
 			a.*,
 			u.id AS "createBy.id",
 			u.name AS "createBy.name",
-			t.name AS "createBy.tree.name",
+			ar.name AS "createBy.area.name"
 		FROM sys_log a
 		JOIN sys_user u ON u.id = a.create_by
-		JOIN sys_tree t ON c.id = u.tree_id
+		JOIN sys_area ar ON ar.id = u.area_id
 		WHERE a.create_date BETWEEN #{beginDate} AND #{endDate}
 		<if test="title != null and title != ''">
 			AND a.title LIKE 

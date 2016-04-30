@@ -57,7 +57,7 @@
 		<include refid="userJoins"/>
 		<!-- LEFT JOIN sys_role_office ro ON ro.role_id = r.id -->
 		<!-- 注意：这里原本是a.flag = #{DEL_FLAG_NORMAL} -->
-		WHERE a.login_name = #{loginName} AND a.flag = 0
+		WHERE a.login_name = #{loginName} AND a.flag = #{DEL_FLAG_NORMAL}
 	</select>
 	
 	<!-- 分页查询用户信息 -->
@@ -70,14 +70,15 @@
 			JOIN sys_user_role ur ON ur.user_id = a.id AND ur.role_id = #{role.id}
 		</if>
 		WHERE a.flag = #{DEL_FLAG_NORMAL}
+		<!-- chauncy修改了这里，不知怎么回事，area居然为 null -->
 		<if test="area != null and area.id != null and area.id != ''">
-			AND (o.id = #{area.id} OR ar.parent_ids LIKE 
+			AND (ar.id = #{area.id} OR ar.parent_ids LIKE 
 					<if test="dbName == 'oracle'">'%,'||#{area.id}||',%')</if>
 					<if test="dbName == 'mssql'">'%,'+#{area.id}+',%')</if>
 					<if test="dbName == 'mysql'">CONCAT('%,', #{area.id}, ',%'))</if>
 		</if>
 		<!-- 如果不是超级管理员，则不显示超级管理员用户 -->
-		<if test="!currentUser.admin">
+		<if test="currentUser.id != '1'">
 			AND a.id != '1'
 		</if>
 		<if test="loginName != null and loginName != ''">
@@ -171,7 +172,7 @@
 			#{description}, 
 			#{loginFlag}, 
 			#{photo}, 
-			#{delFlag}
+			#{flag}
 		)
 	</insert>
 	

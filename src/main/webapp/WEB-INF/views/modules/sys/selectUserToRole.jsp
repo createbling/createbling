@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>分配角色</title>
-	<meta name="decorator" content="blank"/>
-	<%@include file="/WEB-INF/views/include/treeview.jsp" %>
-	<script type="text/javascript">
+<title>分配角色</title>
+<meta name="decorator" content="blank" />
+<%@include file="/WEB-INF/views/include/treeview.jsp"%>
+<script type="text/javascript">
 	
 		var areaTree;
 		var selectedTree;//zTree已选择对象
@@ -20,7 +20,7 @@
 				data: {simpleData: {enable: true}},
 				callback: {onClick: treeOnClick}};
 		
-		var officeNodes=[
+		var officeNodes =[
 	            <c:forEach items="${areaList}" var="area">
 	            {id:"${area.id}",
 	             pId:"${not empty area.parent?area.parent.id:0}", 
@@ -103,7 +103,8 @@
 			<p>待选人员：</p>
 			<div id="userTree" class="ztree"></div>
 		</div>
-		<div class="span3" style="padding-left:16px;border-left: 1px solid #A8A8A8;">
+		<div class="span3"
+			style="padding-left: 16px; border-left: 1px solid #A8A8A8;">
 			<p>已选人员：</p>
 			<div id="selectedTree" class="ztree"></div>
 		</div>

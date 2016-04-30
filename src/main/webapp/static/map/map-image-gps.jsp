@@ -5,13 +5,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-	<link href="mapfiles/css/default.css" rel="stylesheet" type="text/css" />
-	<title>地图显示 - 读取图片GPS信息</title><!-- 
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link href="mapfiles/css/default.css" rel="stylesheet" type="text/css" />
+<title>地图显示 - 读取图片GPS信息</title>
+<!-- 
 	<script type="text/javascript" src="mapapi3.8.6.js"></script> -->
-	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-	<script type="text/javascript">
+<script type="text/javascript"
+	src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
 		<%
 			ImageGeo geo = new ImageGeo(request.getRealPath("static/map/IMAG0068.jpg"));
 		%>
@@ -76,6 +79,6 @@
 	</script>
 </head>
 <body onload="initialize()">
-  <div id="map_canvas"></div>
+	<div id="map_canvas"></div>
 </body>
 </html>

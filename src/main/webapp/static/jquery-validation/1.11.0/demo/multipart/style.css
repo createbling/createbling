@@ -5,14 +5,14 @@
 	TEMPLATE CODE: 	S-0003
     VERSION:         1.1          	
  *******************************************/
-	/********************************************
+/********************************************
    HTML ELEMENTS
 ********************************************/ /* Top elements */
-	/** { margin:0; padding: 0; }*/
+/** { margin:0; padding: 0; }*/
 body {
 	background-color: #000;
 	color: #555;
-	font: 78%/ 1.6 Verdana, 'Trebuchet MS', arial, sans-serif;
+	font: 78%/1.6 Verdana, 'Trebuchet MS', arial, sans-serif;
 	text-align: center;
 	margin: 15px 0;
 }
@@ -31,7 +31,7 @@ a:hover {
 }
 
 /* headers */
-h1,h2,h3 {
+h1, h2, h3 {
 	font-family: 'Trebuchet MS', Arial, sans-serif;
 	font-weight: bold;
 }
@@ -54,7 +54,7 @@ h3 {
 	margin: 16px 0 0 18px;
 }
 
-h1,h2,h3 {
+h1, h2, h3 {
 	padding: 0;
 }
 
@@ -67,13 +67,13 @@ p.error {
 	color: #CC0033;
 }
 
-ul,ol {
+ul, ol {
 	margin: 10px 6px;
 	padding: 0 15px;
 	color: #006699;
 }
 
-ul span,ol span {
+ul span, ol span {
 	color: #666666;
 }
 
@@ -96,7 +96,7 @@ code {
 	text-align: left;
 	display: block;
 	overflow: auto;
-	font: 500 1em/ 1.5em 'Lucida Console', 'courier new', monospace;
+	font: 500 1em/1.5em 'Lucida Console', 'courier new', monospace;
 	/* white-space: pre; */
 	background: #FAFAFA;
 	border: 1px solid #EAEAEA;
@@ -496,7 +496,7 @@ body .mainText {
 	font-size: 12px;
 }
 
-#demoText h1,.mainText h1 {
+#demoText h1, .mainText h1 {
 	font-size: 130%;
 	color: #0099FF;
 	text-decoration: none;
@@ -592,7 +592,7 @@ label {
 	color: #7563A5;
 }
 
-label.checkbox,label.textarea {
+label.checkbox, label.textarea {
 	border: none;
 }
 
@@ -604,7 +604,7 @@ label.lgfield {
 	width: 100%;
 }
 
-fieldset input,fieldset select,fieldset textarea {
+fieldset input, fieldset select, fieldset textarea {
 	margin-left: 10px;
 	margin-bottom: 8px;
 }
@@ -613,7 +613,7 @@ select.longfield {
 	margin: 0 0 0 115px;
 }
 
-input [type="radio"],input [type="checkbox"] {
+input [type="radio"], input [type="checkbox"] {
 	margin: 2px 0 0 4px;
 }
 
@@ -678,7 +678,7 @@ h3.stepHeader {
 	color: #676cac;
 }
 
-ul#stepForm,ul#stepForm li {
+ul#stepForm, ul#stepForm li {
 	margin: 0;
 	padding: 0;
 }
@@ -688,7 +688,7 @@ ul#stepForm li {
 }
 
 /* Form Buttons  */
-input.submitbutton,.nextbutton,.prevbutton {
+input.submitbutton, .nextbutton, .prevbutton {
 	width: 100px;
 	height: 40px;
 	background-color: #663399;

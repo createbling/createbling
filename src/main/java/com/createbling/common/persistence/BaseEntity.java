@@ -146,6 +146,7 @@ public abstract class BaseEntity<T> implements Serializable {
 	 */
 	@JsonIgnore
 	public String getDbName(){
+		System.out.println("这里取出的数据库名为："+Global.getConfig("jdbc.type"));
 		return Global.getConfig("jdbc.type");
 	}
 	

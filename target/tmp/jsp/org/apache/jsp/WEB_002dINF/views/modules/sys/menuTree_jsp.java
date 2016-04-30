@@ -101,7 +101,7 @@ static {
         return;
       out.write('\n');
       out.write("\n");
-      out.write("\t<div class=\"accordion\" id=\"menu-");
+      out.write("<div class=\"accordion\" id=\"menu-");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${param.parentId}", java.lang.String.class, (PageContext)_jspx_page_context, null));
       out.write("\">\n");
       out.write("\t");
@@ -115,7 +115,8 @@ static {
       out.write('	');
       if (_jspx_meth_c_forEach_0(_jspx_page_context))
         return;
-      out.write("</div>");
+      out.write("\n");
+      out.write("</div>\n");
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){
         out = _jspx_out;
@@ -260,9 +261,11 @@ static {
       if (_jspx_eval_c_forEach_0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
         do {
           out.write("\n");
-          out.write("\t  ");
+          out.write("\t\t");
           if (_jspx_meth_c_if_0((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_forEach_0, _jspx_page_context, _jspx_push_body_count_c_forEach_0))
             return true;
+          out.write('\n');
+          out.write('	');
           int evalDoAfterBody = _jspx_th_c_forEach_0.doAfterBody();
           if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
             break;
@@ -295,39 +298,44 @@ static {
     if (_jspx_eval_c_if_0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
         out.write("\n");
-        out.write("\t  \n");
-        out.write("\t\t<div class=\"accordion-group\">\n");
-        out.write("\t\t    <div class=\"accordion-heading\">\n");
-        out.write("\t\t    \t<a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#menu-");
+        out.write("\n");
+        out.write("\t\t\t<div class=\"accordion-group\">\n");
+        out.write("\t\t\t\t<div class=\"accordion-heading\">\n");
+        out.write("\t\t\t\t\t<a class=\"accordion-toggle\" data-toggle=\"collapse\"\n");
+        out.write("\t\t\t\t\t\tdata-parent=\"#menu-");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${param.parentId}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\" data-href=\"#collapse-");
+        out.write("\"\n");
+        out.write("\t\t\t\t\t\tdata-href=\"#collapse-");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("\" href=\"#collapse-");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\" title=\"");
+        out.write("\"\n");
+        out.write("\t\t\t\t\t\ttitle=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.remarks}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\"><i class=\"icon-chevron-");
+        out.write("\"><i\n");
+        out.write("\t\t\t\t\t\tclass=\"icon-chevron-");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty firstMenu && firstMenu ? 'down' : 'right'}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("\"></i>&nbsp;");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.name}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("</a>\n");
-        out.write("\t\t    </div>\n");
-        out.write("\t\t    <div id=\"collapse-");
+        out.write("\t\t\t\t</div>\n");
+        out.write("\t\t\t\t<div id=\"collapse-");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\" class=\"accordion-body collapse ");
+        out.write("\"\n");
+        out.write("\t\t\t\t\tclass=\"accordion-body collapse ");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty firstMenu && firstMenu ? 'in' : ''}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("\">\n");
-        out.write("\t\t\t\t<div class=\"accordion-inner\">\n");
-        out.write("\t\t\t\t\t<ul class=\"nav nav-list\">\n");
-        out.write("\t\t\t\t\t");
+        out.write("\t\t\t\t\t<div class=\"accordion-inner\">\n");
+        out.write("\t\t\t\t\t\t<ul class=\"nav nav-list\">\n");
+        out.write("\t\t\t\t\t\t\t");
         if (_jspx_meth_c_forEach_1((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_if_0, _jspx_page_context, _jspx_push_body_count_c_forEach_0))
           return true;
         out.write("\n");
-        out.write("\t\t\t\t\t</ul>\n");
+        out.write("\t\t\t\t\t\t</ul>\n");
+        out.write("\t\t\t\t\t</div>\n");
         out.write("\t\t\t\t</div>\n");
-        out.write("\t\t    </div>\n");
-        out.write("\t\t</div>\n");
-        out.write("\t");
+        out.write("\t\t\t</div>\n");
+        out.write("\t\t");
         int evalDoAfterBody = _jspx_th_c_if_0.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;
@@ -357,11 +365,11 @@ static {
       if (_jspx_eval_c_forEach_1 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
         do {
           out.write("\n");
-          out.write("\t\t\t\t\t");
+          out.write("\t\t\t\t\t\t\t\t");
           if (_jspx_meth_c_if_1((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_forEach_1, _jspx_page_context, _jspx_push_body_count_c_forEach_1))
             return true;
           out.write("\n");
-          out.write("\t\t\t\t\t");
+          out.write("\t\t\t\t\t\t\t");
           int evalDoAfterBody = _jspx_th_c_forEach_1.doAfterBody();
           if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
             break;
@@ -394,34 +402,36 @@ static {
     if (_jspx_eval_c_if_1 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
         out.write("\n");
-        out.write("\t\t\t\t\t\t<li>\n");
-        out.write("\t\t\t\t\t\t    <a data-href=\".menu3-");
+        out.write("\t\t\t\t\t\t\t\t\t<li><a data-href=\".menu3-");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu2.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\" href=\"");
+        out.write("\"\n");
+        out.write("\t\t\t\t\t\t\t\t\t\thref=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${fn:indexOf(menu2.href, '://') eq -1 ? ctx : ''}", java.lang.String.class, (PageContext)_jspx_page_context, _jspx_fnmap_3));
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty menu2.href ? menu2.href : '/404'}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\" target=\"");
+        out.write("\"\n");
+        out.write("\t\t\t\t\t\t\t\t\t\ttarget=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty menu2.target ? menu2.target : 'mainFrame'}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\" >\n");
-        out.write("\t\t\t\t\t\t      <i class=\"icon-");
+        out.write("\">\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t\t<i\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t\tclass=\"icon-");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty menu2.icon ? menu2.icon : 'circle-arrow-right'}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("\">\n");
-        out.write("\t\t\t\t\t\t      </i>&nbsp;");
+        out.write("\t\t\t\t\t\t\t\t\t\t</i>&nbsp;");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu2.name}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("\n");
-        out.write("\t\t\t\t\t\t    </a>\n");
-        out.write("\t\t\t\t\t        <ul class=\"nav nav-list hide\" style=\"margin:0;padding-right:0;\">\n");
-        out.write("\t\t\t\t\t        ");
+        out.write("\t\t\t\t\t\t\t\t\t</a>\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t<ul class=\"nav nav-list hide\"\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t\tstyle=\"margin: 0; padding-right: 0;\">\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t\t");
         if (_jspx_meth_c_forEach_2((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_if_1, _jspx_page_context, _jspx_push_body_count_c_forEach_1))
           return true;
         out.write("\n");
-        out.write("\t\t\t\t\t\t\t</ul>\n");
-        out.write("\t\t\t\t\t\t</li>\n");
-        out.write("\t\t\t\t\t\t");
+        out.write("\t\t\t\t\t\t\t\t\t\t</ul></li>\n");
+        out.write("\t\t\t\t\t\t\t\t\t");
         if (_jspx_meth_c_set_6((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_if_1, _jspx_page_context, _jspx_push_body_count_c_forEach_1))
           return true;
         out.write("\n");
-        out.write("\t\t\t\t\t");
+        out.write("\t\t\t\t\t\t\t\t");
         int evalDoAfterBody = _jspx_th_c_if_1.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;
@@ -451,11 +461,11 @@ static {
       if (_jspx_eval_c_forEach_2 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
         do {
           out.write("\n");
-          out.write("\t\t\t\t\t          ");
+          out.write("\t\t\t\t\t\t\t\t\t\t\t\t");
           if (_jspx_meth_c_if_2((javax.servlet.jsp.tagext.JspTag) _jspx_th_c_forEach_2, _jspx_page_context, _jspx_push_body_count_c_forEach_2))
             return true;
           out.write("\n");
-          out.write("\t\t\t\t\t\t\t");
+          out.write("\t\t\t\t\t\t\t\t\t\t\t");
           int evalDoAfterBody = _jspx_th_c_forEach_2.doAfterBody();
           if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
             break;
@@ -488,24 +498,25 @@ static {
     if (_jspx_eval_c_if_2 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
         out.write("\n");
-        out.write("\t\t\t\t\t\t\t  <li class=\"menu3-");
+        out.write("\t\t\t\t\t\t\t\t\t\t\t\t\t<li class=\"menu3-");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu2.id}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write(" hide\">\n");
-        out.write("\t\t\t\t\t\t\t    <a href=\"");
+        out.write(" hide\"><a\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t\t\t\t\thref=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${fn:indexOf(menu3.href, '://') eq -1 ? ctx : ''}", java.lang.String.class, (PageContext)_jspx_page_context, _jspx_fnmap_3));
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty menu3.href ? menu3.href : '/404'}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\" target=\"");
+        out.write("\"\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t\t\t\t\ttarget=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty menu3.target ? menu3.target : 'mainFrame'}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\" >\n");
-        out.write("\t\t\t\t\t\t\t      <i class=\"icon-");
+        out.write("\">\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"icon-");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty menu3.icon ? menu3.icon : 'circle-arrow-right'}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("\">\n");
-        out.write("\t\t\t\t\t\t\t      </i>&nbsp;");
+        out.write("\t\t\t\t\t\t\t\t\t\t\t\t\t\t</i>&nbsp;");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${menu3.name}", java.lang.String.class, (PageContext)_jspx_page_context, null));
         out.write("\n");
-        out.write("\t\t\t\t\t\t\t    </a>\n");
-        out.write("\t\t\t\t\t\t\t  </li>\n");
-        out.write("\t\t\t\t\t\t\t  ");
+        out.write("\t\t\t\t\t\t\t\t\t\t\t\t\t</a></li>\n");
+        out.write("\t\t\t\t\t\t\t\t\t\t\t\t");
         int evalDoAfterBody = _jspx_th_c_if_2.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;

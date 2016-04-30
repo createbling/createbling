@@ -1,17 +1,35 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>栏目列表</title>
-	<meta name="decorator" content="default"/>
-	<%@include file="/WEB-INF/views/include/treeview.jsp" %>
-	<style type="text/css">
-		.ztree {overflow:auto;margin:0;_margin-top:10px;padding:10px 0 0 10px;}<%--
-		.ztree li span.button.level0, .ztree li a.level0 {display:none;height:0;}
-		.ztree li ul.level0 {padding:0;background:none;}--%>
-		.accordion-inner{padding:2px;}
-	</style>
-	<script type="text/javascript">
+<title>栏目列表</title>
+<meta name="decorator" content="default" />
+<%@include file="/WEB-INF/views/include/treeview.jsp"%>
+<style type="text/css">
+.ztree {
+	overflow: auto;
+	margin: 0;
+	_margin-top: 10px;
+	padding: 10px 0 0 10px;
+}
+
+<%--
+.ztree li span.button.level0, .ztree li a.level0 {
+	display: none;
+	height: 0;
+}
+
+.ztree li ul.level0 {
+	padding: 0;
+	background: none;
+}
+
+--%>
+.accordion-inner {
+	padding: 2px;
+}
+</style>
+<script type="text/javascript">
 		$(document).ready(function(){
 			var setting = {view:{selectedMulti:false},data:{simpleData:{enable:true}}};
 			var zNodes=[
@@ -60,14 +78,14 @@
 </head>
 <body>
 	<div class="accordion-group">
-	    <div class="accordion-heading">
-	    	<a class="accordion-toggle">栏目列表</a>
-	    </div>
-	    <div class="accordion-body">
+		<div class="accordion-heading">
+			<a class="accordion-toggle">栏目列表</a>
+		</div>
+		<div class="accordion-body">
 			<div class="accordion-inner">
 				<div id="tree" class="ztree"></div>
 			</div>
-	    </div>
+		</div>
 	</div>
 </body>
 </html>

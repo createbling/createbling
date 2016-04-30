@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-	<link href="mapfiles/css/default.css" rel="stylesheet" type="text/css" />
-	<title>地图显示 - 区域选取</title>
-	<script type="text/javascript" src="../jquery/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="../jquery/jquery-migrate-1.1.1.min.js"></script><!--
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link href="mapfiles/css/default.css" rel="stylesheet" type="text/css" />
+<title>地图显示 - 区域选取</title>
+<script type="text/javascript" src="../jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript"
+	src="../jquery/jquery-migrate-1.1.1.min.js"></script>
+<!--
 	<script type="text/javascript" src="mapapi3.8.6.js"></script>-->
-	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-	<script type="text/javascript" src="polygon.js"></script>
-	<script type="text/javascript">
+<script type="text/javascript"
+	src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="polygon.js"></script>
+<script type="text/javascript">
 
 		// 地图服务地址
 		var strURL = "http://192.168.11.233:8780/maptile/googlemaps/roadmap/"
@@ -129,13 +133,13 @@
 	</script>
 </head>
 <body onload="initialize()">
-	<div style="height:100%">
+	<div style="height: 100%">
 		<div id="side">
-			<input id="reset" value="清除区域坐标" type="button" class="navi"/>
-			<input id="showData"  value="显示区域坐标" type="button" class="navi"/>
+			<input id="reset" value="清除区域坐标" type="button" class="navi" /> <input
+				id="showData" value="显示区域坐标" type="button" class="navi" />
 			<div id="dataPanel">&nbsp;</div>
 		</div>
-		<div id="map_canvas" style="height:90%"></div>
+		<div id="map_canvas" style="height: 90%"></div>
 	</div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
-<%@ page import="java.util.List" %>
-<%@ page import="com.createbling.modules.sys.entity.BaseDetail" %>
+	pageEncoding="utf-8"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.createbling.modules.sys.entity.BaseDetail"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -9,19 +9,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <!-- <style type="text/css">@import url(/web/css/gis.css)</style> -->
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=90pIG6bfMS6vGipBc8m7lukE">
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=90pIG6bfMS6vGipBc8m7lukE">
 </script>
-	<style type="text/css">
-	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
-	</style>
+<style type="text/css">
+body, html, #allmap {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+</style>
 <title>菌类大棚实时监控平台</title>
 </head>
 <body>
-<%
+	<%
     List<BaseDetail> baseDetailList = (List<BaseDetail>)request.getAttribute("baseDetailList");
 %>
 
-<div id="allmap"></div>
+	<div id="allmap"></div>
 	<script type="text/javascript">
 	<%--百度地图API功能 --%>
 	var map = new BMap.Map("allmap");
@@ -90,8 +97,8 @@
 
 </script>
 
-	
-	
+
+
 
 </body>
 </html>

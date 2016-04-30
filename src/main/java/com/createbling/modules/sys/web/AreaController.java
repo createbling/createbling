@@ -159,7 +159,8 @@ public class AreaController extends BaseController {
 			//如果当前传进来的ID为空、或者此ID不等于取出来的areaID且也不是areaID的父节点且（type为detail_base或者detail_plant且getUseable的
 			if ((StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
 					//chauncy修改了这一行，因为type现在有特殊意义，只选择type为detai_base或者detai_plant
-					&& (type == null || (type != null && (type.equals("detail_base") || type.equals("detail_plant"))))
+					//chauncy注释掉了这一行，因为不需要type作为判断，但是
+					//&& (type == null || (type != null && (type.equals("detail_base") || type.equals("detail_plant"))))
 					//&& (grade == null || (grade != null && Integer.parseInt(e.getGrade()) <= grade.intValue()))
 					//注意：chauncy暂时删除了这一字段，因为我们数据表中并未建立这一字段
 					//&& Global.YES.equals(e.getUseable())){
@@ -169,9 +170,9 @@ public class AreaController extends BaseController {
 				map.put("pId", e.getParentId());
 				map.put("pIds", e.getParentIds());
 				map.put("name", e.getName());
-				if (type != null && "detail_base".equals(type)){
+	/*			if (type != null && "detail_base".equals(type)){
 					map.put("isParent", true);
-				}
+				}*/
 				mapList.add(map);
 			}
 		}

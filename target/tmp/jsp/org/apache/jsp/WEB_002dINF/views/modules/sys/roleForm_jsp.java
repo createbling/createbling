@@ -135,17 +135,20 @@ static {
       out.write("\n");
       out.write("<html>\n");
       out.write("<head>\n");
-      out.write("\t<title>角色管理</title>\n");
-      out.write("\t<meta name=\"decorator\" content=\"default\"/>\n");
-      out.write("\t");
-      out.write("<link href=\"");
+      out.write("<title>角色管理</title>\n");
+      out.write("<meta name=\"decorator\" content=\"default\" />\n");
+      out.write("<link\n");
+      out.write("\thref=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctxStatic}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css\" rel=\"stylesheet\" type=\"text/css\"/>\n");
-      out.write("<script src=\"");
+      out.write("/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css\"\n");
+      out.write("\trel=\"stylesheet\" type=\"text/css\" />\n");
+      out.write("<script\n");
+      out.write("\tsrc=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctxStatic}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js\" type=\"text/javascript\"></script>");
+      out.write("/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js\"\n");
+      out.write("\ttype=\"text/javascript\"></script>");
       out.write("\n");
-      out.write("\t<script type=\"text/javascript\">\n");
+      out.write("<script type=\"text/javascript\">\n");
       out.write("\t\t$(document).ready(function(){\n");
       out.write("\t\t\t$(\"#name\").focus();\n");
       out.write("\t\t\t$(\"#inputForm\").validate({\n");
@@ -266,10 +269,13 @@ static {
       out.write("\">角色");
       if (_jspx_meth_shiro_hasPermission_0(_jspx_page_context))
         return;
+      out.write("\n");
+      out.write("\t\t\t\t");
       if (_jspx_meth_shiro_lacksPermission_0(_jspx_page_context))
         return;
       out.write("</a></li>\n");
-      out.write("\t</ul><br/>\n");
+      out.write("\t</ul>\n");
+      out.write("\t<br />\n");
       out.write("\t");
       //  form:form
       org.springframework.web.servlet.tags.form.FormTag _jspx_th_form_form_0 = (org.springframework.web.servlet.tags.form.FormTag) _jspx_tagPool_form_form_modelAttribute_method_id_class_action.get(org.springframework.web.servlet.tags.form.FormTag.class);
@@ -299,7 +305,7 @@ static {
             out.write("\t\t<div class=\"control-group\">\n");
             out.write("\t\t\t<label class=\"control-label\">归属层级:</label>\n");
             out.write("\t\t\t<div class=\"controls\">\n");
-            out.write("                ");
+            out.write("\t\t\t\t");
             if (_jspx_meth_sys_treeselect_0((javax.servlet.jsp.tagext.JspTag) _jspx_th_form_form_0, _jspx_page_context, _jspx_push_body_count_form_form_0))
               return;
             out.write("\n");
@@ -308,7 +314,8 @@ static {
             out.write("\t\t<div class=\"control-group\">\n");
             out.write("\t\t\t<label class=\"control-label\">角色名称:</label>\n");
             out.write("\t\t\t<div class=\"controls\">\n");
-            out.write("\t\t\t\t<input id=\"oldName\" name=\"oldName\" type=\"hidden\" value=\"");
+            out.write("\t\t\t\t<input id=\"oldName\" name=\"oldName\" type=\"hidden\"\n");
+            out.write("\t\t\t\t\tvalue=\"");
             out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${role.name}", java.lang.String.class, (PageContext)_jspx_page_context, null));
             out.write("\">\n");
             out.write("\t\t\t\t");
@@ -321,7 +328,8 @@ static {
             out.write("\t\t<div class=\"control-group\">\n");
             out.write("\t\t\t<label class=\"control-label\">英文名称:</label>\n");
             out.write("\t\t\t<div class=\"controls\">\n");
-            out.write("\t\t\t\t<input id=\"oldEnname\" name=\"oldEnname\" type=\"hidden\" value=\"");
+            out.write("\t\t\t\t<input id=\"oldEnname\" name=\"oldEnname\" type=\"hidden\"\n");
+            out.write("\t\t\t\t\tvalue=\"");
             out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${role.enname}", java.lang.String.class, (PageContext)_jspx_page_context, null));
             out.write("\">\n");
             out.write("\t\t\t\t");
@@ -331,11 +339,13 @@ static {
             out.write("\t\t\t\t<span class=\"help-inline\"><font color=\"red\">*</font> 工作流用户组标识</span>\n");
             out.write("\t\t\t</div>\n");
             out.write("\t\t</div>\n");
+            out.write("\t\t");
             out.write("\n");
             out.write("\t\t<!-- 增加一个字段表示是管理员还是用户 -->\n");
-            out.write("\t    <div class=\"control-group\">\n");
+            out.write("\t\t<div class=\"control-group\">\n");
             out.write("\t\t\t<label class=\"control-label\">角色类型:</label>\n");
-            out.write("\t\t\t<div class=\"controls\">");
+            out.write("\t\t\t<div class=\"controls\">\n");
+            out.write("\t\t\t\t");
             out.write("\n");
             out.write("\t\t\t\t<!-- 这里好像会涉及到工作流 -->\n");
             out.write("\t\t\t\t<!-- 是否应该加上一个字段表明是管理员还是普通用户呢 -->\n");
@@ -446,7 +456,8 @@ static {
               _jspx_tagPool_form_select_path_class.reuse(_jspx_th_form_select_0);
             }
             out.write("\n");
-            out.write("\t\t\t\t<span class=\"help-inline\" title=\"role-type一共有两种类型，管理员即后台用户为admin角色，普通角色即前台用户即为user\">\n");
+            out.write("\t\t\t\t<span class=\"help-inline\"\n");
+            out.write("\t\t\t\t\ttitle=\"role-type一共有两种类型，管理员即后台用户为admin角色，普通角色即前台用户即为user\">\n");
             out.write("\t\t\t\t\t用户类型（管理角色：admin、普通角色：user）</span>\n");
             out.write("\t\t\t</div>\n");
             out.write("\t\t</div>\n");
@@ -473,7 +484,7 @@ static {
             out.write("\t\t<div class=\"control-group\">\n");
             out.write("\t\t\t<label class=\"control-label\">数据范围:</label>\n");
             out.write("\t\t\t<div class=\"controls\">\n");
-            out.write("\t\t\t    <!-- 这里仍然有些疑问 -->\n");
+            out.write("\t\t\t\t<!-- 这里仍然有些疑问 -->\n");
             out.write("\t\t\t\t");
             if (_jspx_meth_form_select_3((javax.servlet.jsp.tagext.JspTag) _jspx_th_form_form_0, _jspx_page_context, _jspx_push_body_count_form_form_0))
               return;
@@ -484,12 +495,14 @@ static {
             out.write("\t\t<div class=\"control-group\">\n");
             out.write("\t\t\t<label class=\"control-label\">角色授权:</label>\n");
             out.write("\t\t\t<div class=\"controls\">\n");
-            out.write("\t\t\t\t<div id=\"menuTree\" class=\"ztree\" style=\"margin-top:3px;float:left;\"></div>\n");
+            out.write("\t\t\t\t<div id=\"menuTree\" class=\"ztree\"\n");
+            out.write("\t\t\t\t\tstyle=\"margin-top: 3px; float: left;\"></div>\n");
             out.write("\t\t\t\t");
             if (_jspx_meth_form_hidden_1((javax.servlet.jsp.tagext.JspTag) _jspx_th_form_form_0, _jspx_page_context, _jspx_push_body_count_form_form_0))
               return;
             out.write("\n");
-            out.write("\t\t\t\t<div id=\"areaTree\" class=\"ztree\" style=\"margin-left:100px;margin-top:3px;float:left;\"></div>\n");
+            out.write("\t\t\t\t<div id=\"areaTree\" class=\"ztree\"\n");
+            out.write("\t\t\t\t\tstyle=\"margin-left: 100px; margin-top: 3px; float: left;\"></div>\n");
             out.write("\t\t\t\t");
             if (_jspx_meth_form_hidden_2((javax.servlet.jsp.tagext.JspTag) _jspx_th_form_form_0, _jspx_page_context, _jspx_push_body_count_form_form_0))
               return;
@@ -510,7 +523,8 @@ static {
             if (_jspx_meth_c_if_0((javax.servlet.jsp.tagext.JspTag) _jspx_th_form_form_0, _jspx_page_context, _jspx_push_body_count_form_form_0))
               return;
             out.write("\n");
-            out.write("\t\t\t<input id=\"btnCancel\" class=\"btn\" type=\"button\" value=\"返 回\" onclick=\"history.go(-1)\"/>\n");
+            out.write("\t\t\t<input id=\"btnCancel\" class=\"btn\" type=\"button\" value=\"返 回\"\n");
+            out.write("\t\t\t\tonclick=\"history.go(-1)\" />\n");
             out.write("\t\t</div>\n");
             out.write("\t");
             int evalDoAfterBody = _jspx_th_form_form_0.doAfterBody();
@@ -1176,7 +1190,7 @@ static {
     org.apache.taglibs.standard.tag.rt.core.IfTag _jspx_th_c_if_0 = (org.apache.taglibs.standard.tag.rt.core.IfTag) _jspx_tagPool_c_if_test.get(org.apache.taglibs.standard.tag.rt.core.IfTag.class);
     _jspx_th_c_if_0.setPageContext(_jspx_page_context);
     _jspx_th_c_if_0.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_form_form_0);
-    _jspx_th_c_if_0.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${(role.sysData eq fns:getDictValue('是', 'yes_no', '1') && fns:getUser().admin)||!(role.sysData eq fns:getDictValue('是', 'yes_no', '1'))}", java.lang.Boolean.class, (PageContext)_jspx_page_context, _jspx_fnmap_3)).booleanValue());
+    _jspx_th_c_if_0.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${(role.sysData eq fns:getDictValue('是', 'yes_no', '1') && (fns:getUser().id eq '1') )||!(role.sysData eq fns:getDictValue('是', 'yes_no', '1'))}", java.lang.Boolean.class, (PageContext)_jspx_page_context, _jspx_fnmap_3)).booleanValue());
     int _jspx_eval_c_if_0 = _jspx_th_c_if_0.doStartTag();
     if (_jspx_eval_c_if_0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
@@ -1211,7 +1225,9 @@ static {
     int _jspx_eval_shiro_hasPermission_1 = _jspx_th_shiro_hasPermission_1.doStartTag();
     if (_jspx_eval_shiro_hasPermission_1 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
-        out.write("<input id=\"btnSubmit\" class=\"btn btn-primary\" type=\"submit\" value=\"保 存\"/>&nbsp;");
+        out.write("\n");
+        out.write("\t\t\t\t\t<input id=\"btnSubmit\" class=\"btn btn-primary\" type=\"submit\"\n");
+        out.write("\t\t\t\t\t\tvalue=\"保 存\" />&nbsp;");
         int evalDoAfterBody = _jspx_th_shiro_hasPermission_1.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;

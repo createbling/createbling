@@ -46,6 +46,8 @@ public class User extends DataEntity<User>{
 	
 	private Role role;	// 根据角色查询用户条件
 	
+	//是否为admin
+	//public static Boolean admin; 
 	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
 
 	public User() {
@@ -300,6 +302,8 @@ public class User extends DataEntity<User>{
 	//这里是超级管理员
 	public static boolean isAdministrator(String id){
 		//因为这里设置了，如果userid为1，则为admin
+		//if(id != null && "1".equals(id))
+			//admin = true;
 		return id != null && "1".equals(id);
 	}
 	

@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%@include file="/WEB-INF/views/include/treeview.jsp" %>
-<div id="menuTreeselect" class="ztree" style="margin:15px;"></div>
+<%@include file="/WEB-INF/views/include/treeview.jsp"%>
+<div id="menuTreeselect" class="ztree" style="margin: 15px;"></div>
 <script type="text/javascript"> 
 	var menuTreeselectSetting = {view:{selectedMulti:false,dblClickExpand:false,nameIsHTML:true,showIcon:false,showTitle:false}, data:{simpleData:{enable:true}},
 			callback:{onClick:function(event, treeId, treeNode){menuTreeselect.expandNode(treeNode);if (!treeNode.isParent){cookie('menuId', treeNode.id, {path:'/'});}}}};
