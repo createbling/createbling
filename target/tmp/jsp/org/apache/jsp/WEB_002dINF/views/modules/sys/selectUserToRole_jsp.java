@@ -123,7 +123,7 @@ static {
       out.write("\t\t\t\tdata: {simpleData: {enable: true}},\r\n");
       out.write("\t\t\t\tcallback: {onClick: treeOnClick}};\r\n");
       out.write("\t\t\r\n");
-      out.write("\t\tvar officeNodes=[\r\n");
+      out.write("\t\tvar areaNodes =[\r\n");
       out.write("\t            ");
       if (_jspx_meth_c_forEach_0(_jspx_page_context))
         return;

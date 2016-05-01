@@ -1,6 +1,3 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/createbling/jeesite">JeeSite</a> All rights reserved.
- */
 package com.createbling.modules.cms.utils;
 
 import java.util.Collections;
@@ -48,9 +45,9 @@ public class CmsUtils {
 	private static final String CMS_CACHE = "cmsCache";
 	
 	
-	/**
+/*	*//**
 	 * 获得baseDetail信息
-	 */
+	 *//*
 	public static List<BaseDetail> getBaseDetailList(){
 		List<BaseDetail> baseDetail = Lists.newArrayList();
 		//获取当前用户
@@ -59,7 +56,7 @@ public class CmsUtils {
 			baseDetail = baseDetailDao.getBaseByUser(user);
 		}
 		return baseDetail;
-	}
+	}*/
 	
 	/**
 	 * 获得站点列表

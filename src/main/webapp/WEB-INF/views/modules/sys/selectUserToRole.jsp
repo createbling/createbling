@@ -20,7 +20,7 @@
 				data: {simpleData: {enable: true}},
 				callback: {onClick: treeOnClick}};
 		
-		var officeNodes =[
+		var areaNodes =[
 	            <c:forEach items="${areaList}" var="area">
 	            {id:"${area.id}",
 	             pId:"${not empty area.parent?area.parent.id:0}", 

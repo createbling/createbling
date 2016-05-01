@@ -295,6 +295,11 @@ public class User extends DataEntity<User>{
 		return Collections3.extractToString(roleList, "name", ",");
 	}
 	
+	//chauncy加了这里，取出用户拥有所有角色的roletype
+	public String getRoleType() {
+		return Collections3.extractToString(roleList, "roleType", ",");
+	}
+	
 	//超级管理员
 	public boolean isAdministrator(){
 		return isAdministrator(this.id);

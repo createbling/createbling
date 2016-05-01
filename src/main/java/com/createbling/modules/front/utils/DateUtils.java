@@ -1,4 +1,4 @@
-package com.createbling.modules.cms.utils;
+package com.createbling.modules.front.utils;
 
 import java.text.DateFormat;
 import java.text.ParseException;

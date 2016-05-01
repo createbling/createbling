@@ -42,7 +42,7 @@ import com.createbling.modules.cms.utils.CmsUtils;
  * @version 2013-5-29
  */
 @Controller
-@RequestMapping(value = "${newPathOfFront}")
+@RequestMapping(value = "${cmsPath}")
 public class FrontController extends BaseController{
 	
 	@Autowired

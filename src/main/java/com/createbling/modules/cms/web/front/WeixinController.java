@@ -19,7 +19,7 @@ import com.createbling.modules.cms.utils.WiexinSignUtil;
  * @version 2014-02-28
  */
 @Controller
-@RequestMapping(value = "${frontPath}/weixin")
+@RequestMapping(value = "${cmsPath}/weixin")
 public class WeixinController extends BaseController {
 
 	/**

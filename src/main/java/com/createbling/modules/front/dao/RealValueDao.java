@@ -1,11 +1,12 @@
-package com.createbling.modules.cms.dao;
+package com.createbling.modules.front.dao;
 
 import java.util.List;
 
 import com.createbling.common.persistence.CrudDao;
 import com.createbling.common.persistence.annotation.MyBatisDao;
-import com.createbling.modules.cms.entity.RealInfo;
-import com.createbling.modules.cms.entity.RealValue;
+import com.createbling.modules.front.entity.RealInfo;
+import com.createbling.modules.front.entity.RealValue;
+
 
 @MyBatisDao
 public interface RealValueDao extends CrudDao<RealValue>{

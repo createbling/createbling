@@ -1,4 +1,4 @@
-package com.createbling.modules.cms.web.front;
+package com.createbling.modules.front.web;
 
 import java.util.List;
 
@@ -9,11 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.createbling.modules.cms.entity.RealInfo;
-import com.createbling.modules.cms.entity.RealValue;
-import com.createbling.modules.cms.service.RealValueService;
-import com.createbling.modules.cms.utils.CmsUtils;
-import com.createbling.modules.cms.utils.DateUtils;
+import com.createbling.modules.front.entity.RealInfo;
+import com.createbling.modules.front.entity.RealValue;
+import com.createbling.modules.front.service.RealValueService;
+import com.createbling.modules.front.utils.FrontUtils;
 import com.createbling.modules.sys.entity.BaseDetail;
 
 @Controller
@@ -43,7 +42,7 @@ public class FrontIndexController {
 	@RequestMapping(value = "${newPathOfFront}")
 	public String index(Model model) {
 		//找出所有的GIS坐标
-		List<BaseDetail> baseDetailList = CmsUtils.getBaseDetailList();
+		List<BaseDetail> baseDetailList = FrontUtils.getBaseDetailList();
 		model.addAttribute("baseDetailList", baseDetailList);
 		System.out.println(baseDetailList.size());
 		System.out.println("从index跳转到gis页面"); 

@@ -54,12 +54,12 @@ public class UserUtils {
 		if (principal!=null){
 			User user = get(principal.getId());
 			if (user != null){
-				String roleNames = user.getRoleNames();
-				String[] roleName = roleNames.split(",");
-				for(String name : roleName){
-					if(name.equals("admin")){
+				//取出所有角色类型
+				List<Role> roleList = user.getRoleList();
+				for(Role r : roleList){
+					//只要拥有的角色中包含admin即管理员角色，就说明是管理员
+					if(r.getRoleType().equals("admin"))
 						return true;
-					}
 				}
 			}
 		}

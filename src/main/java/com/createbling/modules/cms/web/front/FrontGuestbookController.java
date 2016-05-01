@@ -30,7 +30,7 @@ import com.createbling.modules.cms.utils.CmsUtils;
  * @version 2013-3-15
  */
 @Controller
-@RequestMapping(value = "${frontPath}/guestbook")
+@RequestMapping(value = "${cmsPath}/guestbook")
 public class FrontGuestbookController extends BaseController{
 	
 	@Autowired

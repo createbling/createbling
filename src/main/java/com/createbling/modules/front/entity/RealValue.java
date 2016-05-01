@@ -1,4 +1,4 @@
-package com.createbling.modules.cms.entity;
+package com.createbling.modules.front.entity;
 
 import java.util.Date;
 

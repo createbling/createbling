@@ -30,7 +30,7 @@ import com.createbling.modules.sys.utils.UserUtils;
  * @version 2013-5-29
  */
 @Controller
-@RequestMapping(value = "${frontPath}/search")
+@RequestMapping(value = "${cmsPath}/search")
 public class FrontSearchController extends BaseController{
 	
 	@Autowired
