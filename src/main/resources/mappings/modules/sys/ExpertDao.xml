@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.createbling.modules.sys.dao.ExpertDao">
+
+<!-- 查找所有基地节点名称 -->
+<select id="findAllBase" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT * FROM sys_area WHERE parent_id=null AND flag!="-1"
+</select>
+
+<!-- 查找某个基地下面的所有可见作物节点-->
+<select id="findAllPlant" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT * FROM sys_area WHERE parent_id=#{id} AND flag!="-1"
+</select>
+
+<!-- 查找某个作物的所有可见环境参数节点名称-->
+<select id="findAllParam" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT * FROM sys_area WHERE parent_id=#{id} AND flag!="-1" AND type="detail_parameter"
+</select>
+
+<!-- 查找某个作物的所有已经配置环境参数节点名称-->
+<select id="findSelectedParam" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT * FROM sys_area WHERE parent_id=#{id} AND flag="1" AND type="detail_parameter"
+</select>
+
+<!--查找某个作物的所有可见周期节点名称-->
+<select id="findAllCycle" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT * FROM sys_area WHERE parent_id=#{id} AND flag!="-1" AND type="detail_cycle"
+</select>
+
+<!--查找某个作物的所有已经配置周期节点名称-->
+<select id="findSelectedCycle" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT * FROM sys_area WHERE parent_id=#{id} AND flag="1" AND type="detail_cycle"
+</select>
+
+<!--查找某个作物的所有已经配置节点（在sys_area中查找）-->
+<select id="findAllSelected" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT * FROM sys_area WHERE parent_id=#{id} AND flag="1" 
+</select>
+
+<!--查找某个作物的所有可见专家值记录 （在exper_中查找） -->
+<select id="findAllValue" resultType="com.createbling.modules.sys.entity.Expert" statementType="STATEMENT">
+		SELECT * FROM ${tableName} WHERE
+		parameter_id IN (SELECT id FROM sys_area WHERE flag>-1)
+		AND cycle_id IN (SELECT id FROM sys_area WHERE flag>-1)
+</select>
+<!--查找某个作物一个可见专家值记录  -->
+<select id="findOneValue" parameterType="java.util.HashMap" resultType="com.createbling.modules.sys.entity.Expert" statementType="STATEMENT">
+		SELECT *
+		FROM ${tableName} WHERE cycle_id=&quot;${cycle_id}&quot; AND parameter_id=&quot;${parameter_id}&quot;
+</select>
+
+<!--查找某个作物的所有已经配置好的专家值记录  -->
+<select id="findSelectedValue" resultType="com.createbling.modules.sys.entity.Expert" statementType="STATEMENT">
+		SELECT * FROM ${tableName} WHERE
+		parameter_id IN (SELECT id FROM sys_area WHERE flag>0)
+		AND cycle_id IN (SELECT id FROM sys_area WHERE flag>0)
+</select>
+
+<!--查找某个参数的单位  -->
+<select id="findUnit" resultType="String">
+		SELECT unit FROM detail_parameter WHERE area_id=#{id}
+</select>
+<!--配置专家值 -->
+<update id="selected" parameterType="com.createbling.modules.sys.entity.Area">
+      UPDATE sys_area SET flag = 1 WHERE id=#{id}
+</update>
+<!--清除配置专家值 -->
+<update id="unSelected" parameterType="com.createbling.modules.sys.entity.Area">
+      UPDATE sys_area SET flag =0 WHERE id=#{id}
+</update>
+<!--在Expert中更新某个作物某个周期某个环境参数的记录 -->
+<update id="updateValue" statementType="STATEMENT">
+		UPDATE ${tableName}
+			<set>
+				<if test="min_value!=null">min_value=${min_value},</if>
+				<if test="max_value!=null">max_value=${max_value},</if>
+			</set>
+			WHERE id=${id}
+</update>
+<!--在Expert中增加某个行业某个周期某个环境参数的记录 -->
+<insert id="insertValue" parameterType="com.createbling.modules.sys.entity.Expert" statementType="STATEMENT">
+		INSERT INTO ${tableName}(
+			id, 
+			cycle_id, 
+			param_id, 
+			min_value,
+			max_value,
+			description,
+			other
+		) VALUES (
+			#{id}, 
+			#{cycle_id}, 
+			#{param_id}, 
+			#{min_value}, 
+			#{max_value}, 
+			#{description}, 
+			#{other}
+		)
+	</insert>
+</mapper>

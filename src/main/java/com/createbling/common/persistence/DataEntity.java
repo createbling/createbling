@@ -100,4 +100,11 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }

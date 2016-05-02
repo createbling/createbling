@@ -96,7 +96,6 @@ $.extend($.fn, {
             //标题高度
             titleHeight: 26
         }, setting);
-        
         //initialize the jerichotab
         function createJerichoTab() {
             //make sure that a container and uniqueId were provided
@@ -212,8 +211,6 @@ $.extend($.fn, {
                     var newTab = $('<li name="'+ps.name+'" class="jericho_tabs tab_selected" style="width:0px"  id="jerichotab_' + curIndex + '" dataType="' + ps.data.dataType + '" dataLink="' + ps.data.dataLink + '">' +
                             '<div class="tab_left"  style="width:' + (opts.tabWidth - 5) + 'px"  >' +
                                 (ps.iconImg == '' ? '' : '<div class="tab_icon" style="' + 'background-image:url(' + ps.iconImg + ')' + '">&nbsp;</div>') +
-                                /*chauncy修改了这里，原来是ps.title.cut(opts.tabWidth / 10 - 1)*/
-                                /*machao在这里处理了字符串，添加了.replace(/(^\s*)|(\s*$)/g, "")，用于去除字符串空格*/
                                 '<div class="tab_text" title="' + ps.title.replace(/(^\s*)|(\s*$)/g, "") + '"  style="width:' + (opts.tabWidth - 45 + (ps.iconImg == '' ? 25 : 0)) + 'px"  >' + ps.title.replace(/(^\s*)|(\s*$)/g, "").cut(opts.tabWidth / 10 - 1) + '</div>  ' +
                                 '<div class="tab_close">' + (ps.closeable ? '<a href="javascript:" title="关闭">&nbsp;</a>' : '') + '</div>' +
                             '</div>' +

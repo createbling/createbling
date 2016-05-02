@@ -187,7 +187,7 @@ static {
       out.write("\n");
       out.write("<ol id=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${input}", java.lang.String.class, (PageContext)this.getJspContext(), null));
-      out.write("Preview\"></ol>\n");
+      out.write("Preview\"></ol>");
       if (_jspx_meth_c_if_0(_jspx_page_context))
         return;
       out.write("\n");
@@ -428,15 +428,13 @@ static {
     int _jspx_eval_c_if_0 = _jspx_th_c_if_0.doStartTag();
     if (_jspx_eval_c_if_0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
-        out.write("\n");
-        out.write("\t<a href=\"javascript:\" onclick=\"");
+        out.write("<a href=\"javascript:\" onclick=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${input}", java.lang.String.class, (PageContext)this.getJspContext(), null));
         out.write("FinderOpen();\" class=\"btn\">");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${selectMultiple?'添加':'选择'}", java.lang.String.class, (PageContext)this.getJspContext(), null));
-        out.write("</a>&nbsp;<a\n");
-        out.write("\t\thref=\"javascript:\" onclick=\"");
+        out.write("</a>&nbsp;<a href=\"javascript:\" onclick=\"");
         out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${input}", java.lang.String.class, (PageContext)this.getJspContext(), null));
-        out.write("DelAll();\" class=\"btn\">清除</a>\n");
+        out.write("DelAll();\" class=\"btn\">清除</a>");
         int evalDoAfterBody = _jspx_th_c_if_0.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;

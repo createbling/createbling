@@ -55,6 +55,13 @@ public abstract class TreeService<D extends TreeDao<T>, T extends TreeEntity<T>>
 		entity.setParentIds(entity.getParent().getParentIds()+entity.getParent().getId()+",");
 		
 		// 保存或更新实体
+       ///////////////////////////////////////////////////////////////////
+       //若添加了某一种作物，激发存储过程
+      if (entity.getType().equals("detail_plant" )){
+      dao.createExpertProcedure("expert_"+entity.getId());				
+      dao.createRealProcedure("real_"+entity.getId());
+      }
+///////////////////////////////////////////////////////////////////
 		super.save(entity);
 		
 		// 更新子节点 parentIds

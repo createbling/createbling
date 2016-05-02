@@ -2,68 +2,209 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.createbling.modules.sys.dao.AreaDao">
 
-<!-- 查询某个节点名返回的结果集的定义 -->
-<resultMap id="node_id_name" type="com.createbling.modules.sys.entity.Area">
-	<id column="id" property="id" />
-    <result column="name" property="name" />
-</resultMap>
+<sql id="areaColumns">
+		id,
+		parent_id AS "parent.id",
+		parent_ids,
 
-<!--根据id修改非参数和周期节点的名称-->
-<update id="updateNodeName" >
-		update sys_tree set name=#{name} where id=#{id}
+		name,
+		sort,
+		type,
+		description,
+		create_by AS "createBy.id",
+		create_date,
+		update_by AS "updateBy.id",
+		update_date
+
+		<!-- p.name AS "parent.name" -->
+	</sql>
+	
+	<sql id="areaJoins">
+		LEFT JOIN sys_office p ON p.id = a.parent_id
+    </sql>
+<!--  /////////////////////////////////////////////////////////////////////////////////////-->
+<!--根据id修改节点
+<update id="updateNode"  parameterType="com.createbling.modules.sys.entity.Area">
+		update sys_area
+			<set>
+				<if test="parent_id!=null">parent_id=#{parent_id},</if>
+				<if test="parentIds!=null">parent_ids=#{parentIds},</if>
+				<if test="childrenIds!=null">children_ids=#{childrenIds},</if>
+				<if test="name!=null">name=#{name},</if>
+				<if test="flag!=null">flag=#{flag},</if>
+				<if test="type!=null">type=#{type},</if>
+				<if test="sort!=null">sort=#{sort},</if>
+			</set>
+			where id=#{id}
 </update>
-
-<!-- 修改参数或者周期节点的名称，先把历史节点的flag置为-1，即不可见 。之后还要进行新节点的插入操作-->
-<update id="updateNodeNameWithHistory" >
-		update sys_tree set flag=-1 where id=#{id}
+-->
+<!-- 1.修改参数或者周期节点的名称，先把历史节点的flag置为-1，即不可见 。之后还要进行新节点的插入操作-->
+<!-- 2.删除某个节点时 
+<update id="delete" parameterType="com.createbling.modules.sys.entity.Area">
+		update sys_area set flag=-1 where id=#{id}
 </update>
+-->
 
-<!-- 查找所有的基地名字 -->
-<select id="findNodeBase" resultMap="node_id_name">
-		SELECT id,name FROM sys_tree WHERE parent_id=null
+<!-- 依据id查找结点 -->
+<select id="findNodeById"  resultType="com.createbling.modules.sys.entity.Area">
+		SELECT * FROM sys_area WHERE id=#{id}
 </select>
 
-<!-- 按照父节点查找其所有子节点 -->
-<select id="findNodeByParent" resultMap="node_id_name">
-		SELECT id,name FROM sys_tree WHERE parent_ids like "%,#{parent_id}%"
+<!-- 查找所有的基地 -->
+<select id="findNodeBase" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT * FROM sys_area WHERE parent_id=null
+</select>
+
+<!-- 按照父节点查找其所有可见的直系子节点 -->
+<select id="findNodeByParent1" parameterType="com.createbling.modules.sys.entity.Area" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT * FROM sys_area WHERE parent_ids like "%,#{id}%" AND flag>-1
+</select>
+
+<!-- 按照父节点查找其所有可见且属于专家配置的直系子节点 -->
+<select id="findNodeByParent2" parameterType="com.createbling.modules.sys.entity.Area" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT id,name FROM sys_area WHERE parent_ids like "%,#{parent_id}%" AND flag>0
 </select>
 
 <!-- 按照id查询某个节点的所有信息 -->
+<!-- 
 <select id="findNodeById" resultType="com.createbling.modules.sys.entity.Area">
 		SELECT id,name,parent_id,parent_ids,children_ids,description,flag,type,sort
 					create_by,create_date,update_by,update_date
-		 FROM sys_tree WHERE id=#{id}
-</select>
+		 FROM sys_area WHERE id=#{id}
+</select> -->
 
-    <!-- chauncy加入了areaColumns,areaJoins,findalllist -->
-    <!-- 定义字段 -->
-	<sql id="areaColumns">
-		a.id,
-		a.parent_id AS "parent.id",
-		a.parent_ids,
-		<!--  a.area_id AS "area.id",-->
-		a.name,
-		a.sort,
-		a.type,
-		a.description,
-		a.create_by AS "createBy.id",
-		a.create_date,
-		a.update_by AS "updateBy.id",
-		a.update_date,
-		a.flag,
-		<!--  a.useable AS useable,-->
-		p.name AS "parent.name"
 
-	</sql>
-	<sql id="areaJoins">
-		LEFT JOIN sys_area p ON p.id = a.parent_id   
-	</sql>
+<!-- 为某个节点添加一个子节点（插入一个节点 ）
+	<insert id="insertNode" parameterType="com.createbling.modules.sys.entity.Area">
+		INSERT INTO sys_area(
+			id, 
+			parent_id, 
+			parent_ids, 
+			children_ids,
+			name,
+			description,
+			flag,
+			type,
+			sort,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id}, 
+			#{parent_id}, 
+			#{parent_ids}, 
+			#{children_ids}, 
+			#{name}, 
+			#{description}, 
+			#{flag}, 
+			#{type}, 
+			#{sort}, 
+			#{create_by}, 
+			#{create_date}, 
+			#{update_by}, 
+			#{update_date}
+		)
+	</insert>
+-->
+<!-- 调用创建该基地相应真实值数据表的存储过程 -->
+<insert id="createRealProcedure" parameterType="String" statementType="CALLABLE">
+       CALL realvalue(#{tableName})
+</insert>
+
+<!-- 调用创建该基地相应专家值数据表的存储过程 -->
+<insert id="createExpertProcedure" parameterType="String" statementType="CALLABLE">
+       CALL expertvalue(#{tableName})
+</insert>
+<!--/////////////////////////////////////////////////////////////////////////////////////////-->
+		<select id="get" resultType="Area">
+		SELECT <include refid="areaColumns"/> FROM sys_area WHERE id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Area">
+		SELECT
+			<include refid="areaColumns"/>
+		FROM sys_area 
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		OR id = #{currentUser.area.id}
+	</select>
+	
 	<select id="findAllList" resultType="Area">
 		SELECT
 			<include refid="areaColumns"/>
-		FROM sys_area a
-		<include refid="areaJoins"/>
-		WHERE a.flag = #{DEL_FLAG_NORMAL}
+		FROM sys_area 
 	</select>
-	<!-- chauncy加入了areaColumns,areaJoins,findalllist -->
+	
+	<select id="findByParentIdsLike" resultType="Area">
+		SELECT
+			id,
+			parent_id AS "parent.id",
+			parent_ids,
+			name,
+			type,
+			description
+		FROM sys_area a
+		WHERE flag =0 AND parent_ids LIKE #{parentIds}
+		ORDER BY id
+	</select>
+	<insert id="insert"><!--  mingsun删去了del_flag字段-->
+		INSERT INTO sys_area(
+			id, 
+			parent_id, 
+			parent_ids, 
+
+			name, 
+			sort,
+			type, 
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date, 
+			description
+		) VALUES (
+			#{id}, 
+			#{parent.id}, 
+			#{parentIds}, 
+
+			#{name}, 
+			#{sort}, 
+			#{type}, 
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}, 
+			#{description}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_area SET 
+			parent_id = #{parent.id}, 
+			parent_ids = #{parentIds}, 
+
+			name = #{name}, 
+			sort = #{sort}, 
+			type = #{type}, 
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}, 
+			description = #{description}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateParentIds">
+		UPDATE sys_area SET 
+			parent_id = #{parent.id}, 
+			parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE sys_area SET 
+			flag = -1
+		WHERE id = #{id} OR parent_ids LIKE 
+					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
+					<if test="dbName == 'mssql'">'%,'+#{id}+',%'</if>
+					<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
+	</update>
 </mapper>

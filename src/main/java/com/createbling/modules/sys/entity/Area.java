@@ -1,5 +1,6 @@
 package com.createbling.modules.sys.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
@@ -13,14 +14,18 @@ import com.createbling.modules.sys.entity.User;
  * @version 2016-03-25
  */
 public class Area extends TreeEntity<Area> {
-
 	private static final long serialVersionUID = 1L;
-//	private Area parent;	// 父级编号
-//	private String parentIds; // 所有父级编号
-	private String childrenIds; 	// 孩子节点的编号
-//	private String name; 	// 区域名称
-//	private Integer sort;		// 排序
 	private String type; 	// 区域类型（1：国家；2：省份、直辖市；3：地市；4：区县）
+	/////////////////////////////////////以下是detail表单的字段
+	private String location;//datail_base
+	private String point;//datail_base
+	private String origin;//detail_plant
+	private String unit;//detail_parameter
+	private Date start;//detail_cycle
+	private Date end;//detail_cycle
+	private String unitSensor;//detail_sensor
+	private String min;//detail_sensor
+	private String max;//detail_sensor
 	/////////////////////////////////////以下是office的部分字段
 	private Area parentarea;		// 归属区域
 	private String useable;//是否可用
@@ -41,7 +46,79 @@ public class Area extends TreeEntity<Area> {
 		super(id);
 	}
 	
-//	@JsonBackReference
+public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getPoint() {
+		return point;
+	}
+
+	public void setPoint(String point) {
+		this.point = point;
+	}
+
+	public String getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+
+	public String getUnitSensor() {
+		return unitSensor;
+	}
+
+	public void setUnitSensor(String unitSensor) {
+		this.unitSensor = unitSensor;
+	}
+
+	public String getMin() {
+		return min;
+	}
+
+	public void setMin(String min) {
+		this.min = min;
+	}
+
+	public String getMax() {
+		return max;
+	}
+
+	public void setMax(String max) {
+		this.max = max;
+	}
+
+	//	@JsonBackReference
 //	@NotNull
 	public Area getParent() {
 		return parent;
@@ -50,34 +127,7 @@ public class Area extends TreeEntity<Area> {
 	public void setParent(Area parent) {
 		this.parent = parent;
 	}
-//
-//	@Length(min=1, max=2000)
-//	public String getParentIds() {
-//		return parentIds;
-//	}
-//
-//	public void setParentIds(String parentIds) {
-//		this.parentIds = parentIds;
-//	}
-//	
-//	@Length(min=1, max=100)
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public Integer getSort() {
-//		return sort;
-//	}
-//
-//	public void setSort(Integer sort) {
-//		this.sort = sort;
-//	}
 
-	@Length(min=1, max=1)
 	public String getType() {
 		return type;
 	}
@@ -85,11 +135,6 @@ public class Area extends TreeEntity<Area> {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-
-//	public String getParentId() {
-//		return parent != null && parent.getId() != null ? parent.getId() : "0";
-//	}
 	
 	public String getChildrenIds() {
 		return childrenIds;

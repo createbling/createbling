@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.createbling.modules.front.dao.RealValueDao">
+
+    <sql id="realValueColumns">
+        r.id,
+        r.parameterId,
+        '"'+${tableName}+'"' AS "tableName",
+        r.value
+    </sql>
+    <!-- 这里取出的是实时数据，但是时间范围仍需要传入参数 -->
+    <select id="getRealValueList" resultType="RealValue" statementType="STATEMENT">
+    SELECT 
+        <include refid="realValueColumns"></include>
+    FROM real_${tableName} r
+    <!-- 取出对应参数 -->
+    WHERE r.parameterId = ${parameterId} 
+    <!-- 取出对应时间 -->
+    AND r.time BETWEEN ${endTime} AND ${startTime}     
+    </select>
+    
+    <!-- 这里取出的是一段时间内的数据，在service层设置为1小时 -->
+    <select id="getBeforeValueList" resultType="RealValue" statementType="STATEMENT">
+    SELECT 
+        <include refid="realValueColumns"></include>
+    FROM real_${tableName} r
+    <!-- 取出对应参数 -->
+    WHERE r.parameterId = ${parameterId} 
+    <!-- 取出对应时间 -->
+    AND r.time BETWEEN ${endTime} AND ${startTime}
+    </select>
+
+    <select id="get" resultType="RealValue" statementType="STATEMENT">
+    SELECT 
+        r.parameterId,
+        "${tableName}" AS "tableName",
+        AVG(r.value) AS "value"
+    FROM real_${tableName} r
+    <!-- 取出对应参数 -->
+    WHERE r.parameterId = ${parameterId} 
+    <!-- 取出对应时间 -->
+    AND r.time BETWEEN "${endTime}" AND "${startTime}"    
+    GROUP BY r.parameterId
+    </select>
+</mapper>

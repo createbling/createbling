@@ -107,12 +107,10 @@ static {
       out.write("<meta name=\"decorator\" content=\"default\" />\n");
       out.write("<link href=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctxStatic}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("/treeTable/themes/vsStyle/treeTable.min.css\"\n");
-      out.write("\trel=\"stylesheet\" type=\"text/css\" />\n");
+      out.write("/treeTable/themes/vsStyle/treeTable.min.css\" rel=\"stylesheet\" type=\"text/css\" />\n");
       out.write("<script src=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${ctxStatic}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("/treeTable/jquery.treeTable.min.js\"\n");
-      out.write("\ttype=\"text/javascript\"></script>");
+      out.write("/treeTable/jquery.treeTable.min.js\" type=\"text/javascript\"></script>");
       out.write("\n");
       out.write("<script type=\"text/javascript\">\n");
       out.write("\t\t$(document).ready(function() {\n");

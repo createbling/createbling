@@ -20,6 +20,7 @@ public abstract class TreeEntity<T> extends DataEntity<T> {
 	protected T parent;	// 父级编号
 	protected String parentIds; // 所有父级编号
 	protected String childrenIds;//所有直系孩子的编号
+	protected String type; 	// 区域类型（基地、作物、参数、周期对应的表名）
 	protected String name; 	// 机构名称
 	protected Integer sort;		// 排序
 	
@@ -79,6 +80,22 @@ public abstract class TreeEntity<T> extends DataEntity<T> {
 			id = (String)Reflections.getFieldValue(parent, "id");
 		}
 		return StringUtils.isNotBlank(id) ? id : "0";
+	}
+
+	public String getChildrenIds() {
+		return childrenIds;
+	}
+
+	public void setChildrenIds(String childrenIds) {
+		this.childrenIds = childrenIds;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }

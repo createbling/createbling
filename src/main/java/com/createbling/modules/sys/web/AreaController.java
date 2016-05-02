@@ -3,6 +3,7 @@ package com.createbling.modules.sys.web;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -65,16 +66,16 @@ public class AreaController extends BaseController {
 	
 	@RequiresPermissions("sys:office:view")
 	@RequestMapping(value = "form")
-	public String form(Area area, Model model) {
+	public String form(Area area, Model model,HttpServletRequest request,HttpServletResponse response) {
+		String id=request.getParameter("id"); 
+		String parent_id=request.getParameter("parent_id"); 
+		Area a=areaService.findNodeById(id);
+		Area ap=areaService.findNodeById(parent_id);
 		User user = UserUtils.getUser();
 		if (area.getParent()==null || area.getParent().getId()==null){
 			area.setParent(user.getArea());
 		}
 		area.setParent(areaService.get(area.getParent().getId()));
-		//if (office.getArea()==null){
-			//office.setArea(user.getOffice().getArea());
-		//}
-		// 自动获取排序号
 		if (StringUtils.isBlank(area.getId())&&area.getParent()!=null){
 			int size = 0;
 			List<Area> list = areaService.findAll();
@@ -88,8 +89,32 @@ public class AreaController extends BaseController {
 			area.setCode(area.getParent().getCode() + StringUtils.leftPad(String.valueOf(size > 0 ? size+1 : 1), 3, "0"));
 		}
 		model.addAttribute("area", area);
-		return "modules/sys/areaForm";
-	}
+		if(a!=null){
+			if(a.getType().equals("detail_base"))//修改基地
+				return "modules/sys/detail_base";
+			else if(a.getType().equals("detail_plant"))//修改or修改作物
+				return "modules/sys/detail_plant";
+			else if(a.getType().equals("detail_cycle"))//修改or修改周期
+				return "modules/sys/detail_cycle";
+			else if(a.getType().equals("detail_parameter"))//修改or修改参数
+				return "modules/sys/detail_parameter";
+			else 
+				return "modules/sys/detail_sensor";
+		}
+		
+		else if(ap!=null){
+			if(ap.getType().equals("detail_base"))//添加or修改作物
+				return "modules/sys/detail_plant";
+			else if(ap.getType().equals("detail_plant"))//添加or修改周期
+				return "modules/sys/detail_cycle";
+			else if(ap.getType().equals("detail_plant"))//添加or修改参数
+				return "modules/sys/detail_parameter";
+			else 
+				return "modules/sys/detail_sensor";
+		}
+		else return  "modules/sys/areaform";
+		
+	} 
 	
 	@RequiresPermissions("sys:area:edit")
 	@RequestMapping(value = "save")
@@ -99,7 +124,7 @@ public class AreaController extends BaseController {
 			return "redirect:" + adminPath + "/sys/area/";
 		}
 		if (!beanValidator(model, area)){
-			return form(area, model);
+			return form(area, model,null,null);
 		}
 		areaService.save(area);
 		
@@ -110,7 +135,7 @@ public class AreaController extends BaseController {
 				childArea.setName(DictUtils.getDictLabel(id, "sys_area_common", "未知"));
 				childArea.setParent(area);
 				childArea.setParentarea(area);
-				childArea.setType("2");
+				childArea.setType("detail_plant");
 				childArea.setType(String.valueOf(Integer.valueOf(area.getType())+1));
 				childArea.setUseable(Global.YES);
 				areaService.save(childArea);
@@ -129,12 +154,8 @@ public class AreaController extends BaseController {
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/area/list";
 		}
-//		if (Office.isRoot(id)){
-//			addMessage(redirectAttributes, "删除机构失败, 不允许删除顶级机构或编号空");
-//		}else{
 		areaService.delete(area);
 			addMessage(redirectAttributes, "删除机构成功");
-//		}
 		return "redirect:" + adminPath + "/sys/area/list?id="+area.getParentId()+"&parentIds="+area.getParentIds();
 	}
 
@@ -170,9 +191,6 @@ public class AreaController extends BaseController {
 				map.put("pId", e.getParentId());
 				map.put("pIds", e.getParentIds());
 				map.put("name", e.getName());
-	/*			if (type != null && "detail_base".equals(type)){
-					map.put("isParent", true);
-				}*/
 				mapList.add(map);
 			}
 		}

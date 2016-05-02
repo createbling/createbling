@@ -149,7 +149,7 @@ static {
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${name}", java.lang.String.class, (PageContext)this.getJspContext(), null));
       out.write("\" type=\"hidden\" value=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${value}", java.lang.String.class, (PageContext)this.getJspContext(), null));
-      out.write("\" />\n");
+      out.write("\"/>\n");
       out.write("\n");
       out.write("<script type=\"text/javascript\">\n");
       out.write("\t$(document).ready(function() {\n");

@@ -3,22 +3,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>留言板</title>
-<meta name="decorator" content="cms_default_${site.theme}" />
-<meta name="description" content="JeeSite ${site.description}" />
-<meta name="keywords" content="JeeSite ${site.keywords}" />
-<script src="${ctxStaticTheme}/lyb/jquery-1.7.1.min.js"></script>
-<script src="${ctxStaticTheme}/lyb/jquery.alerts.js"
-	type="text/javascript"></script>
-<link href="${ctxStaticTheme}/lyb/jquery.alerts.css" rel="stylesheet"
-	type="text/css" media="screen" />
-
-<link rel="stylesheet" href="${ctxStaticTheme}/lyb/bootstrap.min.css">
-
-<link href="${ctxStaticTheme}/lyb/yly002.css" rel="stylesheet"
-	type="text/css" />
-
-<script type="text/javascript">
+	<title>留言板</title>
+	<meta name="decorator" content="cms_default_${site.theme}"/>
+	<meta name="description" content="JeeSite ${site.description}" />
+	<meta name="keywords" content="JeeSite ${site.keywords}" />
+	<script src="${ctxStaticTheme}/lyb/jquery-1.7.1.min.js"></script>
+	<script src="${ctxStaticTheme}/lyb/jquery.alerts.js" type="text/javascript"></script>
+	<link href="${ctxStaticTheme}/lyb/jquery.alerts.css" rel="stylesheet" type="text/css" media="screen" />
+	
+	<link rel="stylesheet" href="${ctxStaticTheme}/lyb/bootstrap.min.css">
+	
+	<link href="${ctxStaticTheme}/lyb/yly002.css" rel="stylesheet" type="text/css" />
+	
+	<script type="text/javascript">
 	$(function(){
 		$(".lybinput,.ly_reply,.reply,.fanghui").hide();
 		
@@ -99,125 +96,100 @@
 	</script>
 </head>
 <body>
-	<div class="wrapper">
-		<div class="header">
-			<div class="header_img">
-				<img src="${ctxStaticTheme}/lyb/lyb_02.png" />
-			</div>
-			<div class="name">${site.title}</div>
-			<div class="wrapper_wodeliuyan">
-				<!-- <div class="wodeliuyan"><a href="#">我的留言</a></div> -->
-			</div>
-			<a href="javascript:history.go(-2);" target="_blank"><div
-					class="wrapper_back"></div></a>
+<div class="wrapper">
+    <div class="header">
+		<div class="header_img"><img src="${ctxStaticTheme}/lyb/lyb_02.png" /></div>
+		<div class="name">${site.title}</div>
+		<div class="wrapper_wodeliuyan">
+			<!-- <div class="wodeliuyan"><a href="#">我的留言</a></div> -->
 		</div>
-		<div class="content_wrapper">
-			<div class="content">
-				<div class="djly">
-					<div class="djly_02 takeamessage">
-						<img src="${ctxStaticTheme}/lyb/ly_03.png" />
+		<a href="javascript:history.go(-2);" target="_blank"><div class="wrapper_back"></div></a>
+	</div>
+	<div class="content_wrapper">
+		<div class="content">
+	    	<div class="djly">
+			    <div class="djly_02 takeamessage">
+					<img src="${ctxStaticTheme}/lyb/ly_03.png" />	
+				</div>            
+			</div>
+			 <!--<div class="lybinput">	 end lybinput -->
+			
+				<form class="lybinput" id="lyform" action="" method="POST">   
+					<div class="nicheng">
+						<div>
+					       <input class="nicheng_02 form-control" name="name" value="" type="text" placeholder="请输入昵称" required="required">
+					   	</div>
+					</div>
+				   
+				   	<div class="liuyan">
+				    	<div>
+					       <input  class="nicheng_02 form-control" name="content" id="textinput1" placeholder="请输入您的留言" required="required" value="" type="text">
+					    </div>    
+				   	</div>
+				   
+				   	<div class="tijiao" id="ly_submit" >
+				    	<div class="tijiao_02">
+							<a>提交</a>
+					   	</div>
+				   	</div>
+				</form>
+			   <!--</div> end lybinput -->
+			   
+			<c:forEach items="${page.list}" var="guestbook" varStatus="vs">
+				<div class="date"><fmt:formatDate value="${guestbook.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>			</div>
+				<div class="neirong_001">
+					<div class="yonghunicheng">${guestbook.name}</div>
+					<div class="zhuyaoneirong">${guestbook.content}</div>
+				</div>
+				<div class="neirong_001_buttom">
+					<div class="date_time"></div>
+					<div class="shuliang"></div>
+					<div class="huifu"><a></a></div>
+					<div class="chakang"><a></a></div><div class="fanghui fh"><a>返回</a></div>
+					<div class="fanghui quit"><a>取消</a></div>
+				</div>
+				<div class="reply">
+					<div class="neirong_001_smm">
+						<div class="zhuyaoneirong_smm"><strong style="color: #000">${guestbook.reUser.name}: </strong>${guestbook.reContent}</div>
+					</div>
+					<div class="neirong_001_buttom_smm">
+						<div class="date_time_smm">${guestbook.reContent}</div>
+						<div class="yonghunicheng_smm"></div>
 					</div>
 				</div>
-				<!--<div class="lybinput">	 end lybinput -->
+			</c:forEach>
 
-				<form class="lybinput" id="lyform" action="" method="POST">
+			<!--<div class="ly_reply"> start ly_reply -->
+			
+				<form class="ly_reply" action="http://shibo.55zhe.net/wz.php?mod=board&boardid=1299&openid=fromuserid" method="POST">
 					<div class="nicheng">
 						<div>
-							<input class="nicheng_02 form-control" name="name" value=""
-								type="text" placeholder="请输入昵称" required="required">
-						</div>
+							<input class="nicheng_02 form-control rnickname" name="reply_nickname" type="text" value="" placeholder="请输入昵称" />
+						</div>    
 					</div>
-
+					   
 					<div class="liuyan">
 						<div>
-							<input class="nicheng_02 form-control" name="content"
-								id="textinput1" placeholder="请输入您的留言" required="required"
-								value="" type="text">
-						</div>
+							<input  class="nicheng_02 form-control" name="reply_content" placeholder="请输入您的回复" value="" type="text">
+						</div>    
 					</div>
-
-					<div class="tijiao" id="ly_submit">
-						<div class="tijiao_02">
-							<a>提交</a>
-						</div>
-					</div>
-				</form>
-				<!--</div> end lybinput -->
-
-				<c:forEach items="${page.list}" var="guestbook" varStatus="vs">
-					<div class="date">
-						<fmt:formatDate value="${guestbook.createDate}"
-							pattern="yyyy-MM-dd HH:mm:ss" />
-					</div>
-					<div class="neirong_001">
-						<div class="yonghunicheng">${guestbook.name}</div>
-						<div class="zhuyaoneirong">${guestbook.content}</div>
-					</div>
-					<div class="neirong_001_buttom">
-						<div class="date_time"></div>
-						<div class="shuliang"></div>
-						<div class="huifu">
-							<a></a>
-						</div>
-						<div class="chakang">
-							<a></a>
-						</div>
-						<div class="fanghui fh">
-							<a>返回</a>
-						</div>
-						<div class="fanghui quit">
-							<a>取消</a>
-						</div>
-					</div>
-					<div class="reply">
-						<div class="neirong_001_smm">
-							<div class="zhuyaoneirong_smm">
-								<strong style="color: #000">${guestbook.reUser.name}: </strong>${guestbook.reContent}</div>
-						</div>
-						<div class="neirong_001_buttom_smm">
-							<div class="date_time_smm">${guestbook.reContent}</div>
-							<div class="yonghunicheng_smm"></div>
-						</div>
-					</div>
-				</c:forEach>
-
-				<!--<div class="ly_reply"> start ly_reply -->
-
-				<form class="ly_reply"
-					action="http://shibo.55zhe.net/wz.php?mod=board&boardid=1299&openid=fromuserid"
-					method="POST">
-					<div class="nicheng">
-						<div>
-							<input class="nicheng_02 form-control rnickname"
-								name="reply_nickname" type="text" value="" placeholder="请输入昵称" />
-						</div>
-					</div>
-
-					<div class="liuyan">
-						<div>
-							<input class="nicheng_02 form-control" name="reply_content"
-								placeholder="请输入您的回复" value="" type="text">
-						</div>
-					</div>
-
+					   
 					<div class="tijiao reply_submit">
 						<div class="tijiao_02">
 							<a>提交</a>
 						</div>
-					</div>
-				</form>
-
-				<!--</div> end ly_reply -->
-
-			</div>
-			<!-- content-->
-			<div class="clfl"></div>
-
-		</div>
-		<!--content_wrapper-->
-		<div class="footer">感谢您的宝贵意见</div>
+					</div>	
+				</form>	   
+			
+			<!--</div> end ly_reply -->
+		
+					</div><!-- content--><div class="clfl"></div>
+	
+	</div><!--content_wrapper-->
+	<div class="footer">
+	感谢您的宝贵意见
 	</div>
-	<!-- wrapper -->
+</div><!-- wrapper -->
 
 </body>
 </html>

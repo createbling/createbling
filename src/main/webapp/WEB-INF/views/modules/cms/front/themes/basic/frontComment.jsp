@@ -1,21 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/modules/cms/front/include/taglib.jsp"%>
-<link
-	href="${ctxStatic}/jquery-validation/1.11.1/jquery.validate.min.css"
-	type="text/css" rel="stylesheet" />
-<script
-	src="${ctxStatic}/jquery-validation/1.11.1/jquery.validate.min.js"
-	type="text/javascript"></script>
-<script
-	src="${ctxStatic}/jquery-validation/1.11.1/jquery.validate.method.min.js"
-	type="text/javascript"></script>
-<style type="text/css">
-.reply {
-	border: 1px solid #ddd;
-	background: #fefefe;
-	margin: 10px;
-}
-</style>
+<link href="${ctxStatic}/jquery-validation/1.11.1/jquery.validate.min.css" type="text/css" rel="stylesheet" />
+<script src="${ctxStatic}/jquery-validation/1.11.1/jquery.validate.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/jquery-validation/1.11.1/jquery.validate.method.min.js" type="text/javascript"></script>
+<style type="text/css">.reply{border:1px solid #ddd;background:#fefefe;margin:10px;}</style>
 <script type="text/javascript">
 	$(document).ready(function() {
 		comment(0);
@@ -64,12 +52,8 @@
 <ul>
 	<c:forEach items="${page.list}" var="comment">
 		<li>
-			<h6>
-				姓名: ${comment.name} &nbsp;时间：
-				<fmt:formatDate value="${comment.createDate}"
-					pattern="yyyy-MM-dd HH:mm:ss" />
-				<a href="javascript:comment('${comment.id}')">回复</a>
-			</h6>
+			<h6>姓名: ${comment.name} &nbsp;时间：<fmt:formatDate value="${comment.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				<a href="javascript:comment('${comment.id}')">回复</a></h6>
 			<div>${comment.content}</div>
 			<div id="commentForm${comment.id}" class="commentForm hide"></div>
 		</li>

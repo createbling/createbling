@@ -35,7 +35,7 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	 * @return
 	 */
 	public void delete(T entity){
-		entity.preUpdate();
+		//entity.preUpdate();
 		dao.delete(entity);
 	}
 	/**
