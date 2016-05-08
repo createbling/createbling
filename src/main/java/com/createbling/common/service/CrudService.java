@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.createbling.common.persistence.CrudDao;
 import com.createbling.common.persistence.DataEntity;
 import com.createbling.common.persistence.Page;
+import com.createbling.common.utils.IdGen;
 
 /**
  * Service基类
@@ -136,9 +137,41 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 		if (entity.getIsNewRecord()){
 			entity.preInsert();
 			dao.insert(entity);
+			entity.setDetailId(IdGen.uuid());
+			if(entity.getType().equals("detail_base")){
+				String[] strArray = null;  
+			    strArray = entity.getPoint().split(",");
+			    entity.setLongitude(strArray[0]);
+			    entity.setLatitude(strArray[1]);
+				dao.insertBase(entity);
+			}else if(entity.getType().equals("detail_plant")){
+				dao.insertPlant(entity);
+			}else if (entity.getType().equals("detail_parameter")) {
+				dao.insertParameter(entity);
+			}else if (entity.getType().equals("detail_cycle")) {
+				dao.insertCycle(entity);
+			}else {
+				dao.insertSensor(entity);
+			}
 		}else{
 			entity.preUpdate();
 			dao.update(entity);
+			if(entity.getType().equals("detail_base")){
+				String[] strArray = null;  
+			    strArray = entity.getPoint().split(",");
+			    entity.setLongitude(strArray[0]);
+			    entity.setLatitude(strArray[1]);
+				dao.updateBase(entity);
+			}else if(entity.getType().equals("detail_plant")){
+				dao.updatePlant(entity);
+			}else if (entity.getType().equals("detail_parameter")) {
+				dao.updateParameter(entity);
+			}else if (entity.getType().equals("detail_cycle")) {
+				dao.updateCycle(entity);
+			}else {
+				dao.updateSensor(entity);
+			}
 		}
 	}
 }
+

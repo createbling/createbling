@@ -9,6 +9,11 @@ import java.util.List;
  */
 public interface CrudDao<T> extends BaseDao {
 	/**
+	 * 
+	 */
+	public T findBaseByPlant(T entity);
+	
+	/**
 	 * 修改/删除某个节点
 	 * @param id
 	 * @return
@@ -111,4 +116,34 @@ public interface CrudDao<T> extends BaseDao {
 	 * @return
 	 */
 	public int update(T entity);
+	
+	//添加base
+	public int insertBase(T entity);
+			
+	//添加plant
+	public int insertPlant(T entity);
+			
+	//添加parameter
+	public int insertParameter(T entity);
+			
+	//添加cycle
+	public int insertCycle(T entity);
+			
+	//添加sensor
+	public int insertSensor(T entity);
+			
+	//更新base
+	public int updateBase(T entity);
+					
+	//更新plant
+	public int updatePlant(T entity);
+					
+	//更新parameter
+	public int updateParameter(T entity);
+					
+	//更新cycle
+	public int updateCycle(T entity);
+					
+	//更新sensor
+	public int updateSensor(T entity);
 }

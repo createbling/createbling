@@ -21,6 +21,94 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 	protected User updateBy;	// 更新者
 	protected Date updateDate;	// 更新日期
 	protected String flag; 	// 删除标记（-1：不可见；0：可见非专家配置；1：可见且专家配）
+	protected String type;
+	
+	protected String location;//datail_base
+	protected String longitude;//datail_base
+	protected String latitude;//datail_base
+	protected String point;//datail_base
+	protected String origin;//detail_plant
+	protected String unit;//detail_parameter
+	protected Date start;//detail_cycle
+	protected Date end;//detail_cycle
+	protected String unitSensor;//detail_sensor
+	protected String min;//detail_sensor
+	protected String max;//detail_sensor
+	protected String detailId;//随机产生在detail详情中的id
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getPoint() {
+		return point;
+	}
+	public void setPoint(String point) {
+		this.point = point;
+	}
+	public String getOrigin() {
+		return origin;
+	}
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	public Date getStart() {
+		return start;
+	}
+	public void setStart(Date start) {
+		this.start = start;
+	}
+	public Date getEnd() {
+		return end;
+	}
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+	public String getUnitSensor() {
+		return unitSensor;
+	}
+	public void setUnitSensor(String unitSensor) {
+		this.unitSensor = unitSensor;
+	}
+	public String getMin() {
+		return min;
+	}
+	public void setMin(String min) {
+		this.min = min;
+	}
+	public String getMax() {
+		return max;
+	}
+	public void setMax(String max) {
+		this.max = max;
+	}
+	public String getDetailId() {
+		return detailId;
+	}
+	public void setDetailId(String detailId) {
+		this.detailId = detailId;
+	}
+	
+	
 	public DataEntity() {
 		super();
 		this.flag = DEL_FLAG_NORMAL;
@@ -106,5 +194,10 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 }

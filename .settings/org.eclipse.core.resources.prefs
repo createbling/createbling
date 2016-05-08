@@ -1,10 +1,10 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
-encoding//src/main/webapp/WEB-INF/views/modules/cms/frontIndex/forecast.jsp=UTF-8
-encoding//src/main/webapp/WEB-INF/views/modules/sys/expert_json.jsp=UTF-8
-encoding//src/main/webapp/WEB-INF/views/modules/sys/expert_modif.jsp=UTF-8
-encoding//src/main/webapp/WEB-INF/views/modules/sys/expert_select.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modules/front/forecast.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modules/sys/expertJson.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modules/sys/expertModify.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modules/sys/expertSelect.jsp=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
 encoding/<project>=UTF-8

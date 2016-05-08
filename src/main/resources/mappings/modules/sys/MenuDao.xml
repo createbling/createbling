@@ -40,7 +40,7 @@
 			<include refid="menuColumns"/>
 		FROM sys_menu a
 		<include refid="menuJoins"/>
-		WHERE a.flag = #{DEL_FLAG_NORMAL}
+		WHERE a.flag != #{DEL_FLAG_DELETE} 
 		ORDER BY a.sort
 	</select>
 	
@@ -50,7 +50,7 @@
 			a.parent_id AS "parent.id",
 			a.parent_ids
 		FROM sys_menu a
-		WHERE a.flag = #{DEL_FLAG_NORMAL} AND a.parent_ids LIKE #{parentIds}
+		WHERE a.flag != #{DEL_FLAG_DELETE}  AND a.parent_ids LIKE #{parentIds}
 		ORDER BY a.sort
 	</select>
 	
@@ -68,7 +68,7 @@
 		JOIN sys_user_role ur ON ur.role_id = r.id
 		<!-- 对应的用户，并找出所需要的用户 -->
 		JOIN sys_user u ON u.id = ur.user_id AND u.id = #{userId}
-		WHERE a.flag = #{DEL_FLAG_NORMAL} AND r.flag = #{DEL_FLAG_NORMAL} AND u.flag = #{DEL_FLAG_NORMAL} 
+		WHERE a.flag != #{DEL_FLAG_DELETE}  AND r.flag != #{DEL_FLAG_DELETE} AND u.flag != #{DEL_FLAG_DELETE} 
 		ORDER BY a.sort
 	</select>
 	
@@ -106,7 +106,7 @@
 			#{updateBy.id}, 
 			#{updateDate}, 
 			#{description}, 
-			#{delFlag}
+			#{flag}
 		)
 	</insert>
 	
@@ -141,9 +141,9 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE sys_menu SET 
-			flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id} OR parent_ids LIKE 
+		UPDATE sys_menu m SET 
+			m.flag = #{DEL_FLAG_DELETE}
+		WHERE m.id = #{id} OR m.parent_ids LIKE 
 					<if test="dbName == 'oracle'">'%,'||#{id}||',%'</if>
 					<if test="dbName == 'mssql'">'%,'+#{id}+',%'</if>
 					<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>

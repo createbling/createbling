@@ -44,7 +44,6 @@ public class UserUtils {
 	public static final String CACHE_MENU_LIST = "menuList";
 	public static final String CACHE_AREA_LIST = "areaList";
 	public static final String CACHE_AREA_ALL_LIST = "areaAllList";
-	public static final String CACHE_COORDINATE = "coordinate";
 	
 	/**
 	 * 判断用户是否为管理员，不是系统管理员
@@ -55,12 +54,12 @@ public class UserUtils {
 		if (principal!=null){
 			User user = get(principal.getId());
 			if (user != null){
-				String roleNames = user.getRoleNames();
-				String[] roleName = roleNames.split(",");
-				for(String name : roleName){
-					if(name.equals("admin")){
+				//取出所有角色类型
+				List<Role> roleList = user.getRoleList();
+				for(Role r : roleList){
+					//只要拥有的角色中包含admin即管理员角色，就说明是管理员
+					if(r.getRoleType().equals("admin"))
 						return true;
-					}
 				}
 			}
 		}
@@ -101,11 +100,12 @@ public class UserUtils {
 	 * @return 取不到返回null
 	 */
 	public static User getByLoginName(String loginName){
+		System.out.println("getByLoginName方法中传过来的loginname为:"+loginName);
 		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginName);
 		if (user == null){
 			//如果缓存中没有用户信息，则根据用户名查找
 			user = userDao.getByLoginName(new User(null, loginName));
-			System.out.println("取出的用户名为"+user.getName());
+			//System.out.println("取出的用户名为"+user.getName());
 			//如果仍然为空，则返回空
 			if (user == null){
 				return null;
@@ -129,7 +129,6 @@ public class UserUtils {
 		//chauncy修改了这里，因为area替换成了office
 		removeCache(CACHE_AREA_LIST);
 		removeCache(CACHE_AREA_ALL_LIST);
-		removeCache(CACHE_COORDINATE);
 		//同时移除当前用户
 		UserUtils.clearCache(getUser());
 	}
@@ -157,10 +156,10 @@ public class UserUtils {
 	public static User getUser(){
 		Principal principal = getPrincipal();
 		if (principal!=null){
-			System.out.println("principal中取出的id为："+principal.getId());
+			//System.out.println("principal中取出的id为："+principal.getId());
 			User user = get(principal.getId());
 			if (user != null){
-				System.out.println("principal中取出user对象为："+user.getName());
+				//System.out.println("principal中取出user对象为："+user.getName());
 				return user;
 			}
 			return new User();
@@ -284,9 +283,9 @@ public class UserUtils {
 				areaList = areaDao.findAllList(new Area());
 			}else{
 				//否则
-				Area office = new Area();
-				office.getSqlMap().put("dsf", BaseService.dataScopeFilter(user, "a", ""));
-				areaList = areaDao.findList(office);
+				Area area = new Area();
+				area.getSqlMap().put("dsf", BaseService.dataScopeFilter(user, "a", ""));
+				areaList = areaDao.findList(area);
 			}
 			putCache(CACHE_AREA_LIST, areaList);
 		}

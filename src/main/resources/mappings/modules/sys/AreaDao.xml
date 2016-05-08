@@ -2,151 +2,309 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.createbling.modules.sys.dao.AreaDao">
 
-<sql id="areaColumns">
-		id,
-		parent_id AS "parent.id",
-		parent_ids,
+	<sql id="areaColumns">
+		a.id,
+		a.parent_id AS "parent.id",
+		a.parent_ids,
+		<!--  a.area_id AS "area.id",-->
+		a.name,
+		a.sort,
+		a.type,
+		a.description,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.flag,
+		<!--  a.useable AS useable,-->
+		p.name AS "parent.name"
 
-		name,
-		sort,
-		type,
-		description,
-		create_by AS "createBy.id",
-		create_date,
-		update_by AS "updateBy.id",
-		update_date
-
-		<!-- p.name AS "parent.name" -->
 	</sql>
-	
 	<sql id="areaJoins">
-		LEFT JOIN sys_office p ON p.id = a.parent_id
-    </sql>
-<!--  /////////////////////////////////////////////////////////////////////////////////////-->
-<!--根据id修改节点
-<update id="updateNode"  parameterType="com.createbling.modules.sys.entity.Area">
-		update sys_area
-			<set>
-				<if test="parent_id!=null">parent_id=#{parent_id},</if>
-				<if test="parentIds!=null">parent_ids=#{parentIds},</if>
-				<if test="childrenIds!=null">children_ids=#{childrenIds},</if>
-				<if test="name!=null">name=#{name},</if>
-				<if test="flag!=null">flag=#{flag},</if>
-				<if test="type!=null">type=#{type},</if>
-				<if test="sort!=null">sort=#{sort},</if>
-			</set>
-			where id=#{id}
-</update>
--->
-<!-- 1.修改参数或者周期节点的名称，先把历史节点的flag置为-1，即不可见 。之后还要进行新节点的插入操作-->
-<!-- 2.删除某个节点时 
-<update id="delete" parameterType="com.createbling.modules.sys.entity.Area">
-		update sys_area set flag=-1 where id=#{id}
-</update>
--->
+		LEFT JOIN sys_area p ON p.id = a.parent_id   
+	</sql>
+    <!--更新base -->
+    <update id="updateBase" parameterType="com.createbling.modules.sys.entity.Area">
+        UPDATE detail_base SET
+	        location=#{location}, 
+			longitude=#{longitude}, 
+			latitude=#{latitude},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+	    WHERE area_id= #{id}
+    </update>
 
-<!-- 依据id查找结点 -->
-<select id="findNodeById"  resultType="com.createbling.modules.sys.entity.Area">
-		SELECT * FROM sys_area WHERE id=#{id}
-</select>
-
-<!-- 查找所有的基地 -->
-<select id="findNodeBase" resultType="com.createbling.modules.sys.entity.Area">
-		SELECT * FROM sys_area WHERE parent_id=null
-</select>
-
-<!-- 按照父节点查找其所有可见的直系子节点 -->
-<select id="findNodeByParent1" parameterType="com.createbling.modules.sys.entity.Area" resultType="com.createbling.modules.sys.entity.Area">
-		SELECT * FROM sys_area WHERE parent_ids like "%,#{id}%" AND flag>-1
-</select>
-
-<!-- 按照父节点查找其所有可见且属于专家配置的直系子节点 -->
-<select id="findNodeByParent2" parameterType="com.createbling.modules.sys.entity.Area" resultType="com.createbling.modules.sys.entity.Area">
-		SELECT id,name FROM sys_area WHERE parent_ids like "%,#{parent_id}%" AND flag>0
-</select>
-
-<!-- 按照id查询某个节点的所有信息 -->
-<!-- 
-<select id="findNodeById" resultType="com.createbling.modules.sys.entity.Area">
-		SELECT id,name,parent_id,parent_ids,children_ids,description,flag,type,sort
-					create_by,create_date,update_by,update_date
-		 FROM sys_area WHERE id=#{id}
-</select> -->
-
-
-<!-- 为某个节点添加一个子节点（插入一个节点 ）
-	<insert id="insertNode" parameterType="com.createbling.modules.sys.entity.Area">
-		INSERT INTO sys_area(
-			id, 
-			parent_id, 
-			parent_ids, 
-			children_ids,
-			name,
-			description,
-			flag,
-			type,
-			sort,
-			create_by,
-			create_date,
-			update_by,
+    <!--添加base -->
+    <insert id="insertBase" parameterType="com.createbling.modules.sys.entity.Area">
+        INSERT INTO detail_base(
+			id,
+			area_id, 
+			location, 
+			longitude,
+			latitude,
+			create_by, 
+			create_date, 
+			update_by, 
 			update_date
-		) VALUES (
+		 ) VALUES (
+		    #{detailId},
 			#{id}, 
-			#{parent_id}, 
-			#{parent_ids}, 
-			#{children_ids}, 
-			#{name}, 
-			#{description}, 
-			#{flag}, 
-			#{type}, 
-			#{sort}, 
-			#{create_by}, 
-			#{create_date}, 
-			#{update_by}, 
-			#{update_date}
-		)
-	</insert>
--->
-<!-- 调用创建该基地相应真实值数据表的存储过程 -->
-<insert id="createRealProcedure" parameterType="String" statementType="CALLABLE">
-       CALL realvalue(#{tableName})
-</insert>
+			#{location}, 
+			#{longitude}, 
+			#{latitude},
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}
+		 )
+    </insert>
+    <!--更新plant -->
+    <update id="updatePlant" parameterType="com.createbling.modules.sys.entity.Area">
+        UPDATE detail_plant SET
+			origin=#{origin},
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}
+	    WHERE area_id= #{id}
+    </update>
+    <!--添加plant -->
+    <insert id="insertPlant" parameterType="com.createbling.modules.sys.entity.Area">
+        INSERT INTO detail_plant(
+     		id,
+			area_id, 
+			origin,
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date
+		 ) VALUES (
+			#{detailId},
+			#{id}, 
+			#{origin},
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}
+		 )
+    </insert>
+    <!--更新parameter -->
+    <update id="updateParameter" parameterType="com.createbling.modules.sys.entity.Area">
+        UPDATE detail_parameter SET
+     		update_by = #{updateBy.id}, 
+			update_date = #{updateDate}, 
+			unit=#{unit}
+		WHERE area_id= #{id}
+    </update>
+    <!--添加parameter -->
+    <insert id="insertParameter" parameterType="com.createbling.modules.sys.entity.Area">
+        INSERT INTO detail_parameter(
+     		id,
+			area_id, 
+			unit,
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date
+		 ) VALUES (
+		    #{detailId},
+			#{id}, 
+			#{unit},		
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}
+		 )
+    </insert>
+    <!--添加cycle -->
+    <update id="updateCycle" parameterType="com.createbling.modules.sys.entity.Area">
+        UPDATE detail_cycle SET
+            update_by = #{updateBy.id}, 
+			update_date = #{updateDate}, 
+			start=#{start},
+			end=#{end}
+	    WHERE area_id= #{id}
+    </update>
+    <!--添加cycle -->
+    <insert id="insertCycle" parameterType="com.createbling.modules.sys.entity.Area">
+        INSERT INTO detail_cycle(
+     		id,
+			area_id, 
+			start,
+			end,
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date
+		 ) VALUES (
+			#{detailId},
+			#{id}, 
+			#{start},
+			#{end},
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}
+		 )
+    </insert>
+    <!--更新sensor -->
+    <update id="updateSensor" parameterType="com.createbling.modules.sys.entity.Area">
+        UPDATE detail_sensor SET
+     		update_by = #{updateBy.id}, 
+			update_date = #{updateDate}, 
+			unit_sensor=#{unitSensor}, 
+			min=#{min}, 
+			max=#{max}
+		WHERE area_id= #{id}
+    </update>
+    <!--添加sensor -->
+    <insert id="insertSensor" parameterType="com.createbling.modules.sys.entity.Area">
+        INSERT INTO detail_sensor(
+     		id,
+			area_id, 
+			unit_sensor, 
+			min,
+			max,
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date
+		 ) VALUES (
+			#{detailId},
+			#{id}, 
+			#{unitSensor}, 
+			#{min}, 
+			#{max},
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}
+		 )
+    </insert>
+    <!-- 依据id查找结点 -->
+    <select id="findNodeById"  resultType="com.createbling.modules.sys.entity.Area">
+		SELECT 
+		    <include refid="areaColumns"></include>
+		FROM sys_area a
+		<include refid="areaJoins"/>
+		WHERE a.id=#{id}
+    </select>
 
-<!-- 调用创建该基地相应专家值数据表的存储过程 -->
-<insert id="createExpertProcedure" parameterType="String" statementType="CALLABLE">
+    <!-- 查找所有的基地 -->
+    <select id="findNodeBase" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT 
+		    <include refid="areaColumns"></include> 
+		FROM sys_area a
+		<include refid="areaJoins"/> 
+		WHERE a.parent_id=null
+    </select>
+
+    <!-- 按照父节点查找其所有可见的直系子节点 -->
+    <select id="findNodeByParent1" parameterType="com.createbling.modules.sys.entity.Area" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT 
+		    <include refid="areaColumns"></include> 
+        FROM sys_area a 
+        <include refid="areaJoins"/>
+        WHERE a.parent_ids like "%,#{id}%" AND a.flag>-1
+    </select>
+
+    <!-- 按照父节点查找其所有可见且属于专家配置的直系子节点 -->
+    <select id="findNodeByParent2" parameterType="com.createbling.modules.sys.entity.Area" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT 
+		    <include refid="areaColumns" /> 
+		FROM sys_area a
+		<include refid="areaJoins"/>
+		WHERE a.parent_ids like "%,#{parent_id}%" AND a.flag>0
+    </select>
+
+    <!-- 调用创建该基地相应真实值数据表的存储过程 -->
+    <insert id="createRealProcedure" parameterType="String" statementType="CALLABLE">
+       CALL realvalue(#{tableName})
+    </insert>
+
+    <!-- 调用创建该基地相应专家值数据表的存储过程 -->
+    <insert id="createExpertProcedure" parameterType="String" statementType="CALLABLE">
        CALL expertvalue(#{tableName})
-</insert>
-<!--/////////////////////////////////////////////////////////////////////////////////////////-->
-		<select id="get" resultType="Area">
-		SELECT <include refid="areaColumns"/> FROM sys_area WHERE id = #{id}
+    </insert>
+    <!--/////////////////////////////////////////////////////////////////////////////////////////-->
+	<select id="get" resultType="Area">
+		SELECT 
+		    <include refid="areaColumns"/> 
+		FROM sys_area a
+		<include refid="areaJoins"/>
+		WHERE a.id = #{id}
 	</select>
+	
+	
+	<!-- chauncy加入了这里 -->
+<!-- 	<select id="getFirstArea" resultType="Area">
+	    SELECT * 
+	    FROM sys_area a 
+	    LEFT JOIN sys_area p 
+	    ON a.parent_id=p.id 
+        WHERE a.type="detail_plant"
+        ORDER BY a.parent_id
+	</select> -->
+	
+	<!-- chauncy加了这里，是想查找某个作物所属基地的详细信息 -->
+	<select id="findBaseByPlant" resultType="Area">
+	    SELECT 
+	        a.id,
+		    a.parent_id AS "parent.id",
+		    a.parent_ids,
+		    <!--  a.area_id AS "area.id",-->
+		    a.name,
+		    a.sort,
+		    a.type,
+		    a.description,
+		    a.create_by AS "createBy.id",
+		    a.create_date,
+		    a.update_by AS "updateBy.id",
+		    a.update_date,
+		    a.flag,
+		    db.location AS "location",
+		    db.longitude AS "longitude",
+		    db.latitude AS "latitude"
+	    FROM sys_area a 
+	    JOIN detail_base db 
+	    ON  a.id = db.area_id
+        WHERE a.id = #{id}
+        AND flag!="-1"
+	</select>
+
 	
 	<select id="findList" resultType="Area">
 		SELECT
 			<include refid="areaColumns"/>
-		FROM sys_area 
+		FROM sys_area a 
+		<include refid="areaJoins"/>
+		WHERE a.flag = #{DEL_FLAG_NORMAL}
 		<!-- 数据范围过滤 -->
 		${sqlMap.dsf}
-		OR id = #{currentUser.area.id}
+		OR a.id = #{currentUser.area.id}
+		ORDER BY a.parent_id
 	</select>
 	
 	<select id="findAllList" resultType="Area">
 		SELECT
 			<include refid="areaColumns"/>
-		FROM sys_area 
+		FROM sys_area a
+		<include refid="areaJoins"/>
+		WHERE a.flag = #{DEL_FLAG_NORMAL}
+		ORDER BY a.parent_id
 	</select>
 	
 	<select id="findByParentIdsLike" resultType="Area">
 		SELECT
-			id,
-			parent_id AS "parent.id",
-			parent_ids,
-			name,
-			type,
-			description
+			a.id,
+			a.parent_id AS "parent.id",
+			a.parent_ids,
+			a.name,
+			a.type,
+			a.description
 		FROM sys_area a
-		WHERE flag =0 AND parent_ids LIKE #{parentIds}
-		ORDER BY id
+		<include refid="areaJoins"/>
+		WHERE a.flag =0 AND a.parent_ids LIKE #{parentIds}
+		<!--  ${sqlMap.dsf}-->
+		ORDER BY a.id
 	</select>
 	<insert id="insert"><!--  mingsun删去了del_flag字段-->
 		INSERT INTO sys_area(

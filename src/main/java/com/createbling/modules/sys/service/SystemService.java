@@ -4,6 +4,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
@@ -12,6 +16,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import com.createbling.common.config.Global;
 import com.createbling.common.persistence.Page;
@@ -23,6 +28,8 @@ import com.createbling.common.utils.CacheUtils;
 import com.createbling.common.utils.Encodes;
 import com.createbling.common.utils.StringUtils;
 import com.createbling.common.web.Servlets;
+import com.createbling.modules.sys.dao.AreaDao;
+import com.createbling.modules.sys.dao.ExpertDao;
 import com.createbling.modules.sys.dao.MenuDao;
 import com.createbling.modules.sys.dao.RoleDao;
 import com.createbling.modules.sys.dao.UserDao;
@@ -31,8 +38,10 @@ import com.createbling.modules.sys.entity.Menu;
 import com.createbling.modules.sys.entity.Role;
 import com.createbling.modules.sys.entity.User;
 import com.createbling.modules.sys.security.SystemAuthorizingRealm;
+import com.createbling.modules.sys.utils.Lists;
 import com.createbling.modules.sys.utils.LogUtils;
 import com.createbling.modules.sys.utils.UserUtils;
+import com.google.common.collect.Maps;
 
 /**
  * 系统管理，安全相关实体的管理类,包括用户、角色、菜单.
@@ -54,6 +63,10 @@ public class SystemService extends BaseService implements InitializingBean {
 	@Autowired
 	private MenuDao menuDao;
 	@Autowired
+	private AreaDao areaDao;
+	@Autowired
+	private ExpertDao expertDao;
+	@Autowired
 	private SessionDAO sessionDao;
 	@Autowired
 	private SystemAuthorizingRealm systemRealm;
@@ -65,6 +78,79 @@ public class SystemService extends BaseService implements InitializingBean {
 	@Autowired
 	private IdentityService identityService;
 
+	
+	//-- Area Service --//
+	
+	public List<Map<String,Object>> getAreaTreeData(String extId){
+		List<Map<String,Object>> areaList = Lists.newArrayList();
+		//取出当前用户所有的基地、作物、周期、参数、设备信息
+		List<Area> area = UserUtils.getAreaList();
+		//循环找出不以exId为节点或者为父节点的数据，ex指except
+		for(int i=0;i<area.size();i++){
+			Area a = area.get(i);
+			//如果不以a为父节点或者节点的area
+			if ((StringUtils.isBlank(extId) || (extId!=null && !extId.equals(a.getId()) && a.getParentIds().indexOf(","+extId+",")==-1))){
+				//如果节点不是cycle、parameter以及sensor
+				if(a.getType().equals("detail_base") || a.getType().equals("detail_plant")){
+					Map<String, Object> map = Maps.newHashMap();
+					//添加到map中
+					map.put("id",a.getId());
+					map.put("pId",a.getParentId());
+					map.put("pIds", a.getParentIds());
+					map.put("name", a.getName());
+					areaList.add(map);
+				}
+
+			}
+		}
+		return areaList;
+	} 
+	
+	
+	public Map<String,Object> getPageData(Area area){
+		//List<Map<String,List<Area>>> areaList = Lists.newArrayList();
+		//创造键值对
+		Map<String,Object> map = Maps.newHashMap();
+		//作物节点
+		//System.out.println("loadPageData中传过来的area的id为："+area.getId());
+		Area plant = new Area();
+		if(area.getParentId() == null || area.getParentIds() == null){
+			//加载首个基地首个作物所有数据，并添加到list中
+			//找出该用户第一个作物,通过遍历
+			List<Area> areal = UserUtils.getAreaList();
+			for(Area a : areal){
+				if(a.getType().equals("detail_plant")){
+					plant = a;
+					System.out.println("loadPageData中传过来的area的id为："+plant);
+					break;
+				}
+			}
+
+		}else{
+			//加载对应area的基地、作物及下面所有信息以及详细信息，并添加到list中
+			plant = area;
+		}
+		//根据该作物找出对应base、cycle、parameter信息
+		Area base = areaDao.findBaseByPlant(new Area(plant.getParentId()));
+		List<Area> cycleList = expertDao.findAllCycle(plant.getId());
+		List<Area> paramList = expertDao.findAllParam(plant.getId());
+		map.put("base",base);
+		map.put("plant", plant);
+		map.put("cycleList",cycleList);
+		map.put("paramList", paramList);
+		for(Area c : cycleList){
+			System.out.println("cycleList值为："+c.getId()+c.getName()+c.getType());
+		}
+		for(Area p : paramList){
+			System.out.println("paramList值为："+p.getId()+p.getName()+p.getType());
+		}
+		return map;
+	}
+	
+	
+	//-- Area Service --//
+	
+	
 	//-- User Service --//
 	
 	/**

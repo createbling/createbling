@@ -57,7 +57,7 @@
 		<include refid="userJoins"/>
 		<!-- LEFT JOIN sys_role_office ro ON ro.role_id = r.id -->
 		<!-- 注意：这里原本是a.flag = #{DEL_FLAG_NORMAL} -->
-		WHERE a.login_name = #{loginName} AND a.flag = 0
+		WHERE a.login_name = #{loginName} AND a.flag != #{DEL_FLAG_DELETE}
 	</select>
 	
 	<!-- 分页查询用户信息 -->
@@ -69,7 +69,7 @@
 		<if test="role != null and role.id != null and role.id != ''">
 			JOIN sys_user_role ur ON ur.user_id = a.id AND ur.role_id = #{role.id}
 		</if>
-		WHERE a.flag = #{DEL_FLAG_NORMAL}
+		WHERE a.flag != #{DEL_FLAG_DELETE}
 		<if test="area != null and area.id != null and area.id != ''">
 			AND (ar.id = #{area.id} OR ar.parent_ids LIKE 
 					<if test="dbName == 'oracle'">'%,'||#{area.id}||',%')</if>
@@ -109,7 +109,7 @@
 		SELECT
 			a.id, a.name, a.login_name
 		FROM sys_user a
-		WHERE a.flag = #{DEL_FLAG_NORMAL}
+		WHERE a.flag != #{DEL_FLAG_DELETE}
 			AND a.area_id = #{area.id}
 		ORDER BY a.name
 	</select>
@@ -120,7 +120,7 @@
 			<include refid="userColumns"/>
 		FROM sys_user a
 		<include refid="userJoins"/>
-		WHERE a.flag = #{DEL_FLAG_NORMAL}
+		WHERE a.flag != #{DEL_FLAG_DELETE}
 		ORDER BY a.name
 	</select>
 	
@@ -129,7 +129,7 @@
 		SELECT
 			COUNT(1)
 		FROM sys_user a
-		WHERE a.flag = #{DEL_FLAG_NORMAL}
+		WHERE a.flag != #{DEL_FLAG_DELETE}
 	</select>
 	
 	<!-- 插入用户 -->

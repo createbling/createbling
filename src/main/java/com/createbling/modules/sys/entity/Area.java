@@ -16,18 +16,9 @@ import com.createbling.modules.sys.entity.User;
 public class Area extends TreeEntity<Area> {
 	private static final long serialVersionUID = 1L;
 	private String type; 	// 区域类型（1：国家；2：省份、直辖市；3：地市；4：区县）
-	/////////////////////////////////////以下是detail表单的字段
-	private String location;//datail_base
-	private String point;//datail_base
-	private String origin;//detail_plant
-	private String unit;//detail_parameter
-	private Date start;//detail_cycle
-	private Date end;//detail_cycle
-	private String unitSensor;//detail_sensor
-	private String min;//detail_sensor
-	private String max;//detail_sensor
+
 	/////////////////////////////////////以下是office的部分字段
-	private Area parentarea;		// 归属区域
+	//private Area parent;		// 归属区域
 	private String useable;//是否可用
 	private User primaryPerson;//主负责人
 	private User deputyPerson;//副负责人
@@ -36,7 +27,7 @@ public class Area extends TreeEntity<Area> {
 	private String fax; 	// 传真
 	private String email; 	// 邮箱
 	private List<String> childDeptList;//快速添加子部门
-	private String code; 	// 机构编码
+
 	public Area(){
 		super();
 		this.sort = 30;
@@ -120,13 +111,13 @@ public String getLocation() {
 
 	//	@JsonBackReference
 //	@NotNull
-	public Area getParent() {
+/*	public Area getParent() {
 		return parent;
 	}
 
 	public void setParent(Area parent) {
 		this.parent = parent;
-	}
+	}*/
 
 	public String getType() {
 		return type;
@@ -214,20 +205,14 @@ public String getLocation() {
 		this.childDeptList = childDeptList;
 	}
 
-	public Area getParentarea() {
-		return parentarea;
+	public Area getParent() {
+		return parent;
 	}
 
-	public void setParentarea(Area parentarea) {
-		this.parentarea = parentarea;
+	public void setParent(Area parent) {
+		this.parent = parent;
 	}
 
-	public String getCode() {
-		return code;
-	}
 
-	public void setCode(String code) {
-		this.code = code;
-	}
 	
 }

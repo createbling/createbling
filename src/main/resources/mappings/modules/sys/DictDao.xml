@@ -13,7 +13,7 @@
 		SELECT 
 			* 
 		FROM sys_dict 
-		WHERE flag = #{DEL_FLAG_NORMAL} 
+		WHERE flag != #{DEL_FLAG_DELETE} 
 		<if test="type != null and type != ''">
 			AND type = #{type}
 		</if>
@@ -30,7 +30,7 @@
 		SELECT 
 			* 
 		FROM sys_dict 
-		WHERE flag = #{DEL_FLAG_NORMAL} 
+		WHERE flag != #{DEL_FLAG_DELETE} 
 		ORDER BY type, sort, update_date DESC
 	</select>
 	
@@ -38,7 +38,7 @@
 		SELECT 
 			type 
 		FROM sys_dict 
-		WHERE flag = #{DEL_FLAG_NORMAL} 
+		WHERE flag != #{DEL_FLAG_DELETE} 
 		GROUP BY type
 		ORDER BY type
 	</select>

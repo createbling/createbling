@@ -55,7 +55,7 @@
 			<form:select path="type" class="input-medium">
 				<option>请选择类型</option>
 
-           			<form:option value="detail_plant">作物</form:option>
+           			<form:option value="detail_sensor">设备</form:option>
 
 			</form:select>
 			</div>

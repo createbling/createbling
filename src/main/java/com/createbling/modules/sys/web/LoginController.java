@@ -28,13 +28,10 @@ import com.createbling.common.utils.CookieUtils;
 import com.createbling.common.utils.IdGen;
 import com.createbling.common.utils.StringUtils;
 import com.createbling.common.web.BaseController;
-import com.createbling.modules.front.entity.RealInfo;
-import com.createbling.modules.front.entity.RealValue;
-import com.createbling.modules.front.service.RealValueService;
-import com.createbling.modules.front.utils.FrontUtils;
-import com.createbling.modules.sys.entity.BaseDetail;
+import com.createbling.modules.sys.entity.Area;
 import com.createbling.modules.sys.security.FormAuthenticationFilter;
 import com.createbling.modules.sys.security.SystemAuthorizingRealm.Principal;
+import com.createbling.modules.sys.service.SystemService;
 import com.createbling.modules.sys.utils.UserUtils;
 import com.google.common.collect.Maps;
 
@@ -48,8 +45,8 @@ public class LoginController extends BaseController{
 	
 	@Autowired
 	private SessionDAO sessionDAO;
-	@Autowired
-	private RealValueService realValueService;
+    @Autowired
+    private SystemService systemService;
 	
 	/**
 	 * 管理登录，换成了前台路径
@@ -204,25 +201,15 @@ public class LoginController extends BaseController{
 ////		}
 //		System.out.println("==========================b");
 		//做进入首页前的一些工作
-		//加载GIS数据
-		System.out.println("下面进行加载GIS数据");
-		//找出所有的GIS坐标
-		List<BaseDetail> baseDetailList = FrontUtils.getBaseDetailList();
-		model.addAttribute("baseDetailList", baseDetailList);
-		System.out.println(baseDetailList.size());
-		System.out.println("从index跳转到gis页面"); 
-		//记载实时数据
-		RealInfo realInfo = new RealInfo();
-		realInfo.setParameterId("3");
-		realInfo.setTableName("carbon");
-		realInfo.setStartTime("2015-10-23 15:35:19");
-		realInfo.setEndTime("2015-10-23 15:35:19");
-		RealValue realValue = realValueService.getInitailValue(realInfo);
-		System.out.println("测试的实时数据值为："+realValue.getValue());
-		System.out.println("测试的实时数据值为：");
-		//进入页面
-		
-		return "modules/cms/frontIndex/frontIndex";
+		//加载树形数据
+		//这里的例外ID写的是null，以后可以增加例外ID
+		String extId = null;
+		List<Map<String,Object>> areaListMap = systemService.getAreaTreeData(extId);
+		model.addAttribute("areaListMap", areaListMap);
+		Map<String,Object> pageDataMap = systemService.getPageData(new Area());
+		model.addAttribute("pageDataMap", pageDataMap);
+		//加载所有
+		return "modules/front/frontIndex";
 	}
 
 	/**

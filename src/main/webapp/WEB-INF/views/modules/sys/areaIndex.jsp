@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>节点管理</title>
+	<title>基地管理</title>
 	<meta name="decorator" content="default"/>
 	<%@include file="/WEB-INF/views/include/treeview.jsp" %>
 	<style type="text/css">
@@ -14,20 +14,21 @@
 	<div id="content" class="row-fluid">
 		<div id="left" class="accordion-group">
 			<div class="accordion-heading">
-		    	<a class="accordion-toggle">系统树图<i class="icon-refresh pull-right" onclick="refreshTree();"></i></a>
+		    	<a class="accordion-toggle">基地信息<i class="icon-refresh pull-right" onclick="refreshTree();"></i></a>
 		    </div>
 			<div id="ztree" class="ztree"></div>
 		</div>
 		<div id="openClose" class="close">&nbsp;</div>
 		<div id="right">
-			<iframe id="officeContent" src="${ctx}/sys/area/list?id=&parentIds=" width="100%" height="91%" frameborder="0"></iframe>
+			<iframe id="areaContent" src="${ctx}/sys/area/list?id=&parentIds=" width="100%" height="91%" frameborder="0"></iframe>
 		</div>
 	</div>
 	<script type="text/javascript">
 		var setting = {data:{simpleData:{enable:true,idKey:"id",pIdKey:"pId",rootPId:'0'}},
 			callback:{onClick:function(event, treeId, treeNode){
-					var id = treeNode.pId == '0' ? '' :treeNode.pId;
-					$('#officeContent').attr("src","${ctx}/sys/area/list?id="+id+"&parentIds="+treeNode.pIds);
+				<%-- 在这里设置了树的id,这里原先设置的是当前层节点id是其父节点的id，那么找出来的只会是同层的，但是如果只想其找出自己的，那么应该设置为.id--%>
+					var id = treeNode.id == '0' ? '' :treeNode.id;
+					$('#areaContent').attr("src","${ctx}/sys/area/list?id="+id+"&parentIds="+treeNode.pIds);
 				}
 			}
 		};

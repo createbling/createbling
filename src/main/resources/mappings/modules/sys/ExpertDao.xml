@@ -13,19 +13,61 @@
 </select>
 
 <!-- 查找某个作物的所有可见环境参数节点名称-->
-<select id="findAllParam" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
-		SELECT * FROM sys_area WHERE parent_id=#{id} AND flag!="-1" AND type="detail_parameter"
-</select>
+        <select id="findAllParam" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT 
+		    a.id,
+		    a.parent_id AS "parent.id",
+		    a.parent_ids,
+		    <!--  a.area_id AS "area.id",-->
+		    a.name,
+		    a.sort,
+		    a.type,
+		    a.description,
+		    a.create_by AS "createBy.id",
+		    a.create_date,
+		    a.update_by AS "updateBy.id",
+		    a.update_date,
+		    a.flag,
+		    dc.start AS "start",
+		    dc.end AS "end"
+		FROM sys_area a
+		LEFT JOIN detail_cycle dc
+		ON a.id = dc.area_id
+		WHERE a.parent_id = #{id}
+		AND a.flag != "-1" 
+		AND a.type = "detail_parameter"
+		</select>
 
 <!-- 查找某个作物的所有已经配置环境参数节点名称-->
 <select id="findSelectedParam" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
 		SELECT * FROM sys_area WHERE parent_id=#{id} AND flag="1" AND type="detail_parameter"
 </select>
 
-<!--查找某个作物的所有可见周期节点名称-->
-<select id="findAllCycle" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
-		SELECT * FROM sys_area WHERE parent_id=#{id} AND flag!="-1" AND type="detail_cycle"
-</select>
+    <!--查找某个作物的所有可见周期节点名称-->
+    <select id="findAllCycle" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">
+		SELECT 
+		    a.id,
+		    a.parent_id AS "parent.id",
+		    a.parent_ids,
+		    <!--  a.area_id AS "area.id",-->
+		    a.name,
+		    a.sort,
+		    a.type,
+		    a.description,
+		    a.create_by AS "createBy.id",
+		    a.create_date,
+		    a.update_by AS "updateBy.id",
+		    a.update_date,
+		    a.flag,
+		    dc.start AS "start",
+		    dc.end AS "end"
+		FROM sys_area a
+		LEFT JOIN detail_cycle dc
+		ON a.id = dc.area_id
+		WHERE a.parent_id = #{id}
+		AND a.flag != "-1" 
+		AND a.type = "detail_cycle"
+    </select>
 
 <!--查找某个作物的所有已经配置周期节点名称-->
 <select id="findSelectedCycle" parameterType="String" resultType="com.createbling.modules.sys.entity.Area">

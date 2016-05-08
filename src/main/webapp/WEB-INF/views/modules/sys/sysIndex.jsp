@@ -25,18 +25,86 @@
 #header {
 	margin: 0 0 8px;
 	position: static;
+	width:100%;
+	background:#ff6633 !important;
 }
-
+.navbar-inner{
+background:#fff;
+}
 #header li {
 	font-size: 14px;
 	_font-size: 12px;
 }
 
-#header .brand {
+#header .logo {
 	font-family: Helvetica, Georgia, Arial, sans-serif, 黑体;
-	font-size: 26px;
-	padding-left: 33px;
+	float:left;
+	width:150px;
+	height:80px;
+	margin-left:20px;
 }
+.logo img{
+width:100%;
+height:100%;
+}
+.top_nav_box{
+float:left;
+margin-left:30px;
+margin-bottom:0px;
+overflow:hidden;
+}
+.top_nav{
+height:80px;
+overflow:hidden;
+margin-bottom:0px;
+}
+.top_nav li{
+width:107px;
+height:67px;
+margin-left:2px;
+list-style:none;
+float:left;
+}
+.top_nav li a{
+display:block;
+width:100%;
+height:100%;
+font-size:16px;
+color:#2FA4E7;
+text-decoration:none;
+text-align:center;
+line-height:60px;
+}
+.top_nav li a:hover{
+background:url(${cmsStatic}/images/menu_a.gif);
+color:#fff;
+}
+.main_active{
+background:url(${cmsStatic}/images/menu_a.gif);
+}
+.main_active a{
+color:#fff !important;
+}
+
+.user{
+margin-top:4px !important;
+}
+.user li a{
+color:#2FA4E7 !important;
+}
+
+li.user_active{
+background:#2FA4E7;
+}
+li.user_active a{
+color:#fff;}
+
+
+
+.open a{
+color:#fff !important;
+}
+
 
 #footer {
 	margin: 8px 0 0 0;
@@ -76,10 +144,12 @@
                 tabs: [], loadOnce: true, tabWidth: 110, titleHeight: tabTitleHeight
             });//</c:if>
 			// 绑定菜单单击事件
+			
+			
 			$("#menu a.menu").click(function(){
 				// 一级菜单焦点
-				$("#menu li.menu").removeClass("active");
-				$(this).parent().addClass("active");
+				$("#menu li.menu").removeClass("main_active");
+				$(this).parent().addClass("main_active");
 				// 左侧区域隐藏
 				if ($(this).attr("target") == "mainFrame"){
 					$("#left,#openClose").hide();
@@ -202,10 +272,11 @@
 	<div id="main">
 		<div id="header" class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
-				<div class="brand">
-					<span id="productName">${fns:getConfig('productName')}</span>
+				<div class="logo">
+					<img src="${ctxStatic}/images/logo.png" alt=" ">
+				
 				</div>
-				<ul id="userControl" class="nav pull-right">
+				<ul id="userControl" class="nav pull-right user">
 					<!-- 这里实际是/createbling/f/index-siteId.html -->
 					<li><a
 						href="${pageContext.request.contextPath}${fns:getFrontPath()}/index-${fnc:getCurrentSiteId()}.html"
@@ -213,7 +284,7 @@
 					<li id="themeSwitch" class="dropdown"><a
 						class="dropdown-toggle" data-toggle="dropdown" href="#"
 						title="主题切换"><i class="icon-th-large"></i></a>
-						<ul class="dropdown-menu">
+						<ul class="dropdown-menu" >
 							<c:forEach items="${fns:getDictList('theme')}" var="dict">
 								<li><a href="#"
 									onclick="location='${pageContext.request.contextPath}/theme/${dict.value}?url='+location.href">${dict.label}</a></li>
@@ -222,7 +293,7 @@
 								href="javascript:cookie('tabmode','${tabmode eq '1' ? '0' : '1'}');location=location.href">${tabmode eq '1' ? '关闭' : '开启'}页签模式</a></li>
 						</ul> <!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
 					</li>
-					<li id="userInfo" class="dropdown"><a class="dropdown-toggle"
+					<li id="userInfo" class="drodown"><a class="dropdown-toggle"
 						data-toggle="dropdown" href="#" title="个人信息">您好,
 							${fns:getUser().name}&nbsp;<span id="notifyNum"
 							class="label label-info hide"></span>
@@ -248,15 +319,15 @@
 						$("#productName").hide();$("#user").html($("#userControl"));$("#header").prepend($("#user, #logo"));
 					</script>
 				</c:if> --%>
-				<div class="nav-collapse">
-					<ul id="menu" class="nav"
-						style="*white-space: nowrap; float: none;">
+				<div class="top_nav_box">
+					<ul id="menu" class="top_nav"
+						style="*white-space: nowrap;">
 						<c:set var="firstMenu" value="true" />
 						<c:forEach items="${fns:getMenuList()}" var="menu"
 							varStatus="idxStatus">
 							<c:if test="${menu.parent.id eq '1'&&menu.isShow eq '1'}">
 								<li
-									class="menu ${not empty firstMenu && firstMenu ? ' active' : ''}">
+									class="menu ${not empty firstMenu && firstMenu ? ' main_active' : ''}">
 									<c:if test="${empty menu.href}">
 										<a class="menu" href="javascript:"
 											data-href="${ctx}/sys/menu/tree?parentId=${menu.id}"
@@ -300,10 +371,9 @@
 						width="100%" height="650"></iframe>
 				</div>
 			</div>
-			<div id="footer" class="row-fluid">
-				Copyright &copy; 2012-${fns:getConfig('copyrightYear')}
-				${fns:getConfig('productName')} - Powered By <a
-					href="http://jeesite.com" target="_blank">JeeSite</a>
+			<div id="footer" class="row-fluid" style="color:#333; border-top:2px solid #2FA4E7;">
+				Copyright &copy; 2016-${fns:getConfig('copyrightYear')}
+				${fns:getConfig('productName')} 
 				${fns:getConfig('version')}
 			</div>
 		</div>

@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -47,8 +48,7 @@ import com.createbling.modules.sys.entity.Expert;
 import com.createbling.modules.sys.service.AreaService;
 import com.createbling.modules.sys.service.ExpertService;
 import com.createbling.modules.sys.web.ExpertController;
-import com.sun.javafx.collections.MappingChange.Map;
-import com.sun.javafx.geom.AreaOp;
+import com.google.common.collect.Maps;
 
 import sun.tools.tree.ThisExpression;
 
@@ -66,57 +66,49 @@ public class ExpertTest extends AbstractJUnit4SpringContextTests{
 
 	@Test
 	public void testService() {
-		/**查找所有基地节点名称
-           List<Area> experts = eService.findAllCycle("5");  
-           for(int i=0;i<experts.size();i++){
-        	   System.out.println(experts.get(i).getName());
-           }  
-        } 
-**/
-		/**存储过程自动建表
-		Area area=new Area("5");
-		String tableName="real_"+"5";
-		aDao.createRealProcedure(tableName);
-
-		Area area_parent=new Area("2");
-		Area area=new Area();
-		area.setName("猴头菇");
-		area.setType("detail_plant");
-		area.setParent(area_parent);
-		aService.save(area);
-		**/
-		/**
-		Area a=aService.get("2e73a48794494239bb7d1582be699002");
-		eService.selected(a);
-	
-        System.out.println(a.getName());
-		String tableName="expert_"+"5";
-		HashMap map=new HashMap();
-		map.put("tableName","expert_5");
-		System.out.println("2e73a48794494239bb7d1582be699002".length());
-		map.put("cycle_id","2e73a48794494239bb7d1582be699002");			
-		map.put("parameter_id","15");
-		Expert e=eService.findOneValue(map).get(0);	
-		System.out.println(e.getId());
-		System.out.println(e.getCycleId());
-		System.out.println(e.getParamId());
-		System.out.println(e.getMinValue());
-		System.out.println(e.getMaxValue());
-        **/
 		
-		String p="5";
-		List<Area> list=eService.findAllPlant(p);
+/*		String p="4";
+		List<Area> list=eService.findAllCycle(p);
 		//System.out.println("sas"+aService.get(p).getName());
 		for(int i=0;i<list.size();i++){
-		System.out.println(list.get(i).getId()+"|"+list.get(i).getName());
+		System.out.println(list.get(i).getId()+"|"+list.get(i).getName()+"|"+list.get(i).getStart()+list.get(i).getEnd());
+		}*/
+
+		
+		
+		Map<String,Object> map = Maps.newHashMap();
+		//作物节点
+		Area area = new Area();
+		Area plant = new Area();
+		if(area.getId() == null){
+			//加载首个基地首个作物所有数据，并添加到list中
+			//找出该用户第一个作物,通过遍历
+			List<Area> areal = aService.findList(true);
+			for(Area a : areal){
+				if(a.getType().equals("detail_plant")){
+					plant = a;
+					break;
+				}
+			}
+
+		}else{
+			//加载对应area的基地、作物及下面所有信息以及详细信息，并添加到list中
+			
 		}
-		//eService.updateValue("expert_5","13","14",1);	
-		/**
-		Area ol=new Area("14");
-		eService.unSelected(ol);
-		List<Expert> list=new ArrayList<>();
-		list=eService.findSelectedValue("expert_5");
-		System.out.println(list.get(0).getId()+list.get(0).getMaxValue());**/
+		//根据该作物找出对应base、cycle、parameter信息
+		Area base = aService.findBaseByPlant(plant);
+		List<Area> cycleList = eService.findAllCycle(plant.getId());
+		List<Area> paramList = eService.findAllParam(plant.getId());
+		map.put("base",base);
+		map.put("plant", plant);
+		map.put("cycleList",cycleList);
+		map.put("paramList", paramList);
+		for(Area c : cycleList){
+			System.out.println("cycleList值为："+c.getId()+c.getName()+c.getType());
+		}
+		for(Area p : paramList){
+			System.out.println("paramList值为："+p.getId()+p.getName()+p.getType());
+		}
 	}
 }
 

@@ -75,8 +75,15 @@ public class UserController extends BaseController{
 	@RequiresPermissions("sys:user:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(User user, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<User> page = systemService.findUser(new Page<User>(request, response), user);
-        model.addAttribute("page", page);
+/*	  if(user != null){
+		  System.out.println("这里从前台取出的user对象为："+user.getId()+user.getName()+user.getArea());
+	  }*/
+	   Page<User> page = systemService.findUser(new Page<User>(request, response), user);
+       System.out.println("page对象为："+page);
+       System.out.println("page对象中的list为为："+page.getList().size());
+	   model.addAttribute("page", page);
+	   //chaunc修改了这里，因为前台使用el表达式直接应用user，但是实际上后台并未添加user进入model，故在这里添加
+	   model.addAttribute("user", UserUtils.getUser());
 		return "modules/sys/userList";
 	}
 	
@@ -115,6 +122,7 @@ public class UserController extends BaseController{
 	
 	/**
 	 * 验证登录名是否有效
+	 * 
 	 * @param oldLoginName
 	 * @param loginName
 	 * @return
@@ -122,11 +130,12 @@ public class UserController extends BaseController{
 	@ResponseBody
 	@RequiresPermissions("sys:user:edit")
 	@RequestMapping(value = "checkLoginName")
-	public String checkLoginName(String oldLoginName, String loginName) {
+	public String checkLoginName(@RequestParam("oldLoginName") String oldLoginName,@RequestParam("loginName") String loginName) {
+		System.out.println("这里打印前台传过来的loginname："+loginName+"与oldloginname："+oldLoginName);
 		//如果登录名不为空且登录名和过去登录名相等
-		if (loginName !=null && loginName.equals(oldLoginName)) {
+		if (loginName != null && loginName.equals(oldLoginName)) {
 			return "true";
-		} else if (loginName !=null && systemService.getUserByLoginName(loginName) == null) {
+		} else if (loginName != null && systemService.getUserByLoginName(loginName) == null) {
 			//如果登录名不为空且通过用户名可以发现用户
 			return "true";
 		}

@@ -4,6 +4,17 @@
 <head>
 	<title>机构管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/laydate/laydate.js" type="text/javascript"></script>
+	<script>
+	laydate({
+	    elem: '#start', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+	    event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+	});
+	laydate({
+	    elem: '#end', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+	    event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+	});
+	</script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#name").focus();
@@ -55,6 +66,7 @@
 			<form:select path="type" class="input-medium">
 				<option>请选择类型</option>
            			<form:option value="detail_cycle">生长周期</form:option>
+           			<form:option value="detail_parameter">环境参数</form:option>
 			</form:select>
 			</div>
 		</div>
@@ -65,20 +77,19 @@
 				<form:textarea path="description" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
 			</div>
 		</div>
-		
 		<div class="control-group">
 			<label class="control-label">开始时间:</label>
 			<div class="controls">
-				<form:input path="start" htmlEscape="false" maxlength="50" class="required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="start" htmlEscape="false" maxlength="50" id="start"/>
+				<span class="laydate-icon" onclick="laydate({elem: '#start'});"></span>
 			</div>
 		</div>
 		
 		<div class="control-group">
 			<label class="control-label">结束时间:</label>
 			<div class="controls">
-				<form:input path="end" htmlEscape="false" maxlength="50" class="required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="end" htmlEscape="false" maxlength="50" id="end"/>
+				<span class="laydate-icon" onclick="laydate({elem: '#end'});"></span>
 			</div>
 		</div>
 		<c:if test="${empty area.id}">

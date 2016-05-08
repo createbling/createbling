@@ -81,7 +81,7 @@
 			<include refid="roleColumns"/>
 		FROM sys_role a
 		JOIN sys_area o ON o.id = a.area_id
-		WHERE a.name = #{name} AND a.flag = #{DEL_FLAG_NORMAL}
+		WHERE a.name = #{name} AND a.flag != #{DEL_FLAG_DELETE}
 	</select>
 	
 	<select id="getByEnname" resultType="Role">
@@ -89,7 +89,7 @@
 			<include refid="roleColumns"/>
 		FROM sys_role a
 		JOIN sys_area o ON o.id = a.area_id
-		WHERE a.enname = #{enname} AND a.flag = #{DEL_FLAG_NORMAL}
+		WHERE a.enname = #{enname} AND a.flag != #{DEL_FLAG_DELETE}
 	</select>
 	
 	<select id="findList" resultMap="roleResult">
@@ -107,7 +107,7 @@
 		LEFT JOIN sys_role_area ro ON ro.role_id = a.id
 		<!-- chauncy这里原先是a.flag = #{DEL_FLAG_NORMAL} -->
 		<!-- chauncy这里原先是a.useable=#{useable} -->
-		WHERE a.flag = 0 AND a.useable= 1
+		WHERE a.flag != #{DEL_FLAG_DELETE} AND a.useable= 1
 		<if test="user != null and user.id != null and user.id != ''">
 			AND u.id = #{user.id}
 		</if>
@@ -127,7 +127,7 @@
 		<!-- 找出角色对应的area即可 -->
 		LEFT JOIN sys_area o ON o.id = a.area_id
 		<!-- 查找flag为0的角色进行显示，这里没有涉及到 DEL_FLAG_DELETE的处理-->
-		WHERE a.flag = #{DEL_FLAG_NORMAL}
+		WHERE a.flag != #{DEL_FLAG_DELETE}
 		<!-- chauncy去掉了o.code -->
 		ORDER BY a.name
 	</select>

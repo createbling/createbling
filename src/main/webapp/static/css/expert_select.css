@@ -6,7 +6,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,span,p,a,
 form,fieldset,legend,input,button,textarea,p,blockquote,th,td { margin:0; padding:0; }
 ul,ol {list-style:none}
 img, fieldset{border:none;}
-a{text-decoration: none;}
+a{text-decoration: none; outline:none;}
 img{-ms-interpolation-mode:bicubic}
 .margin-top{
 	margin-top: 20px;
@@ -75,35 +75,50 @@ h2.industry_select{
 .se_right_title{
 	width: 100%;
 	height: 45px;
-
-	border-bottom:1px dashed #ccc;
 }
-.se_right_title li{
-	width: 60px;
-	height: 30px;
-	margin-top: 16px;
-	margin-right: 20px;
-	border-top-right-radius: 3px;
-	border-top-left-radius: 3px;
-	display: block;
-	float: right;
-	text-align: center;
-	vertical-align: middle;
-	background: #CC3366;
+.se_right_title ul{
+	height: 35px;
+	margin-top: 10px;
+	margin-bottom:0px !important;
+	margin-left: 19px;
+	float: left;
 }
-li.choose_zhou{background: #3CB1E7;}
-.se_right_title li a{
-	display: block;
-	width: 100%;
-	padding-top:5px;
-	text-align: center;
-	vertical-align: middle;
+.se_right_title ul li{
+	width: 121px;
+	height: 35px;
+	float: left;
+	margin-left: 10px;
+	background: #a8c0c7;
 	color: #fff;
+	line-height: 35px;
+	text-align: center;
+	cursor: pointer;
 }
+.se_right_content{
+	border-left:1px solid #ccc;
+}
+.no_mr{
+	margin-left: 0px !important;
+}
+
+li.on{
+	border: 1px solid #ccc !important;
+	border-bottom: none !important;
+	background: #F5F5F5 !important;
+	color: #333 !important;
+}
+.chooselist{
+	width: 760px;
+	margin:0px auto;
+	overflow: hidden;
+	padding-bottom: 20px;
+}
+
+
 .aa{background: #F5F5F5;}
 .mainlist{
 	width: 40%;
-	min-height: 400px;
+	min-height: 450px;
 	float: left;
 	border:1px solid #ccc;
 	margin:10px 0 0 20px;
@@ -111,7 +126,7 @@ li.choose_zhou{background: #3CB1E7;}
 .mainlist h2{
 	width: 100%;
 	height: 40px;
-	margin-top: 10px;
+	margin-top: 30px;
 	font-weight: normal;
 	font-size: 18px;
 	text-align: center;
@@ -121,19 +136,21 @@ li.choose_zhou{background: #3CB1E7;}
 	height: 300px;
 	margin: 10px auto 0px;
 }
+/*
 select{
 	width:100%;
-	height: 100%;
+	height: 300px;
 	background: none;
 	border: none;
 	scrolling:none;
 }
 select option{
+	display: block;
 	scrolling:none;
 	height: 30px;
 	font-size: 14px;
-	line-height: 30px;
-	padding-top: 6px;
+	line-height: 35px;
+	padding-top: 10px;
 	border: 1px solid #ccc;
 	cursor: pointer;
 	margin-top: 5px;
@@ -144,13 +161,29 @@ select option:hover{
 	color: #fff;
 	border: 1px solid #3399FF;
 }
+*/
+.inbox ul{
+	width: 100%;
+	height: 300px;
+	overflow: auto;
+}
+.inbox ul li{
+	width: 98%;
+	height: 38px;
+	margin-bottom: 7px;
+	line-height: 38px;
+	text-align: center;
+	font-size: 14px;
+	border:1px solid #ccc;
+	cursor: pointer;
+}
 .middle{
 	width: 11%;
 	height: 200px;
 	margin: 0 auto;
 	float: left;
 	margin-left: 15px;
-	padding-top: 120px;
+	padding-top: 170px;
 }
 .middle a{
 	border: 1px solid #3399FF;
@@ -166,7 +199,7 @@ select option:hover{
 }
 .showlist{
 	width: 40%;
-	min-height: 400px;
+	min-height: 450px;
 	float: right;
 	border:1px solid #ccc;
 	margin:10px 20px 0 0px;
@@ -174,7 +207,7 @@ select option:hover{
 .showlist h2{
 	width: 100%;
 	height: 40px;
-	margin-top: 10px;
+	margin-top: 30px;
 	font-weight: normal;
 	font-size: 18px;
 	text-align: center;

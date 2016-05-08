@@ -30,7 +30,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/sys/area/?id=${area.id}&parentIds=${area.parentIds}">区域列表</a></li>
-		<shiro:hasPermission name="sys:area:edit"><li><a href="${ctx}/sys/area/form?parent.id=${area.id}">区域添加</a></li></shiro:hasPermission>
+		<shiro:hasPermission name="sys:area:edit"><li><a href="${ctx}/sys/area/form?parent_id=${area.id}">区域添加</a></li></shiro:hasPermission>
 	</ul>
 	<sys:message content="${message}"/>
 	<table id="treeTable" class="table table-striped table-bordered table-condensed">

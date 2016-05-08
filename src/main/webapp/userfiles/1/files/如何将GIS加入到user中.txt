@@ -1,0 +1,371 @@
+添加GIS功能是为了实现GIS登录
+此时意味着一个用户必定要属于某个或多个基地
+
+是直接查看用户所属基地经纬度再进行GIS登录还是将某个基地角色分配给该用户呢？
+应该是分配角色比较好，当用户拥有了角色，再验证用户所选经纬度跟自己角色拥有经纬度是否匹配
+
+但是角色应该如何关联到基地详情呢？
+这就要看jeesite是如何进行角色分配的，可以按照部门，其实就是相当于我们按照基地、作物进行分配角色，那么我想，
+是否可以只要选择了该基地或者该基地下的子节点，就拥有该基地的经纬度
+
+但是如果用户拥有了多个角色该怎么处理？
+那么应当在经纬度中进行查询匹配
+
+坐标点是应该属于user的一个属性还是单独出来呢？
+如果单独出来最终还是要和user相关联，做成user的一个属性的话，查找角色就能找出所有坐标点。
+但是做成user的一个属性，当修改用户所属角色时，应当对缓存进行重设置！！
+
+如果该用户属于base下面的节点怎么办，应当查找其所属最高父节点
+查询用户所有经纬度与坐标点sql：
+select location,longitude,latitude,create_by,create_date,update_by,update_date
+from sys_user u left join sys_area a on u.area_id=a.id
+left join detail_base b on a.id=b.area_id
+
+查找用户最高area父节点编号
+
+错了错了！！！
+应该是查询用户拥有所有角色对应的area_id
+
+加载出了用户所有坐标点
+
+
+
+现在做一个用户登录的控制
+shrio是否允许使用两个success url
+
+现在有两个角色，一个前台角色，一个后台角色，如何控制前后台登陆分离？
+
+
+
+实时数据表：
+parameter_id对应的是参数的id
+real_', tablename    ---这里面的tablename指的就是对应的作物名
+
+
+如何实现实时数据的展示？
+通过前台配置当添加一个作物可以自动建实时数据表和专家数据表，然后查询的时候查询real_作物名的是参数的id即可查到
+实时数据和时间
+
+对于实时数据我们的要求是什么？
+1.根据对应的作物对应的参数找出对应的实时数据信息
+2.是否要取出区间内的数据？
+3.可否一次性取出一个小时内的数据？然后按照每分钟为间隔对数据进行取平均值？最后返回60组数据
+4.对于每隔
+
+
+
+
+首先通过用户账号判断所属的作物有哪些，如果账号属于作物或者作物一下的级别，则只展示该作物的信息
+如果账号属于基地级别，则可以展示该基地所有作物信息。
+但是如果一个用户拥有多个角色？则取出该角色所对应的所有信息。
+1.首先取出该角色所对应的所有作物信息，如果该角色有多个作物则返回多个作物，如果只有一个作物则只返回一个作物信息
+2.取出所有作物对应的参数信息
+这里使用Map,key为作物ID，值为参数信息
+
+
+
+为什么我要取出列表的相关信息，是因为我想通过列表进行展示前台的层级
+但是menu是如何展示的呢？
+现在我需要什么信息呢？
+我需要列表，即用户权限之下所能拥有的列表
+1.如果用户角色为基地以及基地的数据，则展示所有列表
+2.如果用户只拥有作物以及作物以下，则只需显示作物列表
+3.需要除掉周期列表也可以直接在页面中选择出来
+4.如果拥有参数这一级别的权限怎么办？暂时先不考虑
+
+
+
+
+
+仔细地考虑一下：
+user、area、menu、role之间的关系是什么？
+user属于role，在jeesite中，user需要与office相关联，因为office有primary_person属于user，但是在我们的项目中
+user与area之间，只有一个area_id相关联，所以不需要进行
+
+
+
+
+现在来做权限判断：
+1.对于普通用户，直接进入前台页面
+2.对于管理员，则在前台页面中点击进入后台页面
+3.具体到shiro权限，进行用户名密码判断时，如果用户包含admin角色，则设置为admin权限，否则设置为user，对于controller，
+前台admin、user均可进入，对于后台，只能让拥有admin进入
+4.初步为了方便，暂时不需要改动前台权限。
+
+
+
+注意：我将cms所有表中的description改成了note原先的remarks改成了description
+
+注意：fns是WEB-INF下面的tlds
+
+现在写GIS首页：
+进入首页后，应加载出GIS信息和首页初始数据
+如果用户拥有某个角色
+
+现在来想一想，gis到底是属于前台还是后台？
+1.如果属于后台，前台总是会用到，这会不会不利于分层？
+2.如果属于前台，但与user关系十分紧密
+
+现在想一想如何找出某个账号对应的所有GIS信息
+1.将用户表与角色-用户相连接，再将用户角色表与角色表相连接，查看该用户拥有哪些角色，再将角色表与角色-area表相连接，
+进而将角色-area表与area表相连接，查找角色所属的area
+2.关键是这里，如果某个角色为base的下层或者下下层，怎么办？
+3.应该体现这样的一个原则，如果用户属于base的某个下层，那么他应该能访问base，如果用户对应的角色对应的area正好属于base层
+则能访问该层下面的所有坐标
+4.这里我想到了为什么menu要对自己连接（根据父节点）
+		SELECT DISTINCT
+		a.id,
+		a.parent_id AS "parent.id",
+		a.parent_ids,
+		a.name,
+		a.href,
+		a.target,
+		a.icon,
+		a.sort,
+		a.is_show,
+		a.permission,
+		a.remarks,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag,
+		p.name AS "parent.name"
+		FROM sys_menu a
+		LEFT JOIN sys_menu p ON p.id = a.parent_id
+		JOIN sys_role_menu rm ON rm.menu_id = a.id
+		JOIN sys_role r ON r.id = rm.role_id AND r.useable='1'
+		JOIN sys_user_role ur ON ur.role_id = r.id
+		JOIN sys_user u ON u.id = ur.user_id AND u.id = 1
+		WHERE a.del_flag = 0 AND r.del_flag = 0 AND u.del_flag = 0
+		ORDER BY a.sort
+
+结果为：
+查出了所有节点信息
+那么用在首页中是否也可以？
+这里估计还用不上，最快速的方法是截取查到的第二个节点信息进行查询到对应的基地信息，但是获取了该基地信息，能否点进去呢
+如果拥有了这个基地，应该还是只能查看该用户所拥有的作物信息，此时将基地ID传进去，根据ID查到了作物信息并将作物
+
+如果这样分配可以吗：在分配area-role的时候实际上是分配作物这一层次，一旦用户分配某个基地权限给某个用户，实际上是将
+该基地下所有作物的权限分配给role，再将role与用户相关联。
+如果将某个作物分配给用户，也实际上是将某个作物与role相关联进而将role与用户相关联。
+这里权限暂时不考虑周期层和参数层
+这里面的权限也暂时只涉及user和admin两个角色
+那么这样的话就方便了一些，因为实际上不涉及基地的权限分配，故查找GIS的时候，就将role-area与role连接找出对应的作物层
+再将作物层，再取出作物层的所有父节点的第二个节点，取出对应的detail信息，如果点进去，则只需将id入参查找所属直接父节
+点的作物。
+
+
+查找GIS信息：
+select * from 
+sys_user u
+LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+LEFT JOIN sys_role r ON r.id = ur.role_id
+LEFT JOIN sys_role_area ra ON ra.role_id = r.id
+LEFT JOIN sys_area a ON a.id = ra.area_id
+LEFT JOIN sys_area aa ON a.parent_id = aa.id
+LEFT JOIN aa.type d ON aa.type.area_id = aa.id
+WHERE u.id = #{id} 
+上面的type有问题，不能这样传
+SELECT * FROM 
+sys_user u
+LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+LEFT JOIN sys_role r ON r.id = ur.role_id
+LEFT JOIN sys_role_area ra ON ra.role_id = r.id
+LEFT JOIN sys_area a ON a.id = ra.area_id
+LEFT JOIN sys_area aa ON a.parent_id = aa.id
+LEFT JOIN detail_base db ON db.area_id = aa.id
+WHERE u.id = 1 
+
+进一步优化后
+SELECT * FROM 
+sys_user u
+LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+LEFT JOIN sys_role r ON r.id = ur.role_id
+LEFT JOIN sys_role_area ra ON ra.role_id = r.id
+LEFT JOIN sys_area a ON a.id = ra.area_id
+LEFT JOIN sys_area aa ON a.parent_id = aa.id
+RIGHT JOIN detail_base db ON db.area_id = aa.id
+WHERE u.id = 1 
+注意：这里非常重要的一个原则就是role_area实际上是对做作物进行权限控制
+
+
+
+
+
+
+${ctx}在哪里加载？
+
+现在想一下登陆是怎么设计的：
+1.登录controller到底放在CMS还是SYS之中
+2.如果放在CMS之中，那么可以很方便额度使用站点等信息
+3.还是放在SYS之中比较好
+
+现在将controller放在了sys之中，如何设计登陆呢？
+1.用户进入登陆/f/login
+2./f用于首页展示
+
+
+
+现在做实时数据这一块：
+1.entity、dao、controller都写好了，但是xml没有写好
+测试了一下sql语句：
+    SELECT 
+        r.parameterId,
+        "carbon" AS "tableName",
+        AVG(r.value) AS "value"
+    FROM real_carbon r
+    WHERE r.parameterId = 3
+    AND r.time BETWEEN "2015-10-23 15:35:19" AND "2015-10-23 15:36:10"  
+    GROUP BY r.parameterId
+
+2.
+
+3.
+
+
+
+
+现在做角色页面：
+1.角色页面的表示是否都正常？
+
+
+
+
+现在分析数据过滤是否正常：
+		SELECT
+	        a.id,
+    	        a.area_id AS "area.id",
+    	        a.login_name,
+    	        a.password,
+    	        a.no,
+		a.name,
+		a.email,
+		a.phone,
+		a.mobile,
+		a.user_type,
+		a.login_ip,
+		a.login_date,
+		a.description,
+		a.login_flag,
+		a.photo,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.flag,
+		ar.name AS "area.name",
+		ar.parent_id AS "area.parent.id",
+		ar.parent_ids AS "area.parentIds",
+		ar.type AS "area.type"
+		FROM sys_user a
+		LEFT JOIN sys_area ar ON ar.id = a.area_id
+			JOIN sys_user_role ur ON ur.user_id = a.id AND ur.role_id = 1
+		WHERE a.flag = 0
+
+
+
+		 OR  ar.id = '1'
+		 OR  ar.parent_ids LIKE '0,1,%'				
+		ORDER BY a.name
+
+
+测试查询：
+		SELECT
+			   	a.id,
+    	a.area_id AS "area.id",
+    	a.login_name,
+    	a.password,
+    	a.no,
+		a.name,
+		a.email,
+		a.phone,
+		a.mobile,
+		a.user_type,
+		a.login_ip,
+		a.login_date,
+		a.description,
+		a.login_flag,
+		a.photo,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.flag,
+		ar.name AS "area.name",
+		ar.parent_id AS "area.parent.id",
+		ar.parent_ids AS "area.parentIds",
+		ar.type AS "area.type"
+		FROM sys_user a
+		LEFT JOIN sys_area ar ON ar.id = a.area_id
+	
+		WHERE a.flag = 0
+	
+			AND (ar.id = 1 OR ar.parent_ids LIKE '%1%'
+
+			AND a.id != '1'
+
+			AND a.login_name like '%chauncy%'
+
+				ORDER BY a.name
+
+
+
+分页查询用户信息：
+	
+		SELECT
+			
+    	a.id,
+    	a.area_id AS "area.id",
+    	a.login_name,
+    	a.password,
+    	a.no,
+		a.name,
+		a.email,
+		a.phone,
+		a.mobile,
+		a.user_type,
+		a.login_ip,
+		a.login_date,
+		a.description,
+		a.login_flag,
+		a.photo,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.flag,
+		ar.name AS "area.name",
+		ar.parent_id AS "area.parent.id",
+		ar.parent_ids AS "area.parentIds",
+		ar.type AS "area.type"
+
+
+		FROM sys_user a
+		LEFT JOIN sys_area ar ON ar.id = a.area_id
+	
+		WHERE a.flag = 0
+
+			AND (ar.id = #{area.id} OR ar.parent_ids LIKE '%2%'
+	
+
+			AND a.id != '1'
+
+
+
+				ORDER BY a.name
+
+
+
+日志查询：
+		SELECT 
+			a.*,
+			u.id AS "createBy.id",
+			u.name AS "createBy.name",
+			ar.name AS "createBy.area.name",
+		FROM sys_log a
+		JOIN sys_user u ON u.id = a.create_by
+		JOIN sys_area ar ON ar.id = u.area_id
+		WHERE a.create_date BETWEEN "2016-04-01" AND "2016-04-30"
+
+		ORDER BY a.create_date DESC

@@ -57,20 +57,28 @@ public class AreaController extends BaseController {
 		return "modules/sys/areaIndex";
 	}
 
-	@RequiresPermissions("sys:office:view")
+	@RequiresPermissions("sys:area:view")
 	@RequestMapping(value = {"list"})
 	public String list(Area area, Model model) {
-        model.addAttribute("list", areaService.findList(area));
+		Boolean isAll = true;
+        model.addAttribute("list", areaService.findList(isAll));
 		return "modules/sys/areaList";
 	}
 	
-	@RequiresPermissions("sys:office:view")
+	@RequiresPermissions("sys:area:view")
 	@RequestMapping(value = "form")
 	public String form(Area area, Model model,HttpServletRequest request,HttpServletResponse response) {
 		String id=request.getParameter("id"); 
 		String parent_id=request.getParameter("parent_id"); 
 		Area a=areaService.findNodeById(id);
 		Area ap=areaService.findNodeById(parent_id);
+		if (id!=null){
+			area=a;
+		}
+		if(parent_id!=null){
+			area.setParent(ap);
+		}
+		
 		User user = UserUtils.getUser();
 		if (area.getParent()==null || area.getParent().getId()==null){
 			area.setParent(user.getArea());
@@ -86,18 +94,19 @@ public class AreaController extends BaseController {
 					size++;
 				}
 			}
-			area.setCode(area.getParent().getCode() + StringUtils.leftPad(String.valueOf(size > 0 ? size+1 : 1), 3, "0"));
+			//area.setCode(area.getParent().getCode() + StringUtils.leftPad(String.valueOf(size > 0 ? size+1 : 1), 3, "0"));
 		}
+		//System.out.println("area的爸爸："+area.getParent().getName());
 		model.addAttribute("area", area);
 		if(a!=null){
 			if(a.getType().equals("detail_base"))//修改基地
 				return "modules/sys/detail_base";
 			else if(a.getType().equals("detail_plant"))//修改or修改作物
 				return "modules/sys/detail_plant";
-			else if(a.getType().equals("detail_cycle"))//修改or修改周期
-				return "modules/sys/detail_cycle";
-			else if(a.getType().equals("detail_parameter"))//修改or修改参数
+			else if(a.getType().equals("detail_parameter"))//修改or修改周期
 				return "modules/sys/detail_parameter";
+			else if(a.getType().equals("detail_cycle"))//修改or修改参数
+				return "modules/sys/detail_cycle";
 			else 
 				return "modules/sys/detail_sensor";
 		}
@@ -105,14 +114,12 @@ public class AreaController extends BaseController {
 		else if(ap!=null){
 			if(ap.getType().equals("detail_base"))//添加or修改作物
 				return "modules/sys/detail_plant";
-			else if(ap.getType().equals("detail_plant"))//添加or修改周期
-				return "modules/sys/detail_cycle";
-			else if(ap.getType().equals("detail_plant"))//添加or修改参数
-				return "modules/sys/detail_parameter";
+			else if(ap.getType().equals("detail_plant"))//添加参数or周期
+				return "modules/sys/detail_cycle_param";
 			else 
 				return "modules/sys/detail_sensor";
 		}
-		else return  "modules/sys/areaform";
+		else return  "modules/sys/areaForm";
 		
 	} 
 	
@@ -126,6 +133,7 @@ public class AreaController extends BaseController {
 		if (!beanValidator(model, area)){
 			return form(area, model,null,null);
 		}
+		
 		areaService.save(area);
 		
 		if(area.getChildDeptList()!=null){
@@ -134,7 +142,7 @@ public class AreaController extends BaseController {
 				childArea = new Area();
 				childArea.setName(DictUtils.getDictLabel(id, "sys_area_common", "未知"));
 				childArea.setParent(area);
-				childArea.setParentarea(area);
+				childArea.setParent(area);
 				childArea.setType("detail_plant");
 				childArea.setType(String.valueOf(Integer.valueOf(area.getType())+1));
 				childArea.setUseable(Global.YES);
@@ -170,8 +178,7 @@ public class AreaController extends BaseController {
 	@RequiresPermissions("admin")
 	@ResponseBody
 	@RequestMapping(value = "treeData")
-	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, @RequestParam(required=false) String type,
-			@RequestParam(required=false) Long grade, @RequestParam(required=false) Boolean isAll, HttpServletResponse response) {
+	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId,@RequestParam(required=false) Boolean isAll, HttpServletResponse response) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		List<Area> list = areaService.findList(isAll);
 		for (int i=0; i<list.size(); i++){
@@ -187,8 +194,11 @@ public class AreaController extends BaseController {
 					//&& Global.YES.equals(e.getUseable())){
 					){
 				Map<String, Object> map = Maps.newHashMap();
+				System.out.println("从数据库area表中取出的id："+ e.getId());
 				map.put("id", e.getId());
+				System.out.println("从数据库area表中取出的pId："+ e.getParentId());
 				map.put("pId", e.getParentId());
+				System.out.println("从数据库area表中取出的pIds："+ e.getParentIds());
 				map.put("pIds", e.getParentIds());
 				map.put("name", e.getName());
 				mapList.add(map);

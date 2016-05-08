@@ -6,11 +6,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.createbling.common.service.BaseService;
 import com.createbling.common.service.TreeService;
 import com.createbling.modules.sys.dao.AreaDao;
 import com.createbling.modules.sys.entity.Area;
+import com.createbling.modules.sys.entity.User;
 import com.createbling.modules.sys.utils.UserUtils;
-import com.createbling.modules.sys.entity.Area;
 /**
  * 区域Service
  * @author MingSun
@@ -41,7 +42,9 @@ public class AreaService extends TreeService<AreaDao, Area> {
 	@Transactional(readOnly = true)
 	public List<Area> findList(Area area){
 		if(area != null){
+			User user = UserUtils.getUser();
 			area.setParentIds(area.getParentIds()+"%");
+			//area.getSqlMap().put("dsf", BaseService.dataScopeFilter(user, "a", ""));
 			return dao.findByParentIdsLike(area);
 		}
 		return  new ArrayList<Area>();
@@ -49,5 +52,9 @@ public class AreaService extends TreeService<AreaDao, Area> {
 	
 	public List<Area> findList(Boolean isAll){
 		return UserUtils.getAreaList();
+	}
+	
+	public Area findBaseByPlant(Area area){
+		return dao.findBaseByPlant(area);
 	}
 }
